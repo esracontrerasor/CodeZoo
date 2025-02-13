@@ -1,0 +1,106 @@
+/* Estilos generales */
+body {
+  font-family: "Comic Sans MS", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+.home-container {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Barra de búsqueda */
+.search-bar input {
+
+  width: 60%;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 16px;
+  
+}
+
+/* Categorías */
+.categories {
+  margin: 20px 0;
+}
+
+.category-btn {
+  background-color: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.category-btn:hover {
+  background-color: #ffa500;
+}
+
+/* Grid de juegos */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  padding: 10px;
+}
+
+/* Tarjetas de juegos */
+.game-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.game-card:hover {
+  transform: scale(1.05);
+}
+
+/* Imagen de los juegos */
+.game-image {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Título de los juegos */
+.game-title {
+  font-size: 18px;
+  color: #333;
+  margin-top: 10px;
+}
+
+.game-info {
+  font-size: 14px;
+  color: #666;
+}
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Logo CodeZoo */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4caf50;
+}
+.search-bar {
+  flex-grow: 1;
+  margin-left: 20px;
+}
