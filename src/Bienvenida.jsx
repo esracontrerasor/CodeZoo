@@ -2,6 +2,7 @@ import React from "react";
 import "./css/Bienvenida.css"; // Asegúrate de importar los estilos en un archivo CSS separado
 import { useNavigate } from "react-router-dom";
 import elefanteGif from "./resources/elefante_feliz.gif"
+import background from "./resources/fondo.png";
 
 const CodeZooInfo = () => {
   const navigate = useNavigate(); // Hook para la navegación
@@ -12,7 +13,7 @@ const CodeZooInfo = () => {
 
 
   return (
-    <div className="app">
+    <div className="app" style={{ backgroundImage: `url(${background})` }}>
       <div className="container">
         <div className="card">
           <h2>¡Bienvenidos a CodeZoo!</h2>

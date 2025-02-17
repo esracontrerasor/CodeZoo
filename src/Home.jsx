@@ -46,7 +46,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="header">
-        <h1 className="logo">CodeZoo</h1>
+        <h1 className="logho">CodeZoo</h1>
         <div className="search-bar">
           <input type="text" placeholder="Buscar juego..." />
         </div>

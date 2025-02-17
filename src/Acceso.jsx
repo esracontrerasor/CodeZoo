@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Acceso.css";
+import background from "./resources/fondo.png";
 import oso from "./resources/bear-thinking-character-style-cartoon-vector-14196134.jpg";
 
 const CodeZooWelcome = () => {
@@ -38,7 +39,7 @@ const CodeZooWelcome = () => {
   };
 
   return (
-    <div className="app">
+    <div className="app" style={{ backgroundImage: `url(${background})` }}>
       <div className="container">
         <div className="card">
           <h2>Parents only</h2>

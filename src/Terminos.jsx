@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Terminos.css";
-import background from "./resources/fondo_info.png";
+import background from "./resources/fondo.png";
 
 const CodeZooTerms = () => {
   const navigate = useNavigate();

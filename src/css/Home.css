@@ -10,6 +10,7 @@ body {
 .home-container {
   text-align: center;
   padding: 20px;
+  
 }
 
 /* Barra de búsqueda */
@@ -20,7 +21,6 @@ body {
   border-style: solid;
   border-radius: 20px;
   font-size: 16px;
-  
 }
 
 /* Categorías */
@@ -29,7 +29,8 @@ body {
 }
 
 .category-btn {
-  background-color: #ffcc00;
+  background-color: #7ED957;
+  color:#fff;
   border: none;
   padding: 10px 20px;
   margin: 5px;
@@ -40,7 +41,7 @@ body {
 }
 
 .category-btn:hover {
-  background-color: #ffa500;
+  background-color: #008000;
 }
 
 /* Grid de juegos */
@@ -75,7 +76,7 @@ body {
 /* Título de los juegos */
 .game-title {
   font-size: 18px;
-  color: #333;
+  color: #FF8C42;
   margin-top: 10px;
 }
 
@@ -89,17 +90,18 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #ffffff;
+  background-color: #7ED957;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
 /* Logo CodeZoo */
-.logo {
-  font-size: 24px;
+
+.logho {
+  font-size: 30px;
   font-weight: bold;
-  color: #4caf50;
+  color: #FF8C42;
 }
 .search-bar {
   flex-grow: 1;
