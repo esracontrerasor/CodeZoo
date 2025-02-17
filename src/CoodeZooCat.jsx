@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./css/CodeZooCat.css";
-import catImage1 from "./resources/cat_assistant.png";
-import catImage2 from "./resources/cat_assistant_alt.png";
+import catImage1 from "./resources/cat_one.gif";
+import catImage2 from "./resources/cat_two.gif";
+
 import OpenSound from "./resources/Sounds/cartoon-balloon-being-blown-up-02-186982.mp3";
 import CloseSound from "./resources/Sounds/pop2-84862.mp3";
 import popImage from "./resources/pop.png"; // Imagen del efecto pop

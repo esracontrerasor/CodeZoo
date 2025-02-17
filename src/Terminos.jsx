@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Terminos.css";
 import background from "./resources/fondo.png";
-
+import ave from "./resources/ave.gif"
 const CodeZooTerms = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
@@ -29,6 +29,7 @@ const CodeZooTerms = () => {
       {isLoading && (
         <div className="loading-screen">
           <div className="spinner"></div>
+          <img src={ave} alt="Cargando" className="loading-image" />
           <p>Cargando...</p>
         </div>
       )}
