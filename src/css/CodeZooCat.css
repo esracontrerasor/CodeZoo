@@ -1,0 +1,81 @@
+.codezoo-cat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: scaleX(-1);
+}
+
+.cat-image {
+  width: 80px;
+  height: auto;
+  cursor: pointer;
+  align-items: center;
+}
+
+.cat-bubble {
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 2px solid #ddd;
+  box-shadow: 2px 2px 10px rgba(220, 24, 24, 0.2);
+  max-width: 200px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  position: relative;
+  opacity: 1;
+  left: -120;
+  transition: opacity 1s ease-in-out;
+  bottom: 100px;
+  transform: translateX(-35%);
+  
+}
+
+.cat-bubble.hidden {
+  opacity: 0;
+}
+
+.cat-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 15px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
+}
+
+.cat-bubble p {
+  transform: scaleX(-1); /* Vuelve a voltear solo el texto para que se lea normal */
+  display: inline-block;
+}
+
+.pop-effect {
+  position: absolute;
+  width: 120px; /* Ajusta el tamaño de la imagen según la burbuja */
+  height: auto;
+  top: -50%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  animation: popAnimation 0.3s ease-in-out forwards;
+}
+
+@keyframes popAnimation {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
