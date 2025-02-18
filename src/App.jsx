@@ -5,6 +5,7 @@ import Acceso from "./Acceso.jsx";
 import Terminos from "./Terminos.jsx"
 import Home from "./Home.jsx"
 import Info from "./Info.jsx";
+import "./App.css";
 
 function App() {
   return (

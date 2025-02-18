@@ -13,17 +13,31 @@ const CodeZooInfo = () => {
 
 
   return (
-    <div className="app" style={{ backgroundImage: `url(${background})` }}>
-      <div className="container">
+      <div className="contenedor-bienvenida contenedor">
+
+        <div className="imagen-inicio">
+
+        </div>
+
         <div className="card">
           <h2>¡Bienvenidos a CodeZoo!</h2>
-          <img src={elefanteGif} alt="Gif de Elefante" />
-          <p>Dile a tus padres que configuren CodeZoo</p>
-          <button onClick={handleAccept}>ACEPTAR</button>
-          <p><a href="Info">MÁS INFORMACIÓN</a></p>
+
+          <div className="imagen-gift">
+            <img src={elefanteGif} alt="Gif de Elefante" />
+          </div>
+
+          <p>¡Dile a tus padres que configuren CodeZoo!</p>
+
+          <div className="boton">
+            <button onClick={handleAccept}>ACEPTAR</button>
+          </div>
+
+          <div className="mas-informacion">
+            <p><a href="Info">MÁS INFORMACIÓN</a></p>
+          </div>
+
         </div>
       </div>
-    </div>
   );
 };
 
