@@ -14,7 +14,7 @@ import avatar_1 from "./resources/user_2.png";
 
 const games = [
   { title: "Aventura en la Jungla", image: aventura, duration: "10 min", level: "Fácil", route: "/sopa-de-letras" },
-  { title: "Código Marino", image: delfines, duration: "15 min", level: "Intermedio" },
+  { title: "Código Marino", image: delfines, duration: "15 min", level: "Intermedio", route:"/memorama" },
   { title: "Safari de Algoritmos", image: algoritmos, duration: "20 min", level: "Difícil" },
 ];
 
@@ -26,6 +26,8 @@ const GameCard = ({ game }) => {
       onClick={() => {
         if (game.title === "Aventura en la Jungla") {
           navigate(`/sopa-de-letras`);
+        }else if(game.title === "Código Marino"){
+          navigate(`/memorama`);
         } else {
           navigate(`/game/${game.title}`);
         }

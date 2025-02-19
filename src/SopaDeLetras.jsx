@@ -56,7 +56,7 @@ function generarSopaDeLetras(tamano, palabras) {
 }
 
 const SopaDeLetras = () => {
-    const palabras = ["JAVASCRIPT", "CODIGO", "LETRAS", "JUEGO", "PALABRA"];
+    const palabras = ["JAVA", "CODIGO", "LETRAS", "JUEGO", "PALABRA"];
     const tamano = 10;
     const [sopa, setSopa] = useState([]);
     const [seleccionadas, setSeleccionadas] = useState([]);
@@ -86,7 +86,6 @@ const SopaDeLetras = () => {
         setSeleccionadas(nuevaSeleccion);
     
         if (nuevaSeleccion.length > 1) {
-            // Ordenamos por fila y columna para verificar la dirección
             nuevaSeleccion.sort((a, b) => a.fila - b.fila || a.columna - b.columna);
             
             let palabraSeleccionada = nuevaSeleccion.map(({ fila, columna }) => sopa[fila][columna]).join('');
@@ -108,6 +107,7 @@ const SopaDeLetras = () => {
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
             <h1>Sopa de Letras</h1>
             <button onClick={generarNuevaSopa} style={{ padding: "10px", fontSize: "16px", cursor: "pointer" }}>Nueva Sopa</button>
+            {encontradas.size === palabras.length && <h2 style={{ color: "green" }}>¡Felicidades! Has encontrado todas las palabras.</h2>}
             <div style={{ display: "flex", justifyContent: "center", gap: "40px" }}>
                 <div>
                     <h3>Palabras a buscar:</h3>

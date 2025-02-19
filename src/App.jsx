@@ -6,6 +6,7 @@ import Terminos from "./Terminos.jsx"
 import Home from "./Home.jsx"
 import Info from "./Info.jsx";
 import SopaDeLetras from "./SopaDeLetras.jsx";
+import Memorama from "./Memorama.jsx"
 import "./App.css";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/info" element={<Info />} />
       <Route path="/sopa-de-letras" element={<SopaDeLetras />}/>
+      <Route path="/memorama" element={<Memorama />}/>
     </Routes>
   );
 }
