@@ -1,65 +1,107 @@
-body {
-    font-family: "Quicksand", sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.nav {
+body {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 21px;
+    background-color: #f6f8ff;
+}
+
+
+.header {
+    background-color: #7ED957;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #ddd;
+    height: 85px;
+    padding: 5px 10%;
 }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #047857;
-}
-
-.nav-links {
+.header .logo {
     display: flex;
-    gap: 24px;
-    font-weight: 500;
-    color: black;
+    align-items: center;
+    color: #e6e6e6;
 }
 
-.btn {
-    background-color: #bbf7d0;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: 500;
-    border: none;
+.header .logo h1 {
     cursor: pointer;
 }
 
-.container {
+.header .logo h1 {
+    font-size: 30px;
+}
+
+.header .nav-links {
+    list-style: none;
+}
+
+.header .nav-links li {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.header .nav-links li a:hover {
+    color: #fff59d;
+}
+
+.header .nav-links a {
+    font-size: 18px;
+    color: black;
+    text-decoration: none;
+}
+
+.header button {
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    background: #4CAF50;
+    padding: 9px 25px;
+    border: none;
+    border-radius: 5px;
+}
+
+.contenido-principal{
+    display: flex;
+}
+
+.contenido-principal .imagen-info {
+    background-image: url('../resources/panda.png');
+    width: 60%;
+    height: 90vh;
+    background-position: center center;
+    background-size: cover;
+    flex: 0 0 calc(50%);
+    position: relative;
+}
+
+.contenido-principal .imagen-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.contenido-principal .info-box {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 0 5rem;
+    width: 40%;
+    margin-left: auto;
 }
 
-.panda {
-    width: 50%;
-    max-width: 300px;
+.info-box h2 {
+    font-size: 50px;
+    margin-bottom: 20px;
 }
 
-.info-box {
-    background-color: #d1fae5;
-    padding: 32px;
-    border-radius: 8px;
-    width: 50%;
-    text-align: center;
+.info-box p {
+    font-size: 22px;
 }
 
-.title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 16px;
-}
-
-.text {
-    font-size: 18px;
-    color: #4b5563;
-}
