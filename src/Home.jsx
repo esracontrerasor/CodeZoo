@@ -13,15 +13,26 @@ import avatar from "./resources/user_1.png";
 import avatar_1 from "./resources/user_2.png";
 
 const games = [
-  { title: "Aventura en la Jungla", image: aventura, duration: "10 min", level: "Fácil" },
-  { title: "Código Marino", image: delfines, duration: "15 min", level: "Intermedio" },
+  { title: "Aventura en la Jungla", image: aventura, duration: "10 min", level: "Fácil", route: "/sopa-de-letras" },
+  { title: "Código Marino", image: delfines, duration: "15 min", level: "Intermedio", route:"/memorama" },
   { title: "Safari de Algoritmos", image: algoritmos, duration: "20 min", level: "Difícil" },
 ];
 
 const GameCard = ({ game }) => {
   const navigate = useNavigate();
   return (
-    <div className="game-card" onClick={() => navigate(`/game/${game.title}`)}>
+    <div 
+      className="game-card" 
+      onClick={() => {
+        if (game.title === "Aventura en la Jungla") {
+          navigate(`/sopa-de-letras`);
+        }else if(game.title === "Código Marino"){
+          navigate(`/memorama`);
+        } else {
+          navigate(`/game/${game.title}`);
+        }
+      }}
+    >
       <img src={game.image} alt={game.title} className="game-image" />
       <h3 className="game-title">{game.title}</h3>
       <p className="game-info">{game.duration} - {game.level}</p>
@@ -32,7 +43,13 @@ const GameCard = ({ game }) => {
 const Home = () => {
   const [selected, setSelected] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-
+  const gameClick = () => {
+    if (game.title === "Aventura en la Jungla") {
+      navigate("/sopa-de-letras"); // Redirige a la sopa de letras
+    } else {
+      navigate(`/game/${game.title}`);
+    }
+  };
   const handleClick = (icon) => {
     if (selected === icon) {
       setSelected(null);
