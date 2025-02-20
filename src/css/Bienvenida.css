@@ -1,3 +1,4 @@
+
 body {
     font-family: 'Quicksand', sans-serif;
 }
@@ -35,6 +36,7 @@ body {
 .card {
   padding: 50px;
   background-color: white;
+  text-align: center;
 }
 
 @media(min-width: 768px) {

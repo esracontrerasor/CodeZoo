@@ -1,13 +1,25 @@
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
+}
+
+html , body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+
 }
 
 body {
     font-family: 'Quicksand', sans-serif;
     font-size: 21px;
     background-color: #f6f8ff;
+}
+
+.contenedor-info {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; 
 }
 
 
@@ -66,6 +78,7 @@ body {
 
 .contenido-principal{
     display: flex;
+    flex:1;
 }
 
 .contenido-principal .imagen-info {
