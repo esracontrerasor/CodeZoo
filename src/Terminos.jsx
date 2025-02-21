@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Terminos.css";
-import background from "./resources/fondo.png";
 import ave from "./resources/ave.gif"
 const CodeZooTerms = () => {
   const navigate = useNavigate();
@@ -15,16 +14,17 @@ const CodeZooTerms = () => {
     }, 2000);
   };
 
+
+  const handleReject = () => {
+    setIsLoading(true); // Activa la animación de carga
+
+    setTimeout(() => {
+      navigate("/"); // Redirige después de 2 segundos
+    }, 2000);
+  };
+
   return (
-    <div
-      className="container"
-      style={{
-        backgroundImage: `url(${background})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-      }}
-    >
+    <div className="container-terminos">
       {/* Pantalla de carga */}
       {isLoading && (
         <div className="loading-screen">
@@ -36,9 +36,12 @@ const CodeZooTerms = () => {
 
       {/* Contenido de términos y condiciones */}
       <div className="notice-box">
+
+        <div className="terms-title">
+          <h2 className="title">Términos y Condiciones</h2>
+          <h2 className="bold">CodeZoo</h2>
+        </div>
         <div className="terms-content">
-          <center><h2 className="title">Términos y Condiciones</h2></center>
-          <center><h2 className="bold">CodeZoo</h2></center>
           <p>
             Bienvenido a CodeZoo. Al acceder y utilizar nuestros servicios, aceptas cumplir 
             con los siguientes términos y condiciones. Si no estás de acuerdo con alguna parte, 
@@ -66,12 +69,11 @@ const CodeZooTerms = () => {
           </ul>
         </div>
 
-        {/* Contenedor del botón */}
         <div className="button-container">
-          <button className="agree-button" onClick={handleAccept}>
-            ACEPTAR
-          </button>
+          <button className="agree-button" onClick={handleAccept}> ACEPTAR </button>
+          <button className="disagree-button" onClick={handleReject}>RECHAZAR</button>
         </div>
+        
       </div>
     </div>
   );

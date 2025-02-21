@@ -10,6 +10,7 @@
     align-items: center;
     height: 100vh;
   }
+  
   .imagen-acceso {
     background-image: url('../resources/hand-drawn-wildlife-background_52683-85119.jpg');
     background-position: center center;

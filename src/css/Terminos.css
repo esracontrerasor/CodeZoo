@@ -1,24 +1,64 @@
+/*
+
+body {
+  background-image: url('../resources/background-image.jpeg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: inherit;
+  background-size: cover;
+  filter: blur(5px);
+  z-index: -1;
+}
+
+*/
+
+
+.container-terminos {
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+}
+
 .notice-box {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255);
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
   max-width: 700px;
-  width: 90%;
   text-align: left;
   display: flex;
   flex-direction: column;
-  max-height: 400px;
+  height: 70vh;            
 }
 
 /* Contenido con scroll */
-.terms-content {
-  flex: 1; /* Ocupa todo el espacio disponible */
-  overflow-y: auto; /* Scroll solo en el contenido */
-  max-height: 300px; /* Ajusta la altura máxima antes del scroll */
-  padding-right: 10px;
+.terms-content { 
+  overflow-y: auto; 
+  max-height: auto; 
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
+}
+
+ .terms-title h2 {
+  text-align: center;
 }
 
 /* Personalización scrollbar (Chrome, Edge, Safari) */
@@ -43,24 +83,49 @@
 .button-container {
   display: flex;
   justify-content: center;
-  padding-top: 10px;
-  border-top: 1px solid #ccc; /* Separador visual */
+  align-items: center;
+  padding-top: 30px;
+  margin-top: auto;
+  border-top: 1px solid #ccc;
 }
 
-/* Estilo del botón */
+/* Estilo del botón de ACEPTAR*/
 .agree-button {
-  background-color: #000000;
+  background-color: #4CAF50;
   color: #FFFFFF;
   border: none;
-  padding: 12px 25px;
+  padding: 10px 20px;
   cursor: pointer;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 5px;
+  font-size: 17px;
   font-weight: bold;
-  text-transform: uppercase;
   transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
+.agree-button:hover {
+  background-color: #008000;
+}
+
+
+/* Estilo del botón de RECHAZAR*/
+.disagree-button {
+  margin-left: 15px;
+  background-color: #dc2f02;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 17px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.disagree-button:hover {
+  background-color: #9d0208;
+}
+
+/* Pantalla de carga */
 .loading-screen {
   position: fixed;
   top: 0;
@@ -77,11 +142,7 @@
   font-weight: bold;
   z-index: 1000;
 }
-.agree-button:hover {
-  background-color: #333333;
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-}
+
 
 .loading-screen {
   display: flex;
