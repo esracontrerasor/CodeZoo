@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Acceso.css";
-import background from "./resources/fondo.png";
-import oso from "./resources/bear-thinking-character-style-cartoon-vector-14196134.jpg";
 
 const CodeZooWelcome = () => {
   const navigate = useNavigate();
@@ -39,27 +37,25 @@ const CodeZooWelcome = () => {
   };
 
   return (
-    <div className="app" style={{ backgroundImage: `url(${background})` }}>
-      <div className="container">
+    <div className="app">
+      <div className="contenedor-acceso contenedor">
+
+        <div className="imagen-acceso">
+
+        </div>
+
         <div className="card">
-          <h2>Parents only</h2>
-          <p>To continue, please enter the correct answer</p>
-          <h3>
-            {num1} x {num2} = ?
-          </h3>
-          <input
-            type="text"
-            value={answer}
-            onChange={handleInputChange}
-            maxLength={2}
-            className="answer-input"
-          />
-          <button onClick={handleSubmit} disabled={!isCorrect}>
-            SUBMIT
-          </button>
-          <button onClick={generateNewMultiplication} className="reset-btn">
-            New Question
-          </button>
+          <h2>Solo padres</h2>
+          <p>Para continuar, por favor ingrese el resultado correcto:</p>
+
+          <div className="pregunta-acceso">
+            <h3> {num1} x {num2} = ? </h3>
+            <input type="text" value={answer} onChange={handleInputChange} maxLength={2} className="answer-input"/>
+          </div>
+          
+          <div className="boton-acceso">
+            <button onClick={handleSubmit} disabled={!isCorrect}>ENVIAR</button>
+          </div>
         </div>
       </div>
     </div>
