@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import CodeZooCat from "../../CodeZoo/src/CoodeZooCat";
-import StartEffect from "../../CodeZoo/src/StartEffect";
+import CodeZooCat from "../src/CoodeZooCat";
+import StartEffect from "../src/StartEffect";
 const imagenes = [
     { id: "mono", src: "src/resources/Mem/A.jpg", info: "El mono es ágil e inteligente, igual que 'if', que toma decisiones dependiendo de una condición. 🐵" },
     { id: "leon", src: "src/resources/Mem/B.jpg", info: "El león es el rey de la selva, así como 'else' gobierna cuando la condición de 'if' no se cumple. 🦁" },
