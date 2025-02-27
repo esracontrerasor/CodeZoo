@@ -10,6 +10,7 @@ import Memorama from "./Memorama.jsx"
 import Games from "./Games.jsx"
 import Settings from "./Settings.jsx";
 import Avatar from "./Avatar.jsx";
+import Book from "./Books.jsx";
 
 import "./App.css";
 import fondoImagen from "./resources/background-image.jpeg";
@@ -41,6 +42,8 @@ function App() {
       <Route path="/games" element={<Games />}/>
       <Route path="/settings" element={<Settings />}/>
       <Route path="/avatar" element={<Avatar />}/>
+      <Route path="/book/:bookKey" element={<Book />} /> {/* Ruta dinámica para libros */}
+
     </Routes>
   );
 }

@@ -15,7 +15,7 @@ import avatar from "./resources/user_1.png";
 import avatar_1 from "./resources/user_2.png";
 
 const games = [
-  { title: "Aventura en la Jungla", image: aventura, duration: "10 min", level: "Fácil", route: "/sopa-de-letras" },
+  { title: "Aventura en la Jungla", image: "aventura.jpg", route: "/book/zoologico" },
   { title: "Código Marino", image: delfines, duration: "15 min", level: "Intermedio", route:"/memorama" },
   { title: "Safari de Algoritmos", image: algoritmos, duration: "20 min", level: "Difícil" },
 ];
