@@ -23,12 +23,12 @@ const Avatar = () => {
         </div>
 
         <div className="info-cards">
-          <div className="card">
+          <div className="card-avatar">
             <h2>Privacidad y seguridad</h2>
             <p>Configura tu cuenta y personaliza tu experiencia.</p>
             <button>Administrar privacidad</button>
           </div>
-          <div className="card">
+          <div className="card-avatar">
             <h2>Protección de cuenta</h2>
             <p>Verifica la seguridad de tu cuenta.</p>
             <button>Ver detalles</button>

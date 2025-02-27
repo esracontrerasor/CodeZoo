@@ -50,7 +50,7 @@
   justify-content: center;
 }
 
-.card {
+.card-avatar {
   background: white;
   padding: 20px;
   border-radius: 10px;
@@ -59,7 +59,7 @@
   text-align: center;
 }
 
-.card button {
+.card-avatar button {
   background: #3ba32f;
   color: white;
   border: none;
