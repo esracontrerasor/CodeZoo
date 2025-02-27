@@ -12,15 +12,16 @@ body {
 }
   
 .imagen-inicio {
-  background-image: url('../resources/hand-drawn-wildlife-background_52683-85119.jpg');
+  background-image: url('../resources/icono-pantalla-principal.png');
   background-position: center center;
-  background-size: cover;
-  width: 80%;
-  height: 60vh;
-  border-radius: 16px;
-  flex: 0 0 calc(60%);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 60%;
+  height: 80vh;
+  flex: 0 0 calc(50%);
   position: relative;
-  margin-right: 2rem;
+  margin-left: 5rem;
+  margin-right: 2.5rem;
 }
 
 .imagen-inicio::before {
