@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import CodeZooCat from "../src/CoodeZooCat";
 
 function generarSopaDeLetras(tamano, palabras) {
     let sopa = new Array(tamano).fill(null).map(() => new Array(tamano).fill(' '));
@@ -56,13 +57,23 @@ function generarSopaDeLetras(tamano, palabras) {
 }
 
 const SopaDeLetras = () => {
-    const palabras = ["JAVA", "CODIGO", "LETRAS", "JUEGO", "PALABRA"];
+    const palabras = ["JAVA", "CODIGO", "BLOQUE", "SENTENCIA", "CONDICION", "VARIABLE"];
+    const info = {
+        "JAVA": "Java es un lenguaje de programación multiplataforma y una plataforma de software.",
+        "CODIGO": "Código es un conjunto de instrucciones escritas en un lenguaje de programación.",
+        "BLOQUE": "Un bloque es una agrupación de declaraciones e instrucciones en programación.",
+        "SENTENCIA": "Una sentencia es una línea de código que ordena una tarea.",
+        "CONDICION": "Una condición es una instrucción que se evalúa como verdadera o falsa.",
+        "VARIABLE": "Una variable es un espacio en la memoria para almacenar datos. A cada variable se le asigna un nombre único para identificarla. ",
+    };
     const tamano = 10;
     const [sopa, setSopa] = useState([]);
     const [seleccionadas, setSeleccionadas] = useState([]);
     const [encontradas, setEncontradas] = useState(new Set());
     const [posicionesEncontradas, setPosicionesEncontradas] = useState([]);
     const [posicionesPalabras, setPosicionesPalabras] = useState(new Map());
+    const [mensajeGato, setMensajeGato] = useState("");
+    const [gatoVisible, setGatoVisible] = useState(false);
 
     const generarNuevaSopa = () => {
         const { sopa, posicionesPalabras } = generarSopaDeLetras(tamano, palabras);
@@ -95,10 +106,19 @@ const SopaDeLetras = () => {
                 setEncontradas(new Set([...encontradas, palabraSeleccionada]));
                 setPosicionesEncontradas(prev => [...prev, ...posicionesPalabras.get(palabraSeleccionada)]);
                 setSeleccionadas([]);
+                setMensajeGato(`¡Buen trabajo! Has encontrado la palabra ${palabraSeleccionada}. ${info[palabraSeleccionada]}`);
+                setGatoVisible(true)
             } else if (posicionesPalabras.has(palabraInvertida)) {
                 setEncontradas(new Set([...encontradas, palabraInvertida]));
                 setPosicionesEncontradas(prev => [...prev, ...posicionesPalabras.get(palabraInvertida)]);
                 setSeleccionadas([]);
+                setMensajeGato(`¡Buen trabajo! Has encontrado la palabra ${palabraInvertida}. ${info[palabraInvertida]}`);
+                setGatoVisible(true)
+            }
+            if(gatoVisible){
+                setTimeout(()=>{
+                    setGatoVisible(false);
+                },10000)
             }
         }
     };
@@ -106,6 +126,7 @@ const SopaDeLetras = () => {
     return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
             <h1>Sopa de Letras</h1>
+            <CodeZooCat contexto="sopa-de-letras" customMessage={mensajeGato} isOpen={gatoVisible} />
             <button onClick={generarNuevaSopa} style={{ padding: "10px", fontSize: "16px", cursor: "pointer" }}>Nueva Sopa</button>
             {encontradas.size === palabras.length && <h2 style={{ color: "green" }}>¡Felicidades! Has encontrado todas las palabras.</h2>}
             <div style={{ display: "flex", justifyContent: "center", gap: "40px" }}>

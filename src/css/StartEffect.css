@@ -1,0 +1,43 @@
+.stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background-color: gold;
+    clip-path: polygon(
+        50% 0%,
+        61% 35%,
+        98% 35%,
+        68% 57%,
+        79% 91%,
+        50% 70%,
+        21% 91%,
+        32% 57%,
+        2% 35%,
+        39% 35%
+    ); /* Forma de estrella */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    opacity: 0;
+    animation: starAnimation linear forwards;
+}
+
+@keyframes starAnimation {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
