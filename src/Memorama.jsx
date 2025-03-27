@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import CodeZooCat from "../src/CoodeZooCat";
 import StartEffect from "../src/StartEffect";
+import "../src/css/Memorama.css";
+import cartaDorso from "../src/resources/Mem/Carta.png";
 const imagenes = [
     { id: "mono", src: "src/resources/Mem/A.jpg", info: "El mono es ágil e inteligente, igual que 'if', que toma decisiones dependiendo de una condición. 🐵" },
     { id: "leon", src: "src/resources/Mem/B.jpg", info: "El león es el rey de la selva, así como 'else' gobierna cuando la condición de 'if' no se cumple. 🦁" },
@@ -88,26 +90,32 @@ const Memorama = () => {
     }, [cartas]);
 
     return (
-        <div style={{ textAlign: "center" }}>
-            <h1>Memorama</h1>
+        
+        <div className="memorama-body" style={{ textAlign: "center" }}>
+            <h1 className="memorama-header">Memorama</h1>
             <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />
             {ganador && <h2>¡Felicidades! Has ganado 🎉</h2>}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 200px)", gap: "10px", justifyContent: "center", margin: "auto", width: "fit-content" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 160px)", gap: "10px", justifyContent: "center", margin: "auto", width: "fit-content" }}>
                 {cartas.map(carta => (
-                    <div key={carta.idUnico} 
-                        onClick={() => !carta.volteada && manejarClick(carta.idUnico)} 
-                        style={{
-                            width: "200px",
-                            height: "200px",
-                            backgroundColor: carta.volteada || carta.encontrada ? "white" : "gray",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                            border: "1px solid black"
-                        }}>
-                        {carta.volteada || carta.encontrada ? <img src={carta.src} alt={carta.id} width="80" /> : "?"}
-                    </div>
+                  <div 
+                  key={carta.idUnico} 
+                  onClick={() => !carta.volteada && manejarClick(carta.idUnico)} 
+                  style={{
+                      width: "160px",
+                      height: "160px",
+                      backgroundColor: carta.volteada || carta.encontrada ? "white" : "blue",
+                      backgroundImage: carta.volteada || carta.encontrada ? "none" : `url(${cartaDorso})`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      border: "1px solid black"
+                  }}
+              >
+                  {carta.volteada || carta.encontrada ? (
+                      <img src={carta.src} alt={carta.id} width="80" />
+                  ) : null}
+              </div>
                 ))}
             </div>
             <StartEffect trigger={mostrarEstrellas} />

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CodeZooCat from "../src/CoodeZooCat";
+import "../src/css/SopaDeLetras.css";
 
 function generarSopaDeLetras(tamano, palabras) {
     let sopa = new Array(tamano).fill(null).map(() => new Array(tamano).fill(' '));
@@ -57,14 +58,21 @@ function generarSopaDeLetras(tamano, palabras) {
 }
 
 const SopaDeLetras = () => {
-    const palabras = ["JAVA", "CODIGO", "BLOQUE", "SENTENCIA", "CONDICION", "VARIABLE"];
+    const palabras1 = ["JAVA", "CODIGO", "BLOQUE", "SENTENCIA", "CONDICION", "VARIABLE"];
+    const palabras2=["INT","FLOAT","DOUBLE","BOOLEAN","CHAR","STRING"]
     const info = {
         "JAVA": "Java es un lenguaje de programación multiplataforma y una plataforma de software.",
         "CODIGO": "Código es un conjunto de instrucciones escritas en un lenguaje de programación.",
         "BLOQUE": "Un bloque es una agrupación de declaraciones e instrucciones en programación.",
         "SENTENCIA": "Una sentencia es una línea de código que ordena una tarea.",
         "CONDICION": "Una condición es una instrucción que se evalúa como verdadera o falsa.",
-        "VARIABLE": "Una variable es un espacio en la memoria para almacenar datos. A cada variable se le asigna un nombre único para identificarla. ",
+        "VARIABLE": "Una variable es un espacio en la memoria para almacenar datos. A cada variable se le asigna un nombre único para identificarla.",
+        "INT": "INT es un tipo de dato para números enteros. Es uno de los tipos de datos más utilizados para valores numéricos.",
+        "FLOAT": "Float es un tipo de dato primitivo que representa un número en coma flotante de 32 bits.",
+        "DOUBLE": "Double es un tipo primitivo que permite almacenar números decimales con mayor precisión que el tipo float.",
+        "BOOLEAN": "Boolean es un tipo de dato primitivo que solo puede tener dos valores: true o false, útil para flujos de control.",
+        "CHAR": "Char es un tipo de dato primitivo que se utiliza para almacenar caracteres individuales, como letras o símbolos.",
+        "STRING": "String es un tipo de dato que permite almacenar palabras, frases o nombres."
     };
     const tamano = 10;
     const [sopa, setSopa] = useState([]);
@@ -74,9 +82,12 @@ const SopaDeLetras = () => {
     const [posicionesPalabras, setPosicionesPalabras] = useState(new Map());
     const [mensajeGato, setMensajeGato] = useState("");
     const [gatoVisible, setGatoVisible] = useState(false);
-
+    const [alternarLista, setAlternarLista] = useState(true);
+    const [listaPalabras, setListaPalabras] = useState(palabras1);
     const generarNuevaSopa = () => {
-        const { sopa, posicionesPalabras } = generarSopaDeLetras(tamano, palabras);
+        const nuevaLista = listaPalabras === palabras1 ? palabras2 : palabras1;
+        setListaPalabras(nuevaLista);
+        const { sopa, posicionesPalabras } = generarSopaDeLetras(tamano, nuevaLista);
         setSopa(sopa);
         setPosicionesPalabras(posicionesPalabras);
         setEncontradas(new Set());
@@ -124,46 +135,58 @@ const SopaDeLetras = () => {
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
-            <h1>Sopa de Letras</h1>
+        <div className="sopa-container">
+            <h1 className="sopa-header">Sopa de Letras</h1>
             <CodeZooCat contexto="sopa-de-letras" customMessage={mensajeGato} isOpen={gatoVisible} />
-            <button onClick={generarNuevaSopa} style={{ padding: "10px", fontSize: "16px", cursor: "pointer" }}>Nueva Sopa</button>
-            {encontradas.size === palabras.length && <h2 style={{ color: "green" }}>¡Felicidades! Has encontrado todas las palabras.</h2>}
-            <div style={{ display: "flex", justifyContent: "center", gap: "40px" }}>
-                <div>
-                    <h3>Palabras a buscar:</h3>
-                    <ul>
-                        {palabras.map((palabra, index) => (
-                            <li key={index} style={{ textDecoration: encontradas.has(palabra) ? "line-through" : "none" }}>
+            <button onClick={generarNuevaSopa} className="sopa-button">Nueva Sopa</button>
+    
+            {encontradas.size ===palabras1.length && (
+                <h2 style={{ color: "white" }} className="mensaje-exito">¡Felicidades! Has encontrado todas las palabras.</h2>
+            )}
+    
+            <div className="sopa-layout">
+                {/* 📌 Palabras a buscar (izquierda) */}
+                <div className="sopa-column">
+                    <h5>Palabras a buscar:</h5>
+                    <ul className="palabras-list">
+                        {listaPalabras.map((palabra, index) => (
+                            <li key={index} className={encontradas.has(palabra) ? "encontrada" : ""}>
                                 {palabra}
                             </li>
                         ))}
                     </ul>
                 </div>
-                <table style={{ borderCollapse: "collapse" }}>
-                    <tbody>
-                        {sopa.map((fila, i) => (
-                            <tr key={i}>
-                                {fila.map((letra, j) => {
-                                    const esSeleccionado = seleccionadas.some(s => s.fila === i && s.columna === j);
-                                    const esEncontrado = posicionesEncontradas.some(p => p.fila === i && p.columna === j);
-                                    return (
-                                        <td key={j} onClick={() => manejarClick(i, j)} style={{
-                                            border: "1px solid black", padding: "10px", textAlign: "center", fontSize: "20px", width: "30px", height: "30px",
-                                            backgroundColor: esEncontrado ? "lightgreen" : esSeleccionado ? "lightblue" : "white",
-                                            cursor: "pointer", userSelect: "none"
-                                        }}>
-                                            {letra}
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <div>
-                    <h3>Palabras encontradas:</h3>
-                    <ul>
+    
+                {/* 📌 Sopa de letras (centro) */}
+                <div className="sopa-grid">
+                    <table className="sopa-table">
+                        <tbody>
+                            {sopa.map((fila, i) => (
+                                <tr key={i}>
+                                    {fila.map((letra, j) => {
+                                        const esSeleccionado = seleccionadas.some(s => s.fila === i && s.columna === j);
+                                        const esEncontrado = posicionesEncontradas.some(p => p.fila === i && p.columna === j);
+    
+                                        return (
+                                            <td 
+                                                key={j} 
+                                                onClick={() => manejarClick(i, j)}
+                                                className={esEncontrado ? "encontrado" : esSeleccionado ? "seleccionado" : ""}
+                                            >
+                                                {letra}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+    
+                {/* 📌 Palabras encontradas (derecha) */}
+                <div className="sopa-column">
+                    <h5>Palabras encontradas:</h5>
+                    <ul  className="palabras-list li">
                         {[...encontradas].map((palabra, index) => (
                             <li key={index}>{palabra}</li>
                         ))}
@@ -172,6 +195,7 @@ const SopaDeLetras = () => {
             </div>
         </div>
     );
+
 };
 
 export default SopaDeLetras;
