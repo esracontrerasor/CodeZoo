@@ -11,12 +11,13 @@ import Games from "./Games.jsx"
 import Settings from "./Settings.jsx";
 import Avatar from "./Avatar.jsx";
 
-import "./App.css";
-import fondoImagen from "./resources/background-image.jpeg";
 
-function App() {
+import "./App.css";
+import fondoImagen from "./resources/2805830.jpg";
+
+const App = () => {
   const location = useLocation();
-  const paginasFondo = ["/", "/acceso", "/terminos"];
+  const paginasFondo = ["/", "/acceso", "/terminos","/home"];
   useEffect(() => {
     if (paginasFondo.includes(location.pathname)) {
       document.body.style.backgroundImage = `url(${fondoImagen})`;
@@ -30,6 +31,7 @@ function App() {
     }
   }, [location.pathname]);
   return (
+
     <Routes>
       <Route path="/" element={<CodeZooInfo />} />
       <Route path="/acceso" element={<Acceso />} />

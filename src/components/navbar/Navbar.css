@@ -1,0 +1,64 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 10%;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 32px;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.navbar a {
+     position: relative;
+     font-size: 18px;
+     color: #fff;
+     font-weight: 500;
+     margin-left: 48px;
+     text-decoration: none;
+}
+
+.navbar button {
+    width: 130px;
+    height: 40px;
+    background: transparent;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: .5s;
+}
+
+.navbar a::before{
+    content: '';
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: .3s;
+}
+
+.navbar a:hover::before{
+    width: 100%;
+}
+
+.navbar button:hover{
+    background: #fff;
+    color: #162938;
+}
+

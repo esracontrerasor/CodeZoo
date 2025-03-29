@@ -1,6 +1,8 @@
 import React from "react";
 import "./css/Info.css"; // Asegúrate de que este archivo existe
 import { useNavigate } from "react-router-dom";
+import Navbar from "./components/navbar/navbar.jsx";
+import aboutImage from "../src/resources/icono-pantalla-principal.png";
 
 const Info = () => {
       const navigate = useNavigate(); // Hook para la navegación
@@ -10,39 +12,25 @@ const Info = () => {
       };
 
   return (
-      
     <div className="contenedor-info">
-
-        <header class = "header"> 
-                <div className="logo">
-                  <h1>CodeZoo</h1>
-                </div>
-                <nav>
-                  <ul class="nav-links">
-                    <li><a href="#">Experiencia más segura</a></li>
-                    <li><a href="#">Sugerencias</a></li>
-                    <li><a href="#">Juegos diversos</a></li>
-                  </ul>
-                </nav>
-                <button className="btn" onClick={handleAccept}>INICIAR</button>
-        </header>
-
-        <div className="contenido-principal">
-
+      <Navbar />
+            <div className="imagen-info-wrapper">
+              <img src={aboutImage} alt="" class="imagen-info"/>            
+            </div>
             <div className="info-box">
-              <h2 className="title">Una aplicación pensada para los pequeños</h2>
+              <h2 className="title">Acerca de CodeZoo</h2>
               <p className="text">
-                CodeZoo se creó con la idea de ofrecer un entorno educativo
-                interactivo para menores en el que pueden aprender programación fácil
-                y divertida. Además, ayuda a sus padres a guiarlos mientras aprenden
-                y desarrollan nuevos conocimientos.
+              CodeZoo es una plataforma educativa creada para que niños 
+              y jóvenes aprendan a programar de una manera divertida y sencilla.
+              Aquí podrás encontrar juegos interactivos, cuentos educativos 
+              y retos que te ayudarán a desarrollar habilidades de lógica, creatividad y resolución de problemas.
+              Nuestro objetivo es que aprendas mientras juegas y descubras el mundo de la programación 
+              de forma amigable y accesible.
               </p>
+              <div className="social-link">
+                
+              </div>
             </div>
-
-            <div className="imagen-info">
-            
-            </div>
-          </div>
       </div> 
   );
 };

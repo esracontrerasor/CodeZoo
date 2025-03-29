@@ -1,24 +1,23 @@
 import React, { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import "./css/Home.css";
-import aventura from "./resources/aventura_jungla.jpeg";
-import delfines from "./resources/delfines_mamalones.jpg";
-import algoritmos from "./resources/algoritmos.jpg";
+import sopaDeLetrasImg from "./resources/cartoon animals playing a word search game.png";
+import memoramaImg from "./resources/cartoon animals playing memorama.png";
 import CodeZooCat from "./CoodeZooCat";
 import noti_1 from "./resources/notification_1.png";
 import noti_2 from "./resources/notification_2.png";
 import setting from "./resources/settings_1.png";
 import setting_1 from "./resources/settings_2.png";
-import Bur_1 from "./resources/list-2.png";
-import Bur_2 from "./resources/list.png";
 import avatar from "./resources/user_1.png";
 import avatar_1 from "./resources/user_2.png";
+import Navbar from "./components/navbar/navbar";
 
 const games = [
-  { title: "Aventura en la Jungla", image: aventura, duration: "10 min", level: "Fácil", route: "/sopa-de-letras" },
-  { title: "Código Marino", image: delfines, duration: "15 min", level: "Intermedio", route:"/memorama" },
-  { title: "Safari de Algoritmos", image: algoritmos, duration: "20 min", level: "Difícil" },
+  { title: "Sopa de Letras", image: sopaDeLetrasImg, information: "Juego interactivo donde encontrarás palabras clave relacionadas con la programación. Al descubrir cada palabra, recibirán una breve explicación de su significado.", route: "/sopa-de-letras" },
+  { title: "Memorama", image: memoramaImg, information: "Juego de memoria donde encontrarás cartas con términos de programación y su significado. Al encontrar la pareja correcta, se mostrará una breve explicación.", route:"/memorama" },
 ];
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -65,75 +64,71 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <div className="header-home">
-        <h1 className="logho">CodeZoo</h1>
-        <div className="search-bar">
-          <input type="text" placeholder="Buscar juego..." />
-        </div>
-        <img
-          src={selected === "menu" ? Bur_2 : Bur_1}
-          alt="Menu"
-          className={`icon-image ${rotating ? "rotate" : ""}`}
-          onClick={() => handleClick("menu")}
-        />
-      </div>
+      <header className="header-home">
+      <Navbar />
+      </header>
 
-      {/* Ventana emergente del menú */}
-      {showPopup && (
-        <div className="popup-container show">
-          <div className="popup-content">
-            <h3>Menú</h3>
-            <div className="icon-container">
-              <img src={selected === "Avatar" ? avatar_1 : avatar} alt="Avatar" onClick={() => handleClick("Avatar")} />
-              <span>Perfil</span>
-            </div>
-            <div className="icon-container">
-              <img src={selected === "Notificaciones" ? noti_2 : noti_1} alt="Notificaciones" onClick={() => handleClick("Notificaciones")} />
-              <span>Notificaciones</span>
-            </div>
-            <div className="icon-container">
-              <img src={selected === "Settings" ? setting_1 : setting} alt="Settings" onClick={() => handleClick("Settings")} />
-              <span>Configuración</span>
+      <div className="home-contenido">
+        {/* Ventana emergente del menú */}
+        {showPopup && (
+          <div className="popup-container show">
+            <div className="popup-content">
+              <h3>Menú</h3>
+              <div className="icon-container">
+                <img src={selected === "Avatar" ? avatar_1 : avatar} alt="Avatar" onClick={() => handleClick("Avatar")} />
+                <span>Perfil</span>
+              </div>
+              <div className="icon-container">
+                <img src={selected === "Notificaciones" ? noti_2 : noti_1} alt="Notificaciones" onClick={() => handleClick("Notificaciones")} />
+                <span>Notificaciones</span>
+              </div>
+              <div className="icon-container">
+                <img src={selected === "Settings" ? setting_1 : setting} alt="Settings" onClick={() => handleClick("Settings")} />
+                <span>Configuración</span>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Ventana emergente de Notificaciones */}
-      {showNotifications && (
-        <div className="popup-container show">
-          <div className="popup-content">
-            <h3>Notificaciones</h3>
-            <p>Aquí aparecerán tus notificaciones más recientes.</p>
-            <button onClick={() => setShowNotifications(false)}>Cerrar</button>
+        {/* Ventana emergente de Notificaciones */}
+        {showNotifications && (
+          <div className="popup-container show">
+            <div className="popup-content">
+              <h3>Notificaciones</h3>
+              <p>Aquí aparecerán tus notificaciones más recientes.</p>
+              <button onClick={() => setShowNotifications(false)}>Cerrar</button>
+            </div>
           </div>
+        )}
+        <div className="section-home">
+          <h2> JUEGOS </h2>
         </div>
-      )}
+        
+        <div id="card-area">
+          <div className="games-wrapper">
+            <div className="games-area">
+              {games.map((game, index) => (
+                <div
+                  key={index}
+                  className="game-card"
+                  onClick={() => navigate(game.route)}
+                >
+                  <img src={game.image} />
 
-      {/* Categorías de juegos */}
-      <div className="categories">
-        <button className="category-btn">🦁 Aventura</button>
-        <button className="category-btn">🐳 Océano</button>
-        <button className="category-btn">🦓 Safari</button>
-      </div>
-
-      {/* Grid de juegos */}
-      <div className="games-grid">
-        {games.map((game, index) => (
-          <div 
-            key={index} 
-            className="game-card" 
-            onClick={() => navigate(game.route)}
-          >
-            <img src={game.image} alt={game.title} className="game-image" />
-            <h3 className="game-title">{game.title}</h3>
-            <p className="game-info">{game.duration} - {game.level}</p>
+                  <div className="game-information">
+                    <h3>{game.title}</h3>
+                    <p>{game.information}</p>
+                    <br />
+                    <br />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
+          <CodeZooCat />
+        </div>
+        
       </div>
-
-      {/* Asistente Gato */}
-      <CodeZooCat />
     </div>
   );
 };
