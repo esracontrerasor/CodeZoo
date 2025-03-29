@@ -19,7 +19,6 @@ const games = [
 ];
 
 
-
 const Home = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
