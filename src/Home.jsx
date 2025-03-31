@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./css/Home.css";
 import sopaDeLetrasImg from "./resources/cartoon animals playing a word search game.png";
 import memoramaImg from "./resources/cartoon animals playing memorama.png";
+import safariracing from "./resources/safari-racing.jpg";
 import CodeZooCat from "./CoodeZooCat";
 import noti_1 from "./resources/notification_1.png";
 import noti_2 from "./resources/notification_2.png";
@@ -16,6 +17,7 @@ import Navbar from "./components/navbar/navbar";
 const games = [
   { title: "Sopa de Letras", image: sopaDeLetrasImg, information: "Juego interactivo donde encontrarás palabras clave relacionadas con la programación. Al descubrir cada palabra, recibirán una breve explicación de su significado.", route: "/sopa-de-letras" },
   { title: "Memorama", image: memoramaImg, information: "Juego de memoria donde encontrarás cartas con términos de programación y su significado. Al encontrar la pareja correcta, se mostrará una breve explicación.", route:"/memorama" },
+  { title: "Safari racing", image: safariracing, information:"Juego de carreras donde compites con la máquina para ser el primero en llegar a la meta. Presiona la tecla rápidamente para hacer que avance tu carro.", route:"/safari-racing" },
 ];
 
 
