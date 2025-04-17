@@ -1,67 +1,44 @@
 * {
     box-sizing: border-box;
-}
-
-body {
     font-family: 'Quicksand', sans-serif;
     margin: 0;
     padding: 0;
 }
 
+body {
+    background-color: #FFFFF0;
+}
 
-.contenedor-info {
+.about-containter {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: url('../resources/background.jpg') no-repeat;
-    background-size: cover;
-    background-position: center;
+    padding: 50px 20px;
+    gap: 40px;
+    min-height: calc(100vh - 80px);
 }
 
-
-.contenedor-info .info-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
+.imagen-info {
+    max-width: 400px;
+    height: auto;
 }
 
-.contenedor-info .info-box {
-    max-width: 50%;
-}
-
-.contenedor-info .imagen-info-wrapper .imagen-info {
-    width: 400px;
-    height: 400px;
-    object-fit: cover;
-}
-
-.info-box .title {
-    font-size: 2rem;
-    padding: 40px 0 30px;
+.info-box {
     text-align: center;
-    text-transform: uppercase;
-    color: #fff;
+    max-width: 600px;
 }
 
-.info-box .title::after {
-    content: '';
-    width: 80px;
-    height: 5px;
-    display: block;
-    margin: 10px auto 0;
-    background: var(--secondary-color);
+.info-box h1 {
+    font-size: 35px;
+    margin-bottom: 20px;
 }
 
-.info-box .text {
-    line-height: 30px;
-    color: #fff;
+.info-box p {
+    font-size: 20px;
+    line-height: 1.5;
     font-weight: 500;
-    text-align: center;
-    font-size: 18px;
 }
+
 
 
 

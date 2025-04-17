@@ -27,10 +27,6 @@
   font-weight: bold;
 }
 
-.content {
-  flex: 1;
-  padding: 40px;
-}
 
 .profile-header {
   text-align: center;
