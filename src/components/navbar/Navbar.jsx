@@ -9,10 +9,9 @@ const Navbar = ({onLoginClick}) => {
 
             <nav className="navbar">
                 <a href="/">Inicio</a>
+                <a href="/home">Actividades</a>
                 <a href="/info">Acerca De</a>
-                <a href="/home">Servicios</a>
-                <a href="/">Contáctanos</a>
-                <button class="btnLogin" onClick={onLoginClick}>Ingresar</button>
+                <button className="btnLogin" onClick={onLoginClick}>Ingresar</button>
             </nav>
         </header>
     );

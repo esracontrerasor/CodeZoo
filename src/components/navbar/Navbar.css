@@ -1,14 +1,10 @@
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 10%;
-    background: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 100;
+    background: #7ED957;
+    width: 100%;
+    padding: 15px 10%;
 }
 
 .logo {
@@ -22,14 +18,13 @@
      position: relative;
      font-size: 18px;
      color: #fff;
-     font-weight: 500;
+     font-weight: bold;
      margin-left: 48px;
      text-decoration: none;
 }
 
 .navbar button {
     width: 130px;
-    height: 40px;
     background: transparent;
     border: 2px solid #fff;
     outline: none;
@@ -37,7 +32,7 @@
     cursor: pointer;
     font-size: 18px;
     color: #fff;
-    font-weight: 500;
+    font-weight: bold;
     margin-left: 40px;
     transition: .5s;
 }
