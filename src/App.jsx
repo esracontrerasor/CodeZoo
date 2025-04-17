@@ -14,23 +14,12 @@ import Avatar from "./Avatar.jsx";
 
 
 import "./App.css";
-import fondoImagen from "./resources/2805830.jpg";
 
 const App = () => {
   const location = useLocation();
   const paginasFondo = ["/", "/acceso", "/terminos","/home"];
-  useEffect(() => {
-    if (paginasFondo.includes(location.pathname)) {
-      document.body.style.backgroundImage = `url(${fondoImagen})`;
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundPosition = "center";
-      document.body.style.width = "100%";
-      document.body.style.height = "100vh";
-      document.body.style.position = "relative";
-    } else {
-      document.body.style.backgroundImage = "none";
-    }
-  }, [location.pathname]);
+ 
+  
   return (
 
     <Routes>

@@ -5,20 +5,15 @@ import Navbar from "./components/navbar/navbar.jsx";
 import aboutImage from "../src/resources/icono-pantalla-principal.png";
 
 const Info = () => {
-      const navigate = useNavigate(); // Hook para la navegación
-    
-      const handleAccept = () => {
-        navigate("/home"); // Asegúrate de que este path coincide con el de App.jsx
-      };
+
 
   return (
-    <div className="contenedor-info">
+    <div className="main-content">
       <Navbar />
-            <div className="imagen-info-wrapper">
-              <img src={aboutImage} alt="" class="imagen-info"/>            
-            </div>
-            <div className="info-box">
-              <h2 className="title">Acerca de CodeZoo</h2>
+      <div className="about-containter">
+        <img src={aboutImage} alt="" class="imagen-info"/> 
+        <div className="info-box">
+              <h1 className="title">ACERCA DE CODEZOO</h1>
               <p className="text">
               CodeZoo es una plataforma educativa creada para que niños 
               y jóvenes aprendan a programar de una manera divertida y sencilla.
@@ -27,11 +22,9 @@ const Info = () => {
               Nuestro objetivo es que aprendas mientras juegas y descubras el mundo de la programación 
               de forma amigable y accesible.
               </p>
-              <div className="social-link">
-                
-              </div>
-            </div>
-      </div> 
+        </div>
+      </div>            
+    </div> 
   );
 };
 

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./css/Home.css";
 import sopaDeLetrasImg from "./resources/cartoon animals playing a word search game.png";
 import memoramaImg from "./resources/cartoon animals playing memorama.png";
-import safariracing from "./resources/safari-racing.jpg";
+import safariracing from "./resources/safari-racing.jpeg";
 import CodeZooCat from "./CoodeZooCat";
 import noti_1 from "./resources/notification_1.png";
 import noti_2 from "./resources/notification_2.png";
@@ -66,11 +66,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <header className="header-home">
       <Navbar />
-      </header>
-
-      <div className="home-contenido">
         {/* Ventana emergente del menú */}
         {showPopup && (
           <div className="popup-container show">
@@ -92,45 +88,29 @@ const Home = () => {
           </div>
         )}
 
-        {/* Ventana emergente de Notificaciones */}
-        {showNotifications && (
-          <div className="popup-container show">
-            <div className="popup-content">
-              <h3>Notificaciones</h3>
-              <p>Aquí aparecerán tus notificaciones más recientes.</p>
-              <button onClick={() => setShowNotifications(false)}>Cerrar</button>
-            </div>
-          </div>
-        )}
-        <div className="section-home">
-          <h2> JUEGOS </h2>
-        </div>
-        
-        <div id="card-area">
-          <div className="games-wrapper">
-            <div className="games-area">
-              {games.map((game, index) => (
-                <div
-                  key={index}
-                  className="game-card"
-                  onClick={() => navigate(game.route)}
-                >
-                  <img src={game.image} />
+        <div className="contenido-principal">
 
-                  <div className="game-information">
-                    <h3>{game.title}</h3>
-                    <p>{game.information}</p>
-                    <br />
-                    <br />
-                  </div>
-                </div>
-              ))}
-            </div>
+          <h1 className="activities-title">ACTIVIDADES</h1>
+
+          <div className="tab-container">
+            <button class="tab">JUEGOS</button>
+            <button class="tab">CUENTOS</button>
+            <button class="tab">MODO LIBRE</button>
           </div>
-          <CodeZooCat />
-        </div>
-        
+
+          <div className="games-container">
+            {games.map((game, index) => (
+              <div key={index} className="games-card" onClick={() => navigate(game.route)}>
+                <img src={game.image} className="games-img"/>
+                <div className="games-title">{game.title}</div>
+              </div>
+            ))}
+            <CodeZooCat />
+          </div>
+
       </div>
+
+       
     </div>
   );
 };
