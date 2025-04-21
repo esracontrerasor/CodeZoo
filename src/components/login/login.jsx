@@ -1,0 +1,129 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { IoMail, IoLockClosed, IoPerson, IoClose } from "react-icons/io5";
+import axios from "axios";
+import "./login.css";
+
+const LoginRegister = ({ onClose }) => {
+    const navigate = useNavigate();
+  
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isActive, setIsActive] = useState(false);
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const reponse = await axios.post("http://localhost:3000/api/usuarios/login", { email, password });
+            alert("Inicio de sesión exitoso");
+            localStorage.setItem("token", reponse.data.token);
+            navigate("/home");
+        }
+        catch (error) {
+            setErrorMessage(error.response?.data?.message || "Error al iniciar sesión");
+        }
+    };
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:3000/api/usuarios/registro", { username, email, password });
+            alert("Registro exitoso");
+            localStorage.setItem("token", response.data.token);
+            navigate("/home");
+        }
+        catch (error) {
+            setErrorMessage(error.response?.data?.message || "Error al registrar el usuario");
+        }
+    };
+
+    const handleRegisterClick = (e) => {
+        e.preventDefault();
+        setIsActive(true);
+    };
+
+    const handleLoginClick = (e) => {
+        e.preventDefault();
+        setIsActive(false);
+    };
+
+    return (
+        <div className={`wrapper ${isActive ? 'active' : ''} active-popup `}>
+            <span class="icon-close" onClick={onClose}>
+                <IoClose />
+            </span>
+
+            {/* Formulario de inicio de sesión */}
+            <div class="form-box login">
+                <h2>Ingresar</h2>
+                <form onSubmit={handleSubmit}>
+                    <div class="input-box">
+                        <span class="icon"> <IoMail /> </span>
+                        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required autocomplete="email" />
+                        <label for="email">Email</label>
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"> <IoLockClosed /> </span>
+                        <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required autocomplete="current-password" />
+                        <label for="password">Contraseña</label>
+                    </div>
+
+                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+
+                    <div class="remember-forgot">
+                        <label for="remember"><input type="checkbox" id="remember" /> Recuérdame</label>
+                        <a href="#">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <button type="submit" class="btn">INGRESAR</button>
+
+                    <div class="login-register">
+                        <p>¿No tienes una cuenta? <a href="#" class="register-link" onClick={handleRegisterClick}>Crea una</a></p>
+                    </div>
+                </form>
+            </div>
+
+            {/* Formulario de registro */}
+            <div class="form-box register">
+                <h2>Registro</h2>
+                <form onSubmit={handleRegister} action="#">
+                    <div class="input-box">
+                        <span class="icon"> <IoPerson /> </span>
+                        <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                        <label for="username">Usuario</label>
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"> <IoMail /> </span>
+                        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required autocomplete="email" />
+                        <label for="email">Email</label>
+                    </div>
+
+
+                    <div class="input-box">
+                        <span class="icon"> <IoLockClosed /> </span>
+                        <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required autocomplete="current-password" />
+                        <label for="password">Contraseña</label>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <label for="remember"><input type="checkbox" id="remember" /> Acepto los términos y condiciones </label>
+                    </div>
+
+                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+
+                    <button type="submit" class="btn">REGISTRAR</button>
+
+                    <div class="login-register">
+                        <p>¿Tienes una cuenta? <a href="#" class="login-link" onClick={handleLoginClick} >Inicia sesión</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default LoginRegister;
