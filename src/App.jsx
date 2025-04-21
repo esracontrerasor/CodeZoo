@@ -8,7 +8,6 @@ import Info from "./Info.jsx";
 import SopaDeLetras from "./SopaDeLetras.jsx";
 import Memorama from "./Memorama.jsx"
 import SafariRacing from "./SafariRacing.jsx"
-import Games from "./Games.jsx"
 import Settings from "./Settings.jsx";
 import Avatar from "./Avatar.jsx";
 
@@ -31,7 +30,6 @@ const App = () => {
       <Route path="/sopa-de-letras" element={<SopaDeLetras />}/>
       <Route path="/memorama" element={<Memorama />}/>
       <Route path="/safari-racing" element={<SafariRacing />}/>
-      <Route path="/games" element={<Games />}/>
       <Route path="/settings" element={<Settings />}/>
       <Route path="/avatar" element={<Avatar />}/>
     </Routes>
