@@ -12,7 +12,7 @@ import setting from "./resources/settings_1.png";
 import setting_1 from "./resources/settings_2.png";
 import avatar from "./resources/user_1.png";
 import avatar_1 from "./resources/user_2.png";
-import Navbar from "./components/navbar/navbar";
+import Navbar from "./components/navbar/Navbar";
 
 const games = [
   { title: "Sopa de Letras", image: sopaDeLetrasImg, information: "Juego interactivo donde encontrarás palabras clave relacionadas con la programación. Al descubrir cada palabra, recibirán una breve explicación de su significado.", route: "/sopa-de-letras" },
