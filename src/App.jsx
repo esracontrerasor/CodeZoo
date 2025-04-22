@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import CodeZooInfo from "./Bienvenida.jsx";
-import Acceso from "./Acceso.jsx"; 
 import Terminos from "./Terminos.jsx"
 import Home from "./Home.jsx"
 import Info from "./Info.jsx";
@@ -15,15 +14,11 @@ import Avatar from "./Avatar.jsx";
 import "./App.css";
 
 const App = () => {
-  const location = useLocation();
-  const paginasFondo = ["/", "/acceso", "/terminos","/home"];
- 
   
   return (
 
     <Routes>
       <Route path="/" element={<CodeZooInfo />} />
-      <Route path="/acceso" element={<Acceso />} />
       <Route path="/terminos" element={<Terminos />} />
       <Route path="/home" element={<Home />} />
       <Route path="/info" element={<Info />} />
