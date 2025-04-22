@@ -13,6 +13,8 @@ import setting_1 from "./resources/settings_2.png";
 import avatar from "./resources/user_1.png";
 import avatar_1 from "./resources/user_2.png";
 import Navbar from "./components/navbar/Navbar";
+import ZoologicoNombres from "./resources/cuento1_img.png";
+import { get } from "mongoose";
 
 const games = [
   { title: "Sopa de Letras", image: sopaDeLetrasImg, information: "Juego interactivo donde encontrarás palabras clave relacionadas con la programación. Al descubrir cada palabra, recibirán una breve explicación de su significado.", route: "/sopa-de-letras" },
@@ -20,17 +22,36 @@ const games = [
   { title: "Safari racing", image: safariracing, information:"Juego de carreras donde compites con la máquina para ser el primero en llegar a la meta. Presiona la tecla rápidamente para hacer que avance tu carro.", route:"/safari-racing" },
 ];
 
+const cuentos = [
+  { title: "El Zoologico de Nombres", image:ZoologicoNombres, information:"Un cuentito de un zoológico de nombres"},
+  { title: "El inventario de la jungla, "},
+];
+
+const modoLibre = [
+  {title: "Modo libre"},
+];
+
 
 const Home = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [activeTab, setActiveTab] = useState("JUEGOS");
   
-  const gameClick = () => {
-    if (game.title === "Aventura en la Jungla") {
-      navigate("/sopa-de-letras"); // Redirige a la sopa de letras
-    } else {
-      navigate(`/game/${game.title}`);
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
+  const getContentByTab = () => {
+    switch (activeTab) {
+      case "JUEGOS":
+        return games;
+      case "CUENTOS":
+        return cuentos;
+      case "MODO LIBRE":
+        return modoLibre;
+      default:
+        return games;
     }
   };
 
@@ -93,16 +114,30 @@ const Home = () => {
           <h1 className="activities-title">ACTIVIDADES</h1>
 
           <div className="tab-container">
-            <button class="tab">JUEGOS</button>
-            <button class="tab">CUENTOS</button>
-            <button class="tab">MODO LIBRE</button>
+            <button 
+            className={`tab ${activeTab === "JUEGOS" ? "active" : ""}`}
+            onClick={() => handleTabChange("JUEGOS")}
+            >
+              JUEGOS
+            </button>
+            <button 
+            className={`tab ${activeTab === "CUENTOS" ? "active" : ""}`}
+            onClick={() => handleTabChange("CUENTOS")}
+            >
+              CUENTOS
+            </button>
+            <button 
+            className={`tab ${activeTab === "MODO LIBRE" ? "active" : ""}`}
+            onClick={() => handleTabChange("MODO LIBRE")}
+            >MODO LIBRE
+            </button>
           </div>
-
+ 
           <div className="games-container">
-            {games.map((game, index) => (
-              <div key={index} className="games-card" onClick={() => navigate(game.route)}>
-                <img src={game.image} className="games-img"/>
-                <div className="games-title">{game.title}</div>
+            {getContentByTab().map((item, index) => (
+              <div key={index} className="games-card" onClick={() => navigate(item.route)}>
+                <img src={item.image} className="games-img"/>
+                <div className="games-title">{item.title}</div>
               </div>
             ))}
             <CodeZooCat />

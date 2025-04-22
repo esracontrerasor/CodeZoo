@@ -1,7 +1,7 @@
 import React from "react";
 import "./css/Info.css"; // Asegúrate de que este archivo existe
 import { useNavigate } from "react-router-dom";
-import Navbar from "./components/navbar/navbar.jsx";
+import Navbar from "./components/navbar/Navbar.jsx";
 import aboutImage from "../src/resources/icono-pantalla-principal.png";
 
 const Info = () => {
