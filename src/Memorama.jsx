@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 import CodeZooCat from "../src/CoodeZooCat";
 import StartEffect from "../src/StartEffect";
@@ -14,6 +16,11 @@ const imagenes = [
     { id: "vaca", src: "src/resources/Mem/G.jpg", info: "Las vacas saben cuándo detenerse a descansar, igual que 'break', que interrumpe un bucle o estructura de control. 🐮" },
     { id: "elefante", src: "src/resources/Mem/H.jpg", info: "Los elefantes nunca olvidan su camino, igual que 'return' nos lleva de vuelta un resultado en una función. 🐘" }
 ];
+import welcomeImg from "../src/resources/cocodrilo_img.png";
+import endImg from "../src/resources/cocodrilo2_img.png";
+
+
+const MySwal = withReactContent(swal);
 
 const generarCartas = () => {
     const cartasDuplicadas = [...imagenes, ...imagenes]
@@ -24,6 +31,10 @@ const generarCartas = () => {
 };
 
 const Memorama = () => {
+    const [mostrarBienvenida, setMostrarBienvenida] = useState(true);
+    const [mostrarFin, setMostrarFin] = useState(false);
+
+
     const [cartas, setCartas] = useState(generarCartas());
     const [seleccionadas, setSeleccionadas] = useState([]);
     const [bloqueado, setBloqueado] = useState(false);
@@ -86,15 +97,72 @@ const Memorama = () => {
             setGanador(true);
             setMensajeGato("¡Felicidades! Has encontrado todos los pares. 🎉");
             setGatoVisible(true);
+            setMostrarFin(true);
         }
     }, [cartas]);
 
+    if(mostrarBienvenida) {
+        MySwal.fire ({
+            title: <strong>¡Bienvenido al juego de Memorama!</strong>,
+            html: (
+                <div>
+                    <img src={welcomeImg} alt="" width="150" height="150"/>
+                    <p style={{fontSize: "16px", fontWeight: "500"}}>En este juego, debes encontrar pares de cartas que tengan la misma imagen.</p>
+                    <p style={{fontSize: "16px", fontWeight: "500"}}>¿Estas listo para poner tu mente a prueba?</p>
+                </div>
+            ),
+            showConfirmButton: true,
+            confirmButtonText: "JUGAR AHORA",
+            customClass: {
+                confirmButton: "play-button",
+            },
+            backdrop: true,
+            allowOutsideClick: false,
+        }).then(() => {
+            setMostrarBienvenida(false);
+        })
+    }
+
+    useEffect(() => {
+        if(mostrarFin) {
+            MySwal.fire ({
+                title: <strong>¡FELICIDADES, HAS TERMINADO EL JUEGO!</strong>,
+                html: (
+                    <div>
+                        <img src={endImg} alt="" width="150" height="150"/>
+                        <p style={{fontSize: "16px", fontWeight: "500", marginBottom: "10px", marginTop: "10px"}}>¡Has encontrado todos los pares de cartas correctamente!</p>
+                        <p style={{fontSize: "16px", fontWeight: "500"}}>¿Quieres volver a intentarlo?</p>
+                    </div>
+                ),
+                showConfirmButton: true,
+                confirmButtonText: "JUGAR DE NUEVO",
+                showCancelButton: true,
+                cancelButtonText: "SALIR",
+                customClass: {
+                    confirmButton: "play-button",
+                    cancelButton: "cancel-button",
+                },
+                backdrop: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                setMostrarFin(false);
+    
+                if(result.isConfirmed) {
+                    setCartas(generarCartas());
+                    setSeleccionadas([]);
+                    setGanador(false);
+                } else if(result.isDismissed) {
+                    window.location.href = "/home";
+                }
+            });
+        }
+    }, [mostrarFin]);
+   
     return (
         
         <div className="memorama-body" style={{ textAlign: "center" }}>
             <h1 className="memorama-header">Memorama</h1>
             <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />
-            {ganador && <h2>¡Felicidades! Has ganado 🎉</h2>}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 160px)", gap: "10px", justifyContent: "center", margin: "auto", width: "fit-content" }}>
                 {cartas.map(carta => (
                   <div 
