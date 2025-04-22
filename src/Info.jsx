@@ -6,7 +6,6 @@ import aboutImage from "../src/resources/icono-pantalla-principal.png";
 
 const Info = () => {
 
-
   return (
     <div className="main-content">
       <Navbar />
