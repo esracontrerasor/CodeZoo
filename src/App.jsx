@@ -9,6 +9,7 @@ import Memorama from "./Memorama.jsx"
 import SafariRacing from "./SafariRacing.jsx"
 import Settings from "./Settings.jsx";
 import Avatar from "./Avatar.jsx";
+import Libre from "./Libre.jsx";
 
 
 import "./App.css";
@@ -27,6 +28,7 @@ const App = () => {
       <Route path="/safari-racing" element={<SafariRacing />}/>
       <Route path="/settings" element={<Settings />}/>
       <Route path="/avatar" element={<Avatar />}/>
+      <Route path="/libre" element={<Libre />}/>
     </Routes>
   );
 }
