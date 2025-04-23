@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import CodeZooCat from "../src/CoodeZooCat";
 import "../src/css/SopaDeLetras.css";
+import withReactContent from "sweetalert2-react-content";
+import swal from "sweetalert2";
+import welcomeImg from "../src/resources/leon_searching.png";
+import endImg from "../src/resources/leon_like.png";
+
+const MySwal = withReactContent(swal);
 
 function generarSopaDeLetras(tamano, palabras) {
+    
     let sopa = new Array(tamano).fill(null).map(() => new Array(tamano).fill(' '));
     let posicionesPalabras = new Map();
     let direcciones = [[1, 0], [0, 1], [1, 1], [-1, 1], [-1, 0], [0, -1], [-1, -1], [1, -1]];
@@ -58,6 +65,9 @@ function generarSopaDeLetras(tamano, palabras) {
 }
 
 const SopaDeLetras = () => {
+    const [mostrarBienvenida, setMostrarBienvenida] = useState(true);
+    const [mostrarFin, setMostrarFin] = useState(false);
+
     const palabras1 = ["JAVA", "CODIGO", "BLOQUE", "SENTENCIA", "CONDICION", "VARIABLE"];
     const palabras2=["INT","FLOAT","DOUBLE","BOOLEAN","CHAR","STRING"]
     const info = {
@@ -134,12 +144,71 @@ const SopaDeLetras = () => {
         }
     };
 
+    if(mostrarBienvenida) {
+            MySwal.fire ({
+                title: <strong>¡Bienvenido a la Sopa de Letras!</strong>,
+                html: (
+                    <div>
+                        <img src={welcomeImg} alt="" width="150" height="150"/>
+                        <p style={{fontSize: "16px", fontWeight: "500"}}>Encuentra las palabras ocultas en la sopa de letras.</p>
+                    </div>
+                ),
+                showConfirmButton: true,
+                confirmButtonText: "JUGAR AHORA",
+                customClass: {
+                    confirmButton: "play-button",
+                },
+                backdrop: true,
+                allowOutsideClick: false,
+            }).then(() => {
+                setMostrarBienvenida(false);
+            })
+        }
+    
+        useEffect(() => {
+            if(mostrarFin) {
+                MySwal.fire ({
+                    title: <strong>¡SOPA DE LETRAS COMPLETADA!</strong>,
+                    html: (
+                        <div>
+                            <img src={endImg} alt="" width="150" height="150"/>
+                            <p style={{fontSize: "16px", fontWeight: "500", marginBottom: "10px", marginTop: "10px"}}>¡Excelente trabajo! Has encontrado todas las palabras escondidas en la sopa</p>
+                            <p style={{fontSize: "16px", fontWeight: "500"}}>¿Quieres volver a intentarlo?</p>
+                        </div>
+                    ),
+                    showConfirmButton: true,
+                    confirmButtonText: "JUGAR DE NUEVO",
+                    showCancelButton: true,
+                    cancelButtonText: "SALIR",
+                    customClass: {
+                        confirmButton: "play-button",
+                        cancelButton: "cancel-button",
+                    },
+                    backdrop: true,
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    setMostrarFin(false);
+        
+                    if(result.isConfirmed) {
+                        generarNuevaSopa();
+                    } else if(result.isDismissed) {
+                        window.location.href = "/home";
+                    }
+                });
+            }
+        }, [mostrarFin]);
+
+    useEffect(() => {
+        if (encontradas.size === listaPalabras.length) {
+            setMostrarFin(true);
+        }
+    }, [encontradas, listaPalabras]);
+
     return (
         <div className="sopa-container">
-            <h1 className="sopa-header">Sopa de Letras</h1>
+            <h1 className="sopa-header">SOPA DE LETRAS</h1>
             <CodeZooCat contexto="sopa-de-letras" customMessage={mensajeGato} isOpen={gatoVisible} />
-            <button onClick={generarNuevaSopa} className="sopa-button">Nueva Sopa</button>
-    
+
             {encontradas.size ===palabras1.length && (
                 <h2 style={{ color: "white" }} className="mensaje-exito">¡Felicidades! Has encontrado todas las palabras.</h2>
             )}
@@ -147,7 +216,7 @@ const SopaDeLetras = () => {
             <div className="sopa-layout">
                 {/* 📌 Palabras a buscar (izquierda) */}
                 <div className="sopa-column">
-                    <h5>Palabras a buscar:</h5>
+                    <h3>Palabras a buscar:</h3>
                     <ul className="palabras-list">
                         {listaPalabras.map((palabra, index) => (
                             <li key={index} className={encontradas.has(palabra) ? "encontrada" : ""}>
@@ -159,33 +228,31 @@ const SopaDeLetras = () => {
     
                 {/* 📌 Sopa de letras (centro) */}
                 <div className="sopa-grid">
-                    <table className="sopa-table">
-                        <tbody>
+                    <div className="sopa-table">
                             {sopa.map((fila, i) => (
-                                <tr key={i}>
+                                <div key={i} className="sopa-row">
                                     {fila.map((letra, j) => {
                                         const esSeleccionado = seleccionadas.some(s => s.fila === i && s.columna === j);
                                         const esEncontrado = posicionesEncontradas.some(p => p.fila === i && p.columna === j);
-    
+
                                         return (
-                                            <td 
-                                                key={j} 
+                                            <div
+                                                key={`${i}-${j}`}
                                                 onClick={() => manejarClick(i, j)}
-                                                className={esEncontrado ? "encontrado" : esSeleccionado ? "seleccionado" : ""}
+                                                className={`sopa-cell ${esEncontrado ? "encontrado" : esSeleccionado ? "seleccionado" : ""}`}
                                             >
                                                 {letra}
-                                            </td>
+                                            </div>
                                         );
                                     })}
-                                </tr>
+                                </div>
                             ))}
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
     
                 {/* 📌 Palabras encontradas (derecha) */}
                 <div className="sopa-column">
-                    <h5>Palabras encontradas:</h5>
+                    <h3>Palabras encontradas:</h3>
                     <ul  className="palabras-list li">
                         {[...encontradas].map((palabra, index) => (
                             <li key={index}>{palabra}</li>

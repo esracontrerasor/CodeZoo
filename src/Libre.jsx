@@ -129,7 +129,7 @@ const Libre = () => {
           <div className="output-box" id="output-box">
             {/* Aquí ya no hay <p>, directamente es editable */}
           </div>
-          <button className="play-button" onClick={runCode}>
+          <button className="run-button" onClick={runCode}>
             ▶ Ejecutar
           </button>
         </div>

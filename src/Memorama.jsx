@@ -161,9 +161,9 @@ const Memorama = () => {
     return (
         
         <div className="memorama-body" style={{ textAlign: "center" }}>
-            <h1 className="memorama-header">Memorama</h1>
+            <h1 className="memorama-header">MEMORAMA</h1>
             <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 160px)", gap: "10px", justifyContent: "center", margin: "auto", width: "fit-content" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 160px)", gap: "50px", justifyContent: "center", margin: "auto", width: "fit-content" }}>
                 {cartas.map(carta => (
                   <div 
                   key={carta.idUnico} 

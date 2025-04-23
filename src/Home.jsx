@@ -14,7 +14,7 @@ import avatar from "./resources/user_1.png";
 import avatar_1 from "./resources/user_2.png";
 import Navbar from "./components/navbar/Navbar";
 import ZoologicoNombres from "./resources/cuento1_img.png";
-import pendiente from "./resources/pendient.jpg";
+import freeModeIMG from "./resources/freemode_icon.png";
 import { get } from "mongoose";
 
 const games = [
@@ -29,7 +29,7 @@ const cuentos = [
 ];
 
 const modoLibre = [
-  {title: "Modo libre", image: pendiente ,route : "/libre"},
+  {title: "Modo libre", image: freeModeIMG ,route : "/libre"},
 ];
 
 
