@@ -41,7 +41,7 @@
     font-size: 16px;
   }
   
-  .run-button {
+  .play-button {
     background-color: #90ee90;
     border: none;
     border-radius: 8px;
@@ -52,5 +52,36 @@
   
   .play-icon {
     font-weight: bold;
+  }
+  
+  .project-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .save-button, .load-button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .save-button {
+    background-color: #3aa856;
+  }
+  
+  .load-button {
+    background-color: #2196f3;
+  }
+  
+  .save-button:hover {
+    background-color: #2c8642;
+  }
+  
+  .load-button:hover {
+    background-color: #0b7dda;
   }
   
