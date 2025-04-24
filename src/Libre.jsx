@@ -5,6 +5,8 @@ import * as BlocklyJS from "blockly/javascript"; // ✅ import correcto
 import "./css/Libre.css";
 
 
+
+
 const Libre = () => {
   const blocklyDiv = useRef(null);
   const workspaceRef = useRef(null);
@@ -114,7 +116,62 @@ const Libre = () => {
       outputElement.textContent += `❌ Error: ${err}`;
     }
   };
+
+  const saveProject = () => {
+    if (!workspaceRef.current) return;
   
+    const xml = Blockly.Xml.workspaceToDom(workspaceRef.current);
+    const xmlText = Blockly.Xml.domToPrettyText(xml);
+  
+    // Crear un archivo y descargarlo
+    const blob = new Blob([xmlText], { type: "text/xml" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "mi_proyecto_blockly.xml";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+  
+  const loadProject = (event) => {
+    const file = event.target.files[0];
+    if (!file || !workspaceRef.current) {
+      alert("❌ Workspace no disponible todavía.");
+      return;
+    }
+  
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const xmlText = e.target.result;
+        console.log("📥 XML cargado:", xmlText);
+    
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(xmlText, "text/xml");
+    
+        Blockly.Xml.clearWorkspaceAndLoadFromXml(xml.documentElement, workspaceRef.current);
+    
+        // 👇 Centra los bloques correctamente
+        Blockly.svgResize(workspaceRef.current);
+        workspaceRef.current.scrollCenter();
+        workspaceRef.current.zoomToFit();
+    
+        alert("✅ Proyecto cargado correctamente");
+      } catch (error) {
+        alert("⚠️ Error al cargar el archivo. Revisa la consola.");
+        console.error(error);
+      }
+    };
+    
+  
+    reader.readAsText(file);
+  };
+  
+  
+  
+  
+  
+
   return (
     <div className="home-container">
       <Navbar />
@@ -129,9 +186,25 @@ const Libre = () => {
           <div className="output-box" id="output-box">
             {/* Aquí ya no hay <p>, directamente es editable */}
           </div>
-          <button className="run-button" onClick={runCode}>
+          <button className="play-button" onClick={runCode}>
             ▶ Ejecutar
           </button>
+         <div className="project-buttons">
+  <button className="save-button" onClick={saveProject}>
+    💾 Guardar Proyecto
+  </button>
+  <button className="load-button" onClick={() => document.getElementById('fileInput').click()}>
+    📂 Cargar Proyecto
+  </button>
+  <input
+    type="file"
+    id="fileInput"
+    accept=".xml"
+    style={{ display: "none" }}
+    onChange={loadProject}
+  />
+</div>
+
         </div>
       </div>
     </div>
