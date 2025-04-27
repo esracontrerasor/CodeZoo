@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import FlipPage from "react-pageflip";
 import { books } from "./data/books"; // Importamos los libros
 import "./css/AnimatedBook.css";
-
+ 
 export default function AnimatedBook() { 
   const { bookKey } = useParams(); // Obtenemos bookKey desde la URL
   const [bookPosition, setBookPosition] = useState("start");
