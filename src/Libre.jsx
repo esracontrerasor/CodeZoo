@@ -168,10 +168,6 @@ const Libre = () => {
   };
   
   
-  
-  
-  
-
   return (
     <div className="home-container">
       <Navbar />
@@ -186,7 +182,7 @@ const Libre = () => {
           <div className="output-box" id="output-box">
             {/* Aquí ya no hay <p>, directamente es editable */}
           </div>
-          <button className="play-button" onClick={runCode}>
+          <button className="play" onClick={runCode}>
             ▶ Ejecutar
           </button>
          <div className="project-buttons">

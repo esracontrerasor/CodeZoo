@@ -19,7 +19,6 @@ const imagenes = [
 import welcomeImg from "../src/resources/cocodrilo_img.png";
 import endImg from "../src/resources/cocodrilo2_img.png";
 
-
 const MySwal = withReactContent(swal);
 
 const generarCartas = () => {
@@ -159,7 +158,6 @@ const Memorama = () => {
     }, [mostrarFin]);
    
     return (
-        
         <div className="memorama-body" style={{ textAlign: "center" }}>
             <h1 className="memorama-header">MEMORAMA</h1>
             <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />

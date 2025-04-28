@@ -12,7 +12,6 @@ import Avatar from "./Avatar.jsx";
 import Libro from "./Libro.jsx";
 import Libre from "./Libre.jsx";
 
-
 import "./App.css";
 
 const App = () => {
@@ -30,7 +29,7 @@ const App = () => {
       <Route path="/settings" element={<Settings />}/>
       <Route path="/avatar" element={<Avatar />}/>
       <Route path="/libre" element={<Libre />}/>
-      <Route path="/Libro" element={<Libro />}/>
+      <Route path="/libro" element={<Libro />}/>
     </Routes>
   );
 }
