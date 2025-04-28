@@ -1,0 +1,75 @@
+* {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;   
+}
+
+.carrera-container {
+    background-image: url('../resources/cartoon-jungle-environment-background-free-vector.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.carrera-instrucciones {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    padding: 10px 15px;
+    background-color: #FFFFF0;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.carrera-instrucciones p {
+    font-weight: 500;
+}
+
+.carrera-auto {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 350px;
+    height: 213;
+    transition: transform 0.3s ease-in-out;
+    filter: drop-shadow(0px 0px 6px black);
+}
+
+.carrera-pista {
+    position: absolute;
+    bottom: 15%;
+    z-index: 5;
+    width: 80px;
+    height: 220px;
+}
+
+#jeep1 {
+    top: 30%;
+    left: 30%;
+}
+
+#jeep2 {
+    bottom: 20%;
+}
+
+@media (max-width: 600px) {
+    .carrera-auto {
+        width: 40px;
+        height: 30px;
+    }
+    
+    .carrera-pista {
+        width: 60px;
+    }
+}
+
+@keyframes moveJeep {
+    from { transform: translateX(0); }
+    to { transform: translateX(20px); }
+}
+
+
+
+
