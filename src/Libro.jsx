@@ -103,7 +103,7 @@ const Libro = () => {
   };
 
   const renderPageContent = (page, index) => {
-    const isFlipped = index === currentPage;
+    const isFlipped = index <= currentPage;
     let className = "page";
 
     if (page.flipping) className += " flipping";
