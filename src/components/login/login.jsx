@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { IoMail, IoLockClosed, IoPerson, IoClose } from "react-icons/io5";
 import axios from "axios";
 import "./login.css";
+import swal from "sweetalert2";
 
 const LoginRegister = ({ onClose }) => {
     const navigate = useNavigate();
@@ -15,27 +16,49 @@ const LoginRegister = ({ onClose }) => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        console.log("Email:", email);
+        console.log("Password:", password);
+
         try {
-            const reponse = await axios.post("http://localhost:3000/api/usuarios/login", { email, password });
-            alert("Inicio de sesión exitoso");
-            localStorage.setItem("token", reponse.data.token);
+            const response = await axios.post("http://localhost:3000/api/usuarios/login", { email, password });
+            
+            console.log(response.data);
+            swal.fire({
+                icon: "success",
+                title: "Inicio de sesión exitoso",
+            });
+            localStorage.setItem("token", response.data.token);
             navigate("/home");
         }
         catch (error) {
-            setErrorMessage(error.response?.data?.message || "Error al iniciar sesión");
+            swal.fire({
+                icon: "error",
+                title: "Error al iniciar sesión",
+                text: error.response?.data?.message || "Credenciales incorrectas",
+            })
         }
     };
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
+            console.log({ username, email, password });
             const response = await axios.post("http://localhost:3000/api/usuarios/registro", { username, email, password });
-            alert("Registro exitoso");
+            swal.fire({
+                icon: "success",
+                title: "Cuenta creada correctamente",
+                text: "Bienvenido a CodeZoo. Ya puedes comenzar a explorar y aprender jugando",
+            });
             localStorage.setItem("token", response.data.token);
             navigate("/home");
         }
         catch (error) {
-            setErrorMessage(error.response?.data?.message || "Error al registrar el usuario");
+            swal.fire({
+                icon: "error",
+                title: "No se pudo crear la cuenta",
+                text:  "Ha surgido un error al intentar crear tu cuenta, por favor inténtelo mas tarde",
+            })
         }
     };
 
@@ -72,11 +95,6 @@ const LoginRegister = ({ onClose }) => {
                     </div>
 
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
-
-                    <div class="remember-forgot">
-                        <label for="remember"><input type="checkbox" id="remember" /> Recuérdame</label>
-                        <a href="#">¿Olvidaste tu contraseña?</a>
-                    </div>
 
                     <button type="submit" class="btn">INGRESAR</button>
 
