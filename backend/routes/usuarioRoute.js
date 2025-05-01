@@ -26,7 +26,8 @@ router.post("/login", async (req, res) => {
         if (password !== usuario.password) return res.status(400).send({ message: "Contraseña incorrecta" });
         
         const token = generarToken(usuario);
-        res.status(200).send({ token});
+
+        res.status(200).send({ token, username: usuario.username});
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
         res.status(500).send({ message: "Error al iniciar sesión" });
