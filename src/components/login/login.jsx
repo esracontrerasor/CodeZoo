@@ -24,11 +24,13 @@ const LoginRegister = ({ onClose }) => {
             const response = await axios.post("http://localhost:3000/api/usuarios/login", { email, password });
             
             console.log(response.data);
+            console.log(response.data.username);
             swal.fire({
                 icon: "success",
                 title: "Inicio de sesión exitoso",
             });
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("username", response.data.username);
             navigate("/home");
         }
         catch (error) {
