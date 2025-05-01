@@ -1,22 +1,37 @@
 import express from "express";
 const router = express.Router();
 import Usuario from "../models/usuario.js";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
+
+const generarToken = (Usuario) => {
+    const token = {
+        id: Usuario._id,
+        username: Usuario.username,
+        email: Usuario.email,
+    };
+
+    return jwt.sign(token, process.env.JWT_SECRET, { expiresIn: "1d" });
+}
 
 // Inicio de sesión
 router.post("/login", async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const usuario = await Usuario.findOne({ username, password });
+        const { email, password } = req.body;
+        const usuario = await Usuario.findOne({ email});
         if (!usuario) return res.status(404).send({ message: "Usuario no encontrado" });
-        if (usuario.password !== password) return res.status(401).send({ message: "Contraseña incorrecta" });
-        res.status(200).send({ message: "Inicio de sesión exitoso" });
+        
+
+        if (password !== usuario.password) return res.status(400).send({ message: "Contraseña incorrecta" });
+        
+        const token = generarToken(usuario);
+        res.status(200).send({ token});
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
         res.status(500).send({ message: "Error al iniciar sesión" });
     }
 });
-
-
 
 // Crear nuevo usuario (registro)
 router.post("/registro", async (req, res) => {
@@ -24,12 +39,20 @@ router.post("/registro", async (req, res) => {
         const { username, email, password } = req.body;
 
         // Verificar si el usuario ya existe
-        const usuarioExistente = await Usuario.findOne({ username });
-        if (usuarioExistente) return res.status(400).send({ message: "El usuario ya existe" });
+        const usuarioExistente = await Usuario.findOne({ email });
+        if (usuarioExistente) return res.status(400).send({ message: "Correo electrónico ya registrado" });
 
-        const nuevoUsuario = new Usuario({ username, email, password });
+        const nuevoUsuario = new Usuario({ 
+            username, 
+            email, 
+            password,
+            rol: "estudiante",
+        });
+
         await nuevoUsuario.save();
-        res.status(200).send({ message: "Usuario creado con éxito" });
+
+        const token = generarToken(nuevoUsuario);
+        res.status(200).send({ message: "Usuario creado con éxito", token });
     } catch (error) {
         console.error("Error al crear el usuario:", error);
         res.status(500).send({ message: "Error al crear el usuario" });
