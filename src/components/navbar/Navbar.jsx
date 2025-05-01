@@ -12,13 +12,17 @@ const Navbar = ({onLoginClick}) => {
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        const username = localStorage.getItem("username");
         if (token) {
             setIsAuthenticated(true);
+            setUsername(username || "");
         } else {
             setIsAuthenticated(false);
+            setUsername("");
         }
     }, []);
 
@@ -45,6 +49,7 @@ const Navbar = ({onLoginClick}) => {
 
     const handleLogOut = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("username");
         setIsAuthenticated(false);
         navigate("/");
     }
@@ -69,6 +74,7 @@ const Navbar = ({onLoginClick}) => {
                 {isAuthenticated ? (
                    <div className="user-menu">
                         <img src={userIcon} className="user-icon" alt="" onClick={toggleMenu}/>
+                        <span className="username" onClick={toggleMenu}>{username}</span>
                    {menuOpen && (
                     <div className={`menu-dropdown ${menuOpen ? "active" : ""}`}>
                         <ul>
