@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useState} from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import CodeZooInfo from "./Bienvenida.jsx";
 import Terminos from "./Terminos.jsx"
@@ -11,26 +11,32 @@ import Settings from "./Settings.jsx";
 import Avatar from "./Avatar.jsx";
 import Libro from "./Libro.jsx";
 import Libre from "./Libre.jsx";
+import ProtectedRoute from "./components/protectedRoute.jsx";
+import LoginRegister from "./components/login/login.jsx";
+import Navbar from "./components/navbar/Navbar.jsx";
 
 import "./App.css";
 
 const App = () => {
-  
-  return (
 
-    <Routes>
-      <Route path="/" element={<CodeZooInfo />} />
-      <Route path="/terminos" element={<Terminos />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/info" element={<Info />} />
-      <Route path="/sopa-de-letras" element={<SopaDeLetras />}/>
-      <Route path="/memorama" element={<Memorama />}/>
-      <Route path="/safari-racing" element={<SafariRacing />}/>
-      <Route path="/settings" element={<Settings />}/>
-      <Route path="/avatar" element={<Avatar />}/>
-      <Route path="/libre" element={<Libre />}/>
-      <Route path="/libro" element={<Libro />}/>
-    </Routes>
+
+  return (
+  <>
+      <Routes>
+        <Route path="/" element={<CodeZooInfo />} />
+        <Route path="/terminos" element={<Terminos />} />
+        <Route path="/home" element={ <ProtectedRoute><Home/> </ProtectedRoute>} />
+        <Route path="/info" element={<Info />} />
+        <Route path="/sopa-de-letras" element={<SopaDeLetras />} />
+        <Route path="/memorama" element={<ProtectedRoute><Memorama/></ProtectedRoute>} />
+        <Route path="/safari-racing" element={<SafariRacing />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/avatar" element={<ProtectedRoute><Avatar /></ProtectedRoute>} />
+        <Route path="/libre" element={<ProtectedRoute> <Libre /></ProtectedRoute>} />
+        <Route path="/libro" element={<ProtectedRoute><Libro /></ProtectedRoute>} />
+      </Routes>
+  </>
+    
   );
 }
 
