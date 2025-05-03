@@ -1,0 +1,95 @@
+.perfil-contenedor {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfdfd;
+}
+
+.perfil-titulo {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.perfil-info {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: space-between;
+}
+
+.perfil-datos {
+  flex: 1;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.perfil-datos p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.perfil-insignias {
+  flex: 1;
+  background-color: #fffbea;
+  border: 1px solid #f1e7a2;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.perfil-insignias h2 {
+  margin-bottom: 15px;
+  color: #9e8600;
+}
+
+.insignias-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.insignia {
+  background-color: #fff7c1;
+  border: 1px solid #d6c975;
+  padding: 10px;
+  border-radius: 8px;
+  width: 120px;
+  text-align: center;
+  font-size: 14px;
+}
+.barra-progreso-container {
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 5px;
+  height: 20px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.barra-progreso {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.4s ease;
+}
+
+.lista-insignias {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.insignia-item {
+  text-align: center;
+}
+
+.imagen-insignia {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

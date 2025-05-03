@@ -27,7 +27,15 @@ router.post("/login", async (req, res) => {
         
         const token = generarToken(usuario);
 
-        res.status(200).send({ token, username: usuario.username});
+        res.status(200).send({
+            token,
+            username: usuario.username,
+            email: usuario.email,
+            rol: usuario.rol,
+            progreso: usuario.progreso,
+            insignias: usuario.insignias
+          });
+          
     } catch (error) {
         console.error("Error al iniciar sesión:", error);
         res.status(500).send({ message: "Error al iniciar sesión" });

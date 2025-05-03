@@ -50,6 +50,7 @@ const Navbar = ({onLoginClick}) => {
     const handleLogOut = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
+        
         setIsAuthenticated(false);
         navigate("/");
     }
