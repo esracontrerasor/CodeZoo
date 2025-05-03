@@ -1,0 +1,72 @@
+/* Layout */
+.activity-container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Main content */
+  .main-content {
+    flex: 1;
+    background-color: #4a6b8a;
+    padding: 30px;
+    border-radius: 0 0 20px 20px;
+  }
+  
+  .main-title {
+    font-size: 24px;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  /* Table */
+  .table-box {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+  }
+  
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .search-bar {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 250px;
+  }
+  
+  .create-btn {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+  
+  .activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  
+  .activity-table th,
+  .activity-table td {
+    padding: 12px 10px;
+    text-align: left;
+  }
+  
+  .activity-table tr {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .icon-btn {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  
