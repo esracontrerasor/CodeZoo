@@ -12,6 +12,7 @@ import Avatar from "./Avatar.jsx";
 import Libro from "./Libro.jsx";
 import Libre from "./Libre.jsx";
 import Perfil from "./perfilUsuario.jsx";
+import Foro from "./ForoAyuda.jsx";
 import ProtectedRoute from "./components/protectedRoute.jsx";
 import LoginRegister from "./components/login/login.jsx";
 import Navbar from "./components/navbar/Navbar.jsx";
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/libre" element={<ProtectedRoute> <Libre /></ProtectedRoute>} />
         <Route path="/libro" element={<ProtectedRoute><Libro /></ProtectedRoute>} />
         <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
+        <Route path="/foro" element={<ProtectedRoute><Foro /></ProtectedRoute>} />
         <Route path="/ActivityManager" element={<ActivityManager />}/>
       </Routes>
   </>

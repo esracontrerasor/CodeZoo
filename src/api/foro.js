@@ -2,8 +2,7 @@ const API_URL = 'http://localhost:3000/api/foro';
 
 export const obtenerForo = async () => {
     const response = await fetch(API_URL);
-    const datos = await response.json();
-    return datos;
+    return response.json();
 };
 
 export const crearForo = async (foro) => {
@@ -12,8 +11,7 @@ export const crearForo = async (foro) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(foro),
     });
-    const datos = await response.json();
-    return datos;
+    return response.json;
 };
 
 export const actualizarForo = async (id, foro) => {
