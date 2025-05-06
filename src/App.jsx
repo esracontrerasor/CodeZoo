@@ -18,7 +18,7 @@ import LoginRegister from "./components/login/login.jsx";
 import Navbar from "./components/navbar/Navbar.jsx";
 import ActivityManager from "./ActivityManager.jsx";
 import FormForo from "./ForumAdmin.jsx"
-
+import UserManagement from "./UserManagement.jsx";
 import "./App.css";
 
 const App = () => {
@@ -42,6 +42,7 @@ const App = () => {
         <Route path="/foro" element={<ProtectedRoute><Foro /></ProtectedRoute>} />
         <Route path="/ActivityManager" element={<ActivityManager />}/>
         <Route path="/ForumAdmin" element={<FormForo />}/>
+        <Route path="/UserManagement" element={<UserManagement />}/>
       </Routes>
   </>
     
