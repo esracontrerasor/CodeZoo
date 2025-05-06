@@ -44,11 +44,13 @@ const Memorama = () => {
     const [gatoVisible, setGatoVisible] = useState(false);
     const [mostrarEstrellas, setMostrarEstrellas] = useState(false);
     const [insigniaMostrada, setInsigniaMostrada] = useState(false);
+    const [tiempoInicio, setTiempoInicio] = useState(null);
+    const [tiempoFin, setTiempoFin] = useState(null);
 
     const manejarClick = (idUnico) => {
         if (bloqueado || seleccionadas.some(carta => carta.idUnico === idUnico)) return;
 
-        const nuevaSeleccion = cartas.map(carta => 
+        const nuevaSeleccion = cartas.map(carta =>
             carta.idUnico === idUnico ? { ...carta, volteada: true } : carta
         );
 
@@ -58,11 +60,11 @@ const Memorama = () => {
 
     useEffect(() => {
         if (seleccionadas.length === 2) {
-            setBloqueado(true);  
+            setBloqueado(true);
             const [carta1, carta2] = seleccionadas;
-    
+
             if (carta1.id === carta2.id) {
-                setCartas(prevCartas => prevCartas.map(carta => 
+                setCartas(prevCartas => prevCartas.map(carta =>
                     carta.id === carta1.id ? { ...carta, encontrada: true } : carta
                 ));
                 setMensajeGato(`¡Buen trabajo! Has encontrado un par de ${carta1.id}. ${carta1.info}`);
@@ -71,97 +73,124 @@ const Memorama = () => {
 
                 setTimeout(() => {
                     setGatoVisible(false); // Mensaje visible por 40 segundos
-                }, 10000); 
+                }, 10000);
 
                 setTimeout(() => setMostrarEstrellas(false), 2000); // Efecto de estrellas dura 2s
             } else {
                 setMensajeGato("Oops, intenta de nuevo. 😕");
                 setGatoVisible(true);
-                
+
                 setTimeout(() => {
-                    setCartas(prevCartas => prevCartas.map(carta => 
+                    setCartas(prevCartas => prevCartas.map(carta =>
                         carta.encontrada ? carta : { ...carta, volteada: false }
                     ));
                     setGatoVisible(false);
                 }, 2000);
             }
-    
+
             setTimeout(() => {
                 setSeleccionadas([]);
                 setBloqueado(false);
             }, 2000);
         }
     }, [seleccionadas]);
-    
+
 
     useEffect(() => {
-        const todasEncontradas = cartas.every(carta => carta.encontrada);
+        const todasEncontradas = cartas.every(c => c.encontrada);
+        if (!todasEncontradas || insigniaMostrada || !tiempoInicio) return;
       
-        if (todasEncontradas && !insigniaMostrada) {
-          const username = localStorage.getItem("username");
-          if (!username) return; // prevenir errores si aún no hay username
+        const username = localStorage.getItem("username");
+        if (!username) return;
       
-          const clavesMostradasRaw = localStorage.getItem("swalsMostrados");
-          const clavesMostradas = clavesMostradasRaw ? JSON.parse(clavesMostradasRaw) : {};
+        const tiempoFinActual = Date.now();
+        const tiempoTotal = (tiempoFinActual - tiempoInicio) / 1000;
       
-          const yaMostrada = clavesMostradas?.[username]?.primerosPasos;
+        const clavesRaw = localStorage.getItem("swalsMostrados");
+        const claves = clavesRaw ? JSON.parse(clavesRaw) : {};
+        const yaPrimeros = claves?.[username]?.primerosPasos;
+        const yaMaestro = claves?.[username]?.maestroMemorama;
       
-          if (!yaMostrada) {
-            setGanador(true);
-            setMensajeGato("¡Felicidades! Has encontrado todos los pares. 🎉");
-            setGatoVisible(true);
-            setInsigniaMostrada(true);
-      
-            mostrarInsignia({
-              nombre: "Primeros pasos",
-              descripcion: "Jugaste y completaste tu primer juego en CodeZoo",
-              fecha: new Date().toLocaleDateString(),
-              imagenUrl: "/insignias/primeros pasos.png"
-            });
-      
-            swal.fire({
-              title: "¡Ganaste tu primera insignia! 🎉",
-              text: "Ve a tu perfil para verla y seguir coleccionando más.",
-              icon: "success",
-              confirmButtonText: "Ir al perfil",
-              showCancelButton: true,
-              cancelButtonText: "Cerrar"
-            }).then((result) => {
-              // Actualizar localStorage SOLO si se mostró
-              const updated = {
-                ...clavesMostradas,
-                [username]: {
-                  ...(clavesMostradas[username] || {}),
-                  primerosPasos: true
-                }
-              };
-              localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-      
-              if (result.isConfirmed) {
-                window.location.href = "/perfil";
-              } else {
-                setMostrarFin(true); // pasar al modal de "¿jugar de nuevo?"
-              }
-            });
-          } else {
-            // Ya se había mostrado antes → solo mostrar el modal de final
-            setMostrarFin(true);
-            setInsigniaMostrada(true);
+        const updated = {
+          ...claves,
+          [username]: {
+            ...(claves[username] || {})
           }
+        };
+      
+        setInsigniaMostrada(true);
+        setGanador(true);
+        setMensajeGato("¡Felicidades! Has encontrado todos los pares. 🎉");
+        setGatoVisible(true);
+      
+        // FUNCION para continuar al modal final
+        const continuar = () => setMostrarFin(true);
+      
+        // GANA "Primeros pasos"
+        if (!yaPrimeros) {
+          mostrarInsignia({
+            nombre: "Primeros pasos",
+            descripcion: "Jugaste y completaste tu primer juego en CodeZoo",
+            fecha: new Date().toLocaleDateString(),
+            imagenUrl: "/insignias/primeros pasos.png"
+          });
+      
+          updated[username].primerosPasos = true;
+      
+          swal.fire({
+            title: "¡Ganaste tu primera insignia! 🎉",
+            text: "Ve a tu perfil para verla y seguir coleccionando más.",
+            icon: "success",
+            confirmButtonText: "Ir al perfil",
+            showCancelButton: true,
+            cancelButtonText: "Cerrar"
+          }).then((res) => {
+            localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+            if (res.isConfirmed) window.location.href = "/perfil";
+            else continuar();
+          });
+        } else if (!yaMaestro && tiempoTotal <= 180) {
+          // GANA "Maestro del Memorama"
+          mostrarInsignia({
+            nombre: "Maestro del Memorama",
+            descripcion: "Completaste el memorama en tiempo récord",
+            fecha: new Date().toLocaleDateString(),
+            imagenUrl: "/insignias/maestro del memo.png"
+          });
+      
+          updated[username].maestroMemorama = true;
+          localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+      
+          swal.fire({
+            title: "¡Increíble velocidad! 🧠⏱️",
+            html: `
+              <p>Terminaste en <strong>${Math.floor(tiempoTotal / 60)} min ${Math.floor(tiempoTotal % 60)} seg</strong>.</p>
+              <p>Recibiste la insignia <strong>'Maestro del Memorama'</strong>.</p>
+            `,
+            icon: "success",
+            confirmButtonText: "Ir al perfil",
+            showCancelButton: true,
+            cancelButtonText: "Cerrar"
+          }).then((res) => {
+            if (res.isConfirmed) window.location.href = "/perfil";
+            else continuar();
+          });
+        } else {
+          // Solo terminó pero ya tenía ambas insignias
+          localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+          continuar();
         }
       }, [cartas]);
       
-    
-    
-
-    if(mostrarBienvenida) {
-        MySwal.fire ({
+      
+    if (mostrarBienvenida) {
+        MySwal.fire({
             title: <strong>¡Bienvenido al juego de Memorama!</strong>,
             html: (
                 <div>
-                    <img src={welcomeImg} alt="" width="150" height="150"/>
-                    <p style={{fontSize: "16px", fontWeight: "500"}}>En este juego, debes encontrar pares de cartas que tengan la misma imagen.</p>
-                    <p style={{fontSize: "16px", fontWeight: "500"}}>¿Estas listo para poner tu mente a prueba?</p>
+                    <img src={welcomeImg} alt="" width="150" height="150" />
+                    <p style={{ fontSize: "16px", fontWeight: "500" }}>En este juego, debes encontrar pares de cartas que tengan la misma imagen.</p>
+                    <p style={{ fontSize: "16px", fontWeight: "500" }}>¿Estas listo para poner tu mente a prueba?</p>
                 </div>
             ),
             showConfirmButton: true,
@@ -173,18 +202,19 @@ const Memorama = () => {
             allowOutsideClick: false,
         }).then(() => {
             setMostrarBienvenida(false);
+            setTiempoInicio(Date.now());// temporizador
         })
     }
 
     useEffect(() => {
-        if(mostrarFin) {
-            MySwal.fire ({
+        if (mostrarFin) {
+            MySwal.fire({
                 title: <strong>¡FELICIDADES, HAS TERMINADO EL JUEGO!</strong>,
                 html: (
                     <div>
-                        <img src={endImg} alt="" width="150" height="150"/>
-                        <p style={{fontSize: "16px", fontWeight: "500", marginBottom: "10px", marginTop: "10px"}}>¡Has encontrado todos los pares de cartas correctamente!</p>
-                        <p style={{fontSize: "16px", fontWeight: "500"}}>¿Quieres volver a intentarlo?</p>
+                        <img src={endImg} alt="" width="150" height="150" />
+                        <p style={{ fontSize: "16px", fontWeight: "500", marginBottom: "10px", marginTop: "10px" }}>¡Has encontrado todos los pares de cartas correctamente!</p>
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>¿Quieres volver a intentarlo?</p>
                     </div>
                 ),
                 showConfirmButton: true,
@@ -199,43 +229,43 @@ const Memorama = () => {
                 allowOutsideClick: false,
             }).then((result) => {
                 setMostrarFin(false);
-    
-                if(result.isConfirmed) {
+
+                if (result.isConfirmed) {
                     setCartas(generarCartas());
                     setSeleccionadas([]);
                     setGanador(false);
-                } else if(result.isDismissed) {
+                } else if (result.isDismissed) {
                     window.location.href = "/home";
                 }
             });
         }
     }, [mostrarFin]);
-   
+
     return (
         <div className="memorama-body" style={{ textAlign: "center" }}>
             <h1 className="memorama-header">MEMORAMA</h1>
             <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 160px)", gap: "50px", justifyContent: "center", margin: "auto", width: "fit-content" }}>
                 {cartas.map(carta => (
-                  <div 
-                  key={carta.idUnico} 
-                  onClick={() => !carta.volteada && manejarClick(carta.idUnico)} 
-                  style={{
-                      width: "160px",
-                      height: "160px",
-                      backgroundColor: carta.volteada || carta.encontrada ? "white" : "blue",
-                      backgroundImage: carta.volteada || carta.encontrada ? "none" : `url(${cartaDorso})`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      border: "1px solid black"
-                  }}
-              >
-                  {carta.volteada || carta.encontrada ? (
-                      <img src={carta.src} alt={carta.id} width="80" />
-                  ) : null}
-              </div>
+                    <div
+                        key={carta.idUnico}
+                        onClick={() => !carta.volteada && manejarClick(carta.idUnico)}
+                        style={{
+                            width: "160px",
+                            height: "160px",
+                            backgroundColor: carta.volteada || carta.encontrada ? "white" : "blue",
+                            backgroundImage: carta.volteada || carta.encontrada ? "none" : `url(${cartaDorso})`,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            border: "1px solid black"
+                        }}
+                    >
+                        {carta.volteada || carta.encontrada ? (
+                            <img src={carta.src} alt={carta.id} width="80" />
+                        ) : null}
+                    </div>
                 ))}
             </div>
             <StartEffect trigger={mostrarEstrellas} />
