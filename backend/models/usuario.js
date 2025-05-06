@@ -5,14 +5,14 @@ const usuarioSchema = new mongoose.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String, required: true },
-    insignias : [{ 
+    insignias : [ { 
         insigniaID: { type: String, required: true },
         fechaObtenido: { type: Date, required: true },
     }],
-    progreso : [{
-        actividadesCompletadas: { type: Number, required: true },
-        porcentaje : { type: Number, required: true },
-    }],
+    progreso : {
+        actividadesCompletadas: { type: Number, default: 0 },
+        porcentaje : { type: Number, default: 0 },
+    },
     rol: { type: String, required: true },
 });
 
