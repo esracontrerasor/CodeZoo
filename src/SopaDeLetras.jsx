@@ -206,36 +206,34 @@ const SopaDeLetras = () => {
                 const clavesMostradasRaw = localStorage.getItem("swalsMostrados");
                 const clavesMostradas = clavesMostradasRaw ? JSON.parse(clavesMostradasRaw) : {};
         
-                const yaMostrada = clavesMostradas?.[username]?.primerosPasos;
+                const updated = {
+                    ...clavesMostradas,
+                    [username]: {
+                        ...(clavesMostradas[username] || {})
+                    }
+                };
         
-                if (!yaMostrada) {
-                    // Otorgar insignia
+                if (!clavesMostradas?.[username]?.cazadorLetras) {
                     import("./helpers/insigniasHelper").then(({ mostrarInsignia }) => {
                         mostrarInsignia({
-                            nombre: "Primeros pasos",
-                            descripcion: "Jugaste y completaste tu primer juego en CodeZoo",
+                            nombre: "Cazador de letras",
+                            descripcion: "Completaste la Sopa de Letras con éxito",
                             fecha: new Date().toLocaleDateString(),
-                            imagenUrl: "/insignias/primeros pasos.png"
+                            imagenUrl: "/insignias/cazador de letras.png"
                         });
         
+                        updated[username].cazadorLetras = true;
+                        localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+        
                         swal.fire({
-                            title: "¡Ganaste tu primera insignia! 🎉",
-                            text: "Ve a tu perfil para verla y seguir coleccionando más.",
+                            title: "¡Nuevo logro desbloqueado! 🔍",
+                            text: "Recibiste la insignia 'Cazador de letras'.",
                             icon: "success",
                             confirmButtonText: "Ir al perfil",
                             showCancelButton: true,
                             cancelButtonText: "Cerrar"
-                        }).then((result) => {
-                            const updated = {
-                                ...clavesMostradas,
-                                [username]: {
-                                    ...(clavesMostradas[username] || {}),
-                                    primerosPasos: true
-                                }
-                            };
-                            localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-        
-                            if (result.isConfirmed) {
+                        }).then((res) => {
+                            if (res.isConfirmed) {
                                 window.location.href = "/perfil";
                             } else {
                                 setMostrarFin(true);
