@@ -6,6 +6,7 @@ import imageWelcome from "../src/resources/animal-welcome.gif";
 import LoginRegister from "./components/login/login.jsx";
 
 
+
 const CodeZooInfo = () => {
   const [showLogin, setShowLogin] = React.useState(false);
   const navigate = useNavigate(); // Hook para la navegación
