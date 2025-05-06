@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/Libro.css";
 import Navbar from "./components/navbar/Navbar";
 import CodeZooCat from "./CoodeZooCat";
-
+import swal from "sweetalert2";
+import { mostrarInsignia } from "./helpers/insigniasHelper";
 
 const Libro = () => {
   const totalPages = 10;
+  const libroId = "libro-1"; // CAMBIA a "libro-2" en el segundo libro
   const [currentPage, setCurrentPage] = useState(0);
 
   const generatePages = () => {
@@ -18,7 +20,6 @@ const Libro = () => {
 
   const [pages, setPages] = useState(generatePages());
 
-  // Funcion para pasar a la siguiente pagina
   const nextPage = () => {
     if (currentPage < totalPages - 1) {
       const newPages = [...pages];
@@ -30,11 +31,76 @@ const Libro = () => {
         updatedPages[currentPage + 1].flipping = false;
         setPages(updatedPages);
         setCurrentPage(currentPage + 1);
+
+        // === LÓGICA DE INSIGNIAS ===
+        const username = localStorage.getItem("username");
+        if (!username) return;
+
+        const mostrados = JSON.parse(localStorage.getItem("swalsMostrados")) || {};
+
+        // Explorador de Ideas → al pasar de la página 0 a la 1 del libro 1
+        if (libroId === "libro-1" && currentPage === 0 && !mostrados?.[username]?.exploradorIdeas) {
+          mostrarInsignia({
+            nombre: "Explorador de Ideas",
+            descripcion: "Iniciaste tu primera lectura en CodeZoo",
+            fecha: new Date().toLocaleDateString(),
+            imagenUrl: "/insignias/explorador de ideas.png"
+          });
+
+          const updated = {
+            ...mostrados,
+            [username]: {
+              ...(mostrados[username] || {}),
+              exploradorIdeas: true
+            }
+          };
+          localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+
+          swal.fire({
+            title: "¡Explorador de Ideas! 📘",
+            text: "Has iniciado tu primera lectura.",
+            icon: "success",
+            confirmButtonText: "Ir al perfil",
+            showCancelButton: true,
+            cancelButtonText: "Cerrar"
+          }).then(res => {
+            if (res.isConfirmed) window.location.href = "/perfil";
+          });
+        }
+
+        // Lector Estrella → al pasar de la página 1 a la 2 del libro 2
+        if (libroId === "libro-2" && currentPage === 3 && !mostrados?.[username]?.lectorEstrella) {
+          mostrarInsignia({
+            nombre: "Lector estrella",
+            descripcion: "Leíste varias páginas de un libro en CodeZoo",
+            fecha: new Date().toLocaleDateString(),
+            imagenUrl: "/insignias/Lector estrella.png"
+          });
+
+          const updated = {
+            ...mostrados,
+            [username]: {
+              ...(mostrados[username] || {}),
+              lectorEstrella: true
+            }
+          };
+          localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+
+          swal.fire({
+            title: "¡Lector Estrella! 🌟",
+            text: "Has leído varias páginas de tu libro.",
+            icon: "success",
+            confirmButtonText: "Ir al perfil",
+            showCancelButton: true,
+            cancelButtonText: "Cerrar"
+          }).then(res => {
+            if (res.isConfirmed) window.location.href = "/perfil";
+          });
+        }
       }, 800);
     }
   };
 
-  // Funcion para pasar a la pagina anterior
   const prevPage = () => {
     if (currentPage > 0) {
       const newPages = [...pages];
@@ -45,13 +111,11 @@ const Libro = () => {
         const updatedPages = [...newPages];
         updatedPages[currentPage].flippingBack = false;
         setPages(updatedPages);
-
         setCurrentPage(currentPage - 1);
       }, 800);
     }
   };
 
-  // Ir a una pagina especifica
   const goToPage = (pageNumber) => {
     if (pageNumber === currentPage || pageNumber < 0 || pageNumber >= totalPages) {
       return;
@@ -119,18 +183,17 @@ const Libro = () => {
         }}
       >
         <div className="page-content">
-          <h3>Titulo</h3>
-          <p>Aqui va el contenido</p>
-          {index !== 0 && <div className="page-number"> Pagina {index}</div>}
+          <h3>Título</h3>
+          <p>Aquí va el contenido</p>
+          {index !== 0 && <div className="page-number"> Página {index}</div>}
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <div className="libro-container">
       <Navbar />
-
       <div className="book-content">
         <div className="book-sidebar">
           <h3>Libros disponibles</h3>
@@ -147,7 +210,7 @@ const Libro = () => {
             {pages.map((_, index) => (
               <div
                 key={index}
-                className={`indicator ${index === currentPage ? "active" : ''}`}
+                className={`indicator ${index === currentPage ? "active" : ""}`}
                 onClick={() => goToPage(index)}
               />
             ))}
@@ -155,22 +218,16 @@ const Libro = () => {
 
           <div className="book-navigation">
             <button className="nav-button" onClick={prevPage} disabled={currentPage === 0}>←</button>
-            <button className="nav-button" onClick={nextPage} disabled={currentPage === -1}>→</button>
+            <button className="nav-button" onClick={nextPage} disabled={currentPage === totalPages - 1}>→</button>
           </div>
         </div>
-
-
 
         <div className="ad-sidebar">
           <h3>Publicidad</h3>
         </div>
-
       </div>
-
     </div>
   );
 };
 
 export default Libro;
-
-
