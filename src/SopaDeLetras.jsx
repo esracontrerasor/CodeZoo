@@ -198,11 +198,56 @@ const SopaDeLetras = () => {
             }
         }, [mostrarFin]);
 
-    useEffect(() => {
-        if (encontradas.size === listaPalabras.length) {
-            setMostrarFin(true);
-        }
-    }, [encontradas, listaPalabras]);
+        useEffect(() => {
+            if (encontradas.size === listaPalabras.length) {
+                const username = localStorage.getItem("username");
+                if (!username) return;
+        
+                const clavesMostradasRaw = localStorage.getItem("swalsMostrados");
+                const clavesMostradas = clavesMostradasRaw ? JSON.parse(clavesMostradasRaw) : {};
+        
+                const yaMostrada = clavesMostradas?.[username]?.primerosPasos;
+        
+                if (!yaMostrada) {
+                    // Otorgar insignia
+                    import("./helpers/insigniasHelper").then(({ mostrarInsignia }) => {
+                        mostrarInsignia({
+                            nombre: "Primeros pasos",
+                            descripcion: "Jugaste y completaste tu primer juego en CodeZoo",
+                            fecha: new Date().toLocaleDateString(),
+                            imagenUrl: "/insignias/primeros pasos.png"
+                        });
+        
+                        swal.fire({
+                            title: "¡Ganaste tu primera insignia! 🎉",
+                            text: "Ve a tu perfil para verla y seguir coleccionando más.",
+                            icon: "success",
+                            confirmButtonText: "Ir al perfil",
+                            showCancelButton: true,
+                            cancelButtonText: "Cerrar"
+                        }).then((result) => {
+                            const updated = {
+                                ...clavesMostradas,
+                                [username]: {
+                                    ...(clavesMostradas[username] || {}),
+                                    primerosPasos: true
+                                }
+                            };
+                            localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+        
+                            if (result.isConfirmed) {
+                                window.location.href = "/perfil";
+                            } else {
+                                setMostrarFin(true);
+                            }
+                        });
+                    });
+                } else {
+                    setMostrarFin(true);
+                }
+            }
+        }, [encontradas, listaPalabras]);
+        
 
     return (
         <div className="sopa-container">

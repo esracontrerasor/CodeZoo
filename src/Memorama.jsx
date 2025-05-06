@@ -18,6 +18,8 @@ const imagenes = [
 ];
 import welcomeImg from "../src/resources/cocodrilo_img.png";
 import endImg from "../src/resources/cocodrilo2_img.png";
+import { mostrarInsignia } from "./helpers/insigniasHelper";
+
 
 const MySwal = withReactContent(swal);
 
@@ -41,6 +43,7 @@ const Memorama = () => {
     const [mensajeGato, setMensajeGato] = useState("");
     const [gatoVisible, setGatoVisible] = useState(false);
     const [mostrarEstrellas, setMostrarEstrellas] = useState(false);
+    const [insigniaMostrada, setInsigniaMostrada] = useState(false);
 
     const manejarClick = (idUnico) => {
         if (bloqueado || seleccionadas.some(carta => carta.idUnico === idUnico)) return;
@@ -92,13 +95,64 @@ const Memorama = () => {
     
 
     useEffect(() => {
-        if (cartas.every(carta => carta.encontrada)) {
+        const todasEncontradas = cartas.every(carta => carta.encontrada);
+      
+        if (todasEncontradas && !insigniaMostrada) {
+          const username = localStorage.getItem("username");
+          if (!username) return; // prevenir errores si aún no hay username
+      
+          const clavesMostradasRaw = localStorage.getItem("swalsMostrados");
+          const clavesMostradas = clavesMostradasRaw ? JSON.parse(clavesMostradasRaw) : {};
+      
+          const yaMostrada = clavesMostradas?.[username]?.primerosPasos;
+      
+          if (!yaMostrada) {
             setGanador(true);
             setMensajeGato("¡Felicidades! Has encontrado todos los pares. 🎉");
             setGatoVisible(true);
+            setInsigniaMostrada(true);
+      
+            mostrarInsignia({
+              nombre: "Primeros pasos",
+              descripcion: "Jugaste y completaste tu primer juego en CodeZoo",
+              fecha: new Date().toLocaleDateString(),
+              imagenUrl: "/insignias/primeros pasos.png"
+            });
+      
+            swal.fire({
+              title: "¡Ganaste tu primera insignia! 🎉",
+              text: "Ve a tu perfil para verla y seguir coleccionando más.",
+              icon: "success",
+              confirmButtonText: "Ir al perfil",
+              showCancelButton: true,
+              cancelButtonText: "Cerrar"
+            }).then((result) => {
+              // Actualizar localStorage SOLO si se mostró
+              const updated = {
+                ...clavesMostradas,
+                [username]: {
+                  ...(clavesMostradas[username] || {}),
+                  primerosPasos: true
+                }
+              };
+              localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+      
+              if (result.isConfirmed) {
+                window.location.href = "/perfil";
+              } else {
+                setMostrarFin(true); // pasar al modal de "¿jugar de nuevo?"
+              }
+            });
+          } else {
+            // Ya se había mostrado antes → solo mostrar el modal de final
             setMostrarFin(true);
+            setInsigniaMostrada(true);
+          }
         }
-    }, [cartas]);
+      }, [cartas]);
+      
+    
+    
 
     if(mostrarBienvenida) {
         MySwal.fire ({
