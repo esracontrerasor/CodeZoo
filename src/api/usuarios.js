@@ -16,10 +16,29 @@ export const crearUsuario = async (usuario) => {
 
 export const actualizarUsuario = async (id, usuario) => {
     const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',  // Cambiar el método a PATCH
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(usuario),
     });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'No se pudo actualizar el usuario');
+    }
+
+    return response.json();
+};
+
+export const eliminarUsuario = async (id) => {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'No se pudo eliminar el usuario');
+    }
+
     return response.json();
 };
 
