@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import './css/UserManagement.css';
 import SideMenu from './components/SidebarMenu';
 import { Pencil, X } from 'lucide-react';
+import { eliminarUsuario, actualizarUsuario } from './api/usuarios'; // ajusta esta ruta según tu estructura
+import ModalEditUsuario from './components/modal/ModalEditUsuario';
 
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedUser, setSelectedUser] = useState(null); // Para guardar el usuario que estamos editando
+  const [showModal, setShowModal] = useState(false); // Controlar la visibilidad del modal
 
   useEffect(() => {
     fetch('http://localhost:3000/api/usuarios') // Asegúrate de que esta URL sea correcta
@@ -23,22 +27,30 @@ export default function UserManagement() {
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm('¿Estás seguro de eliminar este usuario?');
     if (!confirmDelete) return;
-
+  
     try {
-      const res = await fetch(`http://localhost:3000/api/foro/usuarios/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        alert(errorData.message || 'No se pudo eliminar el usuario');
-        return;
-      }
-
+      await eliminarUsuario(id);
       setUsers(prev => prev.filter(user => user._id !== id));
+      alert('Usuario eliminado con éxito');
     } catch (error) {
       console.error('Error al eliminar usuario:', error);
-      alert('Error al eliminar el usuario');
+      alert(error.message || 'Error al eliminar el usuario');
+    }
+  };
+
+  const handleEdit = (user) => {
+    setSelectedUser(user); // Guardamos el usuario a editar
+    setShowModal(true); // Mostramos el modal
+  };
+
+  const handleSave = async (formData) => {
+    try {
+      await actualizarUsuario(selectedUser._id, formData); // Llamamos a la API para actualizar el usuario
+      setUsers(users.map(user => (user._id === selectedUser._id ? { ...user, ...formData } : user))); // Actualizamos la lista de usuarios
+      alert('Usuario actualizado con éxito');
+    } catch (error) {
+      console.error('Error al actualizar el usuario:', error);
+      alert(error.message || 'Error al actualizar el usuario');
     }
   };
 
@@ -98,7 +110,7 @@ export default function UserManagement() {
                             : '0%'}
                         </td>
                         <td className="action-buttons">
-                          <button className="edit-button">
+                          <button className="edit-button" onClick={() => handleEdit(user)}>
                             <Pencil size={18} />
                           </button>
                           <button
@@ -116,6 +128,13 @@ export default function UserManagement() {
           </div>
         </div>
       </main>
+
+      <ModalEditUsuario
+        showModal={showModal}
+        closeModal={() => setShowModal(false)}
+        usuario={selectedUser}
+        onSave={handleSave}
+      />
     </div>
   );
 }
