@@ -142,20 +142,48 @@ router.post('/:id/progreso', async (req, res) => {
     }
 });
 
-// Editar datos del usuario
-router.put('/:id', async (req, res) => {
+// Actualizar algunos datos del usuario (PATCH)
+router.patch('/:id', async (req, res) => {
     try {
-        const {username, email, password} = req.body;
-        const usuario = await Usuario.findById(req.params.id, 
-            {username, email, password}, 
-            {new: true});
-        if (!usuario) return res.status(404).send({ message: "Usuario no encontrado" });
+        // Obtenemos los campos que se pasan en el cuerpo de la solicitud
+        const camposActualizados = req.body;
 
-        res.status(200).send({ message: "Usuario actualizado con éxito" });
+        // Actualizamos solo los campos proporcionados
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(
+            req.params.id,
+            camposActualizados,  // solo los campos enviados en el cuerpo
+            { new: true }  // Esto asegura que el usuario actualizado sea retornado
+        );
+
+        if (!usuarioActualizado) {
+            return res.status(404).send({ message: "Usuario no encontrado" });
+        }
+
+        res.status(200).send({ 
+            message: "Usuario actualizado con éxito", 
+            usuario: usuarioActualizado 
+        });
     } catch (error) {
         console.error('Error al actualizar el usuario:', error);
         res.status(500).send({ message: "Error al actualizar el usuario" });
     }
 });
+
+
+
+// Eliminar usuario
+router.delete("/:id", async (req, res) => {
+    try {
+        const usuario = await Usuario.findByIdAndDelete(req.params.id);
+        if (!usuario) {
+            return res.status(404).send({ message: "Usuario no encontrado" });
+        }
+        res.status(200).send({ message: "Usuario eliminado con éxito" });
+    } catch (error) {
+        console.error("Error al eliminar el usuario:", error);
+        res.status(500).send({ message: "Error al eliminar el usuario" });
+    }
+});
+
 
 export default router;
