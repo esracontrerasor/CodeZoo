@@ -18,10 +18,7 @@ import LoginRegister from "./components/login/login.jsx";
 import Navbar from "./components/navbar/Navbar.jsx";
 import ActivityManager from "./ActivityManager.jsx";
 import FormForo from "./ForumAdmin.jsx"
-<<<<<<< HEAD
-=======
 import UserManagement from "./UserManagement.jsx";
->>>>>>> 8717190 (equis de)
 
 import "./App.css";
 

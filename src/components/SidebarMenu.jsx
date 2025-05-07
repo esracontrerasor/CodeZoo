@@ -41,11 +41,7 @@ const SidebarMenu = () => {
       </div>
       <nav className="nav-links">
         <NavLink to="/admin" className={location.pathname === "/admin" ? "active" : ""}>Panel</NavLink>
-<<<<<<< HEAD
-        <NavLink to="/usuarios" className={location.pathname === "/usuarios" ? "active" : ""}>Usuarios</NavLink>
-=======
         <NavLink to="/UserManagement" className={location.pathname === "/usuarios" ? "active" : ""}>Usuarios</NavLink>
->>>>>>> 8717190 (equis de)
         <NavLink to="/progreso" className={location.pathname === "/progreso" ? "active" : ""}>Progreso</NavLink>
         <NavLink to="/ActivityManager" className={location.pathname === "/actividades" ? "active" : ""}>Actividades</NavLink>
         <NavLink to="/forumadmin" className={location.pathname === "/forumadmin" ? "active" : ""}>Foro</NavLink>
