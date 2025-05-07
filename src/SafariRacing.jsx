@@ -4,37 +4,68 @@ import jeepIMG from "../src/resources/jeep.png";
 import "../src/css/SafariRacing.css"
 import welcomeImg from "../src/resources/safariIcon.png"
 import withReactContent from "sweetalert2-react-content";
-import { mostrarInsignia } from "./helpers/insigniasHelper";
+
+
 
 const MySwal = withReactContent(swal);
 
 export default function CarreraDeAutos() {
 
-
-    const [pos1, setPos1] = useState(0);
-    const [pos2, setPos2] = useState(0);
+    const [pos1, setPos1] = useState(0); 
+    const [pos2, setPos2] = useState(0); 
     const [winner, setWinner] = useState(null);
     const [boost, setBoost] = useState(3);
     const meta = typeof window !== "undefined" ? window.innerWidth * 0.75 : 500;
     const [juegoIniciado, setJuegoIniciado] = useState(false);
-    const [errores, setErrores] = useState(0);
+    const [progreso, setProgreso] = useState({ actividadesCompletadas: 0, porcentaje: 0 });
+
 
     const retos = [
-        { pregunta: "Completa: 2 + 2 = ?", respuesta: '4' },
-        { pregunta: "¿Palabra clave para crear funciones en JS?", respuesta: 'function' },
-        { pregunta: "¿Palabra clave para crear condicionales en JS?", respuesta: 'if' },
-        { pregunta: "¿Resultado de 5 * 4?", respuesta: '20' },
-        { pregunta: "¿Cómo se llama el operador de suma?", respuesta: '+' },
+        {pregunta: "Completa: 2 + 2 = ?", respuesta: '4'},
+        {pregunta: "¿Palabra clave para crear funciones en JS?", respuesta: 'function'},
+        {pregunta: "¿Palabra clave para crear condicionales en JS?", respuesta: 'if'},
+        {pregunta: "¿Resultado de 5 * 4?", respuesta: '20'},
+        {pregunta: "¿Cómo se llama el operador de suma?", respuesta: '+'},   
     ];
+
+    const actualizarProgreso = async() => {
+        const idUusuario = localStorage.getItem("id");
+
+        try {
+            const respuesta = await axios.get(`http://localhost:3000/api/usuarios/${idUusuario}`);
+            const usuario = await respuesta.data;
+
+            let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
+            let completadas = progresoActual.actividadesCompletadas;
+         
+            const nuevasActividades = progresoActual.actividadesCompletadas + 1;
+            const nuevoPorcentaje = Math.min(100, Math.round((nuevasActividades / completadas) * 100));
+           
+            const response = await axios.post(`http://localhost:3000/api/usuarios/${idUusuario}/progreso`, { 
+                actividadesCompletadas: nuevasActividades,
+                 porcentaje: nuevoPorcentaje }
+            );
+            
+            if (response.status === 200) {
+                console.log("Progreso actualizado con éxito");
+            } else {
+                console.error("Error al actualizar el progreso");
+            }
+        
+        }catch (error) {
+            console.error('Error al actualizar el progreso:', error);
+        } 
+
+    };
 
     useEffect(() => {
         MySwal.fire({
             title: '¡Bienvenido a Safari Racing!',
             html: (
                 <div>
-                    <img src={welcomeImg} alt="" width="150" height="150" />
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>¡Prepárate para una emocionante y desafiante carrera!</p>
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>¿Estás listo?</p>
+                    <img src={welcomeImg} alt="" width="150" height="150"/>
+                    <p style={{fontSize: "16px", fontWeight: "500"}}>¡Prepárate para una emocionante y desafiante carrera!</p>
+                    <p style={{fontSize: "16px", fontWeight: "500"}}>¿Estas listo?</p>
                 </div>
             ),
             showConfirmButton: true,
@@ -45,46 +76,19 @@ export default function CarreraDeAutos() {
             backdrop: true,
             allowOutsideClick: false,
         }).then((result) => {
-            if (result.isConfirmed) {
+            if(result.isConfirmed){
                 setJuegoIniciado(true);
-
-                // 🔒 Solo dar la insignia si aún no la tiene
-                const username = localStorage.getItem("username");
-                if (!username) return;
-
-                const clavesMostradasRaw = localStorage.getItem("swalsMostrados");
-                const clavesMostradas = clavesMostradasRaw ? JSON.parse(clavesMostradasRaw) : {};
-                const yaMostrada = clavesMostradas?.[username]?.primerosPasos;
-
-                if (!yaMostrada) {
-                    mostrarInsignia({
-                        nombre: "Primeros pasos",
-                        descripcion: "Jugaste y completaste tu primer juego en CodeZoo",
-                        fecha: new Date().toLocaleDateString(),
-                        imagenUrl: "/insignias/primeros pasos.png"
-                    });
-
-                    // Guardar que ya se mostró
-                    const updated = {
-                        ...clavesMostradas,
-                        [username]: {
-                            ...(clavesMostradas[username] || {}),
-                            primerosPasos: true
-                        }
-                    };
-                    localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-                }
             }
+            
         });
     }, []);
-
 
     useEffect(() => {
         if (!juegoIniciado) return;
         const handleKeyDown = (event) => {
             if (winner) return;
             if (event.key.toLowerCase() === "a") {
-                lanzarReto();
+               lanzarReto();
             }
             if (event.key.toLowerCase() === "s" && boost > 0) { // Tecla "S" para usar boost
                 setBoost(prev => prev - 1);
@@ -96,7 +100,7 @@ export default function CarreraDeAutos() {
     }, [winner, boost, juegoIniciado]);
 
     useEffect(() => {
-        if (!juegoIniciado || winner) return;
+        if ( !juegoIniciado||winner) return;
 
         const interval = setInterval(() => {
             setPos2(prev => {
@@ -111,7 +115,7 @@ export default function CarreraDeAutos() {
         }, Math.random() * 200 + 200); // La computadora varía su velocidad
 
         return () => clearInterval(interval);
-    }, [juegoIniciado, winner]);
+    }, [juegoIniciado,winner]);
 
     async function lanzarReto() {
         const retoAleatorio = retos[Math.floor(Math.random() * retos.length)];
@@ -125,7 +129,7 @@ export default function CarreraDeAutos() {
             confirmButtonText: 'Enviar',
             cancelButtonText: 'Cancelar',
             allowOutsideClick: false,
-
+            
         });
 
         if (respuesta !== undefined) {
@@ -137,121 +141,56 @@ export default function CarreraDeAutos() {
                         setWinner("Jugador 1");
                         return meta;
                     }
-                    return nuevoPos;
+                    return nuevoPos; 
                 });
                 MySwal.fire(
                     '¡Correcto! 🚗💨', 'Avanzaste ', 'success'
                 )
             } else {
-                setErrores(prev => prev + 1);
                 MySwal.fire(
                     '¡Incorrecto! 🛑', 'No avanzaste, intenta presionando A', 'error'
                 )
-
-            }
+            
+        }
         }
     }
 
     useEffect(() => {
-        if (!winner) return;
-
-        const username = localStorage.getItem("username");
-        if (!username) return;
-
-        const clavesMostradasRaw = localStorage.getItem("swalsMostrados");
-        const clavesMostradas = clavesMostradasRaw ? JSON.parse(clavesMostradasRaw) : {};
-        const updated = {
-            ...clavesMostradas,
-            [username]: {
-                ...(clavesMostradas[username] || {})
-            }
-        };
-
-        // Esperar que termine animación
-        setTimeout(async () => {
-            // 🥇 PRIMEROS PASOS
-            if (!clavesMostradas?.[username]?.primerosPasos) {
-                mostrarInsignia({
-                    nombre: "Primeros pasos",
-                    descripcion: "Jugaste y completaste tu primer juego en CodeZoo",
-                    fecha: new Date().toLocaleDateString(),
-                    imagenUrl: "/insignias/primeros pasos.png"
-                });
-
-                updated[username].primerosPasos = true;
-
-                await swal.fire({
-                    title: "¡Ganaste tu primera insignia! 🎉",
-                    text: "Ve a tu perfil para verla y seguir coleccionando más.",
-                    icon: "success",
-                    confirmButtonText: "Ir al perfil",
-                    showCancelButton: true,
-                    cancelButtonText: "Cerrar"
-                }).then((res) => {
-                    if (res.isConfirmed) {
-                        localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-                        window.location.href = "/perfil";
-                    }
-                });
-            }
-
-            // 🧠 SIN ERRORES
-            if (errores === 0 && !clavesMostradas?.[username]?.sinErrores) {
-                mostrarInsignia({
-                    nombre: "Sin errores",
-                    descripcion: "Completaste una actividad sin cometer errores",
-                    fecha: new Date().toLocaleDateString(),
-                    imagenUrl: "/insignias/sin errores.png"
-                });
-
-                updated[username].sinErrores = true;
-
-                await swal.fire({
-                    title: "¡Impresionante! 🧠",
-                    text: "Completaste el juego sin errores. Ve a tu perfil para ver tu insignia.",
-                    icon: "success",
-                    confirmButtonText: "Ir al perfil",
-                    showCancelButton: true,
-                    cancelButtonText: "Cerrar"
-                }).then((res) => {
-                    if (res.isConfirmed) {
-                        localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-                        window.location.href = "/perfil";
-                    }
-                });
-            }
-            // 🦁 PILOTO DEL SAFARI
-            if (!clavesMostradas?.[username]?.pilotoSafari) {
-                mostrarInsignia({
-                    nombre: "Piloto del Safari",
-                    descripcion: "Completaste la carrera en Safari Racing",
-                    fecha: new Date().toLocaleDateString(),
-                    imagenUrl: "/insignias/Piloto del Safari.png"
-                });
-
-                updated[username].pilotoSafari = true;
-
-                await swal.fire({
-                    title: "¡Nuevo logro desbloqueado! 🦁",
-                    text: "Has recibido la insignia 'Piloto del Safari'. Ve a tu perfil para verla.",
-                    icon: "success",
-                    confirmButtonText: "Ir al perfil",
-                    showCancelButton: true,
-                    cancelButtonText: "Cerrar"
-                }).then((res) => {
-                    if (res.isConfirmed) {
-                        localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-                        window.location.href = "/perfil";
-                    }
-                });
-            }
-
-            localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-            mostrarModalFinal();
-        }, 1000);
+        if (winner) {
+            MySwal.fire({
+                title:<strong>¡{winner} GANA!</strong> ,
+                html: (
+                    <div>
+                        <img src={welcomeImg} alt="" width="150" height="150" />
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>¿Quieres volver a intentarlo?</p>
+                    </div>
+                ),
+                showConfirmButton: true,
+                confirmButtonText: "JUGAR DE NUEVO",
+                showCancelButton: true,
+                cancelButtonText: "SALIR",
+                customClass: {
+                    confirmButton: "play-button",
+                    cancelButton: "cancel-button",
+                },
+                backdrop: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    reiniciar();
+                } else if(result.isDismissed)  {
+                    window.location.href = "/home";
+                }
+            });
+            
+        }
     }, [winner]);
 
-
+    useEffect(() => {
+        if (winner === "Jugador") {
+            actualizarProgreso();
+        }
+    }, [winner]);
 
     function reiniciar() {
         setPos1(0);
@@ -259,46 +198,6 @@ export default function CarreraDeAutos() {
         setWinner(null);
         setBoost(3);
     }
-
-
-    useEffect(() => {
-        if (!juegoIniciado) return;
-
-        const interval = setInterval(() => {
-            setPos2(prev => Math.min(prev + Math.random() * 7 + 3, meta)); // Movimiento aleatorio
-        }, 500 + Math.random() * 200); // Cada 200-400ms
-
-        return () => clearInterval(interval); // Limpiar intervalo
-    }, [juegoIniciado]);
-
-    function mostrarModalFinal() {
-        MySwal.fire({
-            title: <strong>¡{winner} GANA!</strong>,
-            html: (
-                <div>
-                    <img src={welcomeImg} alt="" width="150" height="150" />
-                    <p style={{ fontSize: "16px", fontWeight: "500" }}>¿Quieres volver a intentarlo?</p>
-                </div>
-            ),
-            showConfirmButton: true,
-            confirmButtonText: "JUGAR DE NUEVO",
-            showCancelButton: true,
-            cancelButtonText: "SALIR",
-            customClass: {
-                confirmButton: "play-button",
-                cancelButton: "cancel-button",
-            },
-            backdrop: true,
-            allowOutsideClick: false,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                reiniciar();
-            } else if (result.isDismissed) {
-                window.location.href = "/home";
-            }
-        });
-    }
-
 
     return (
         <div className="carrera-container">
@@ -308,16 +207,15 @@ export default function CarreraDeAutos() {
                     <p>Presiona "A" para lanzar un reto. Si aciertas, avanzas. Si fallas, no avanzas.</p>
                     <p>Presiona "S" para usar el boost. Tienes 3 usos.</p>
                 </div>
-
+            
                 <div className="carrera-pista">
-                    <img src={jeepIMG} className="carrera-auto" id="jeep1" style={{ left: pos1 }} />
+                    <img src={jeepIMG} className="carrera-auto" id="jeep1" style={{left: pos1}}/>
                 </div>
 
                 <div className="carrera-pista">
-                    <img src={jeepIMG} className="carrera-auto" id="jeep2" style={{ left: pos2 }} />
+                    <img src={jeepIMG} className="carrera-auto" id="jeep2" style={{left: pos2}}/>
                 </div>
             </div>
         </div>
     );
-
 }

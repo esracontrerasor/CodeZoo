@@ -198,54 +198,39 @@ const SopaDeLetras = () => {
             }
         }, [mostrarFin]);
 
-        useEffect(() => {
-            if (encontradas.size === listaPalabras.length) {
-                const username = localStorage.getItem("username");
-                if (!username) return;
-        
-                const clavesMostradasRaw = localStorage.getItem("swalsMostrados");
-                const clavesMostradas = clavesMostradasRaw ? JSON.parse(clavesMostradasRaw) : {};
-        
-                const updated = {
-                    ...clavesMostradas,
-                    [username]: {
-                        ...(clavesMostradas[username] || {})
-                    }
-                };
-        
-                if (!clavesMostradas?.[username]?.cazadorLetras) {
-                    import("./helpers/insigniasHelper").then(({ mostrarInsignia }) => {
-                        mostrarInsignia({
-                            nombre: "Cazador de letras",
-                            descripcion: "Completaste la Sopa de Letras con éxito",
-                            fecha: new Date().toLocaleDateString(),
-                            imagenUrl: "/insignias/cazador de letras.png"
-                        });
-        
-                        updated[username].cazadorLetras = true;
-                        localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-        
-                        swal.fire({
-                            title: "¡Nuevo logro desbloqueado! 🔍",
-                            text: "Recibiste la insignia 'Cazador de letras'.",
-                            icon: "success",
-                            confirmButtonText: "Ir al perfil",
-                            showCancelButton: true,
-                            cancelButtonText: "Cerrar"
-                        }).then((res) => {
-                            if (res.isConfirmed) {
-                                window.location.href = "/perfil";
-                            } else {
-                                setMostrarFin(true);
-                            }
-                        });
-                    });
+        const actualizarProgreso = async() => {
+            const idUusuario = localStorage.getItem("id");
+    
+            try {
+                const respuesta = await axios.get(`http://localhost:3000/api/usuarios/${idUusuario}`);
+                const usuario = await respuesta.data;
+    
+                let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
+                let completadas = progresoActual.actividadesCompletadas;
+             
+                const nuevasActividades = progresoActual.actividadesCompletadas + 1;
+                const nuevoPorcentaje = Math.min(100, Math.round((nuevasActividades / completadas) * 100));
+               
+                const response = await axios.post(`http://localhost:3000/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividades, porcentaje: nuevoPorcentaje });
+                
+                if (response.status === 200) {
+                    console.log("Progreso actualizado con éxito");
                 } else {
-                    setMostrarFin(true);
+                    console.error("Error al actualizar el progreso");
                 }
-            }
-        }, [encontradas, listaPalabras]);
-        
+            
+            }catch (error) {
+                console.error('Error al actualizar el progreso:', error);
+            } 
+    
+    };
+
+    useEffect(() => {
+        if (encontradas.size === listaPalabras.length) {
+            actualizarProgreso();
+            setMostrarFin(true);
+        }
+    }, [encontradas, listaPalabras]);
 
     return (
         <div className="sopa-container">
