@@ -40,7 +40,11 @@ const LoginRegister = ({ onClose }) => {
             localStorage.setItem("rol", response.data.rol);
             localStorage.setItem("progreso", JSON.stringify(response.data.progreso));
             localStorage.setItem("insignias", JSON.stringify(response.data.insignias));
-            navigate("/home");
+
+             // Redirigir al usuario según su rol
+            const rolUsuario = response.data.rol;
+            const rutaDestino = rolUsuario === "administrador" ? "/ActivityManager" : "/home";
+            navigate(rutaDestino);
         }
         catch (error) {
             swal.fire({
