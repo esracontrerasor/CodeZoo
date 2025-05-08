@@ -81,17 +81,14 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Obtener un usuario por ID
-router.get("/:id", async (req, res) => {
-    try {
-        const usuario = await Usuario.findById(req.params.id);
-        if (!usuario) return res.status(404).send({ message: "Usuario no encontrado" });
-        res.status(200).send(usuario);
-    } catch (error) {
-        console.error("Error al obtener el usuario:", error);
-        res.status(500).send({ message: "Error al obtener el usuario" });
-    }
-});
+// Obtener un usuario por username
+router.post("/username", async (req, res) => {
+    const { username } = req.body;
+    const usuario = await Usuario.findOne({ username });
+    if (!usuario) return res.status(404).send({ message: "Usuario no encontrado" });
+    res.status(200).send(usuario);
+  });
+  
 
 // Asignar insignia a un usuario
 router.post('/:id/insignias', async (req, res) => {

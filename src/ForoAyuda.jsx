@@ -21,8 +21,8 @@ const Foro = () => {
       const fecha = new Date().toISOString();
       const estado = "pendiente";
       const comentarios = [];
-      //console.log("Datos:",{titulo, contenido, autor, fecha, estado, comentarios});
-      const response = await axios.post("http://localhost:3000/api/foro/pregunta", {
+  
+      await axios.post("http://localhost:3000/api/foro/pregunta", {
         titulo,
         contenido,
         autor,
@@ -30,7 +30,11 @@ const Foro = () => {
         estado,
         comentarios
       });
-
+  
+      // ✅ Recargar preguntas tras enviar
+      const response = await axios.post("http://localhost:3000/api/foro/autor", { autor });
+      setPreguntas(response.data);
+  
       setMostrarAlerta(true);
       setTitulo("");
       setContenido("");
@@ -38,19 +42,16 @@ const Foro = () => {
       swal.fire({
         icon: "error",
         title: "No se pudo hacer la pregunta",
-        text: "Ha surgido un error al intentar publicar la pregunta, por favor inténtelo mas tarde",
-      })
+        text: "Ha surgido un error al intentar publicar la pregunta, por favor inténtelo más tarde",
+      });
     }
-  }
-
-
+  };
+  
   useEffect(() => {
     const cargarPreguntas = async () => {
       try {
         const autor = localStorage.getItem("username");
         const response = await axios.post("http://localhost:3000/api/foro/autor", { autor });
-        console.log(response.data);
-
         setPreguntas(response.data);
       } catch (error) {
         console.error("Error al obtener las preguntas del foro", error);
