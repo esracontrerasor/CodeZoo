@@ -58,12 +58,9 @@ export default function UserManagement() {
     <div className="user-management-layout">
       <SideMenu />
 
-      <main className="user-management-container">
+      <div className="user-management-container">
+        <h2 className="user-management-title"> Gestión de usuarios <span className="emoji">👤</span> </h2>
         <div className="user-management-card">
-          <h2 className="user-management-title">
-            Gestión de usuarios <span className="emoji">👤</span>
-          </h2>
-
           <div className="user-table-wrapper">
             <input
               type="text"
@@ -127,7 +124,7 @@ export default function UserManagement() {
             )}
           </div>
         </div>
-      </main>
+      </div>
 
       <ModalEditUsuario
         showModal={showModal}
