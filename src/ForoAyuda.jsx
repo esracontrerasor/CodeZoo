@@ -10,37 +10,43 @@ const Foro = () => {
   const [preguntas, setPreguntas] = useState([]);
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
 
-  const Question = async(e) => {
+  const Question = async (e) => {
     e.preventDefault();
     if (titulo.trim() === "" || contenido.trim() === "") {
-        alert("Por favor llena tanto el título como el contenido de la pregunta.");
-        return;
-      }
-    try{
-        const autor= localStorage.getItem("username");
-        const fecha= new Date().toISOString();
-        const estado = "pendiente";
-        const comentarios = [];
-        //console.log("Datos:",{titulo, contenido, autor, fecha, estado, comentarios});
-        const response = await axios.post("http://localhost:3000/api/foro/pregunta", { 
-            titulo,
-            contenido,
-            autor,
-            fecha,
-            estado,
-            comentarios });
-
-        setMostrarAlerta(true);
-        setTitulo("");
-        setContenido("");
-      } catch (error) {
-        swal.fire({
-            icon: "error",
-            title: "No se pudo hacer la pregunta",
-            text:  "Ha surgido un error al intentar publicar la pregunta, por favor inténtelo mas tarde",
-        })
-      }
-}
+      alert("Por favor llena tanto el título como el contenido de la pregunta.");
+      return;
+    }
+    try {
+      const autor = localStorage.getItem("username");
+      const fecha = new Date().toISOString();
+      const estado = "pendiente";
+      const comentarios = [];
+  
+      await axios.post("http://localhost:3000/api/foro/pregunta", {
+        titulo,
+        contenido,
+        autor,
+        fecha,
+        estado,
+        comentarios
+      });
+  
+      // ✅ Recargar preguntas tras enviar
+      const response = await axios.post("http://localhost:3000/api/foro/autor", { autor });
+      setPreguntas(response.data);
+  
+      setMostrarAlerta(true);
+      setTitulo("");
+      setContenido("");
+    } catch (error) {
+      swal.fire({
+        icon: "error",
+        title: "No se pudo hacer la pregunta",
+        text: "Ha surgido un error al intentar publicar la pregunta, por favor inténtelo más tarde",
+      });
+    }
+  };
+  
 
 
   useEffect(() => {
@@ -48,8 +54,6 @@ const Foro = () => {
       try {
         const autor= localStorage.getItem("username");
         const response = await axios.post("http://localhost:3000/api/foro/autor", { autor });
-        console.log(response.data);
-        
         setPreguntas(response.data);
       } catch (error) {
         console.error("Error al obtener las preguntas del foro", error);

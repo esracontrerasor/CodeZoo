@@ -26,10 +26,7 @@ const LoginRegister = ({ onClose }) => {
             
             console.log(response.data);
             console.log(response.data.username);
-            console.log(response.data.email);
-            console.log(response.data.rol);
-            console.log(response.data.progreso);
-            console.log(response.data.insignias);
+            
             swal.fire({
                 icon: "success",
                 title: "Inicio de sesión exitoso",
@@ -37,10 +34,7 @@ const LoginRegister = ({ onClose }) => {
             localStorage.setItem("id", response.data._id);
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("username", response.data.username);
-            localStorage.setItem("email", response.data.email);
-            localStorage.setItem("rol", response.data.rol);
-            localStorage.setItem("progreso", JSON.stringify(response.data.progreso));
-            localStorage.setItem("insignias", JSON.stringify(response.data.insignias));
+            
 
              // Redirigir al usuario según su rol
             const rolUsuario = response.data.rol;

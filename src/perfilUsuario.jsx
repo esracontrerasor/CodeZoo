@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./css/perfilUsuario.css";
 import Navbar from "./components/navbar/Navbar";
+import axios from "axios";
+import swal from "sweetalert2";
 
 const PerfilUsuario = () => {
   const [username, setUsername] = useState("");
@@ -8,25 +10,30 @@ const PerfilUsuario = () => {
   const [rol, setRol] = useState("");
   const [progreso, setProgreso] = useState({ actividadesCompletadas: 0, porcentaje: 0 });
   const [insignias, setInsignias] = useState([]);
-
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
-    const email = localStorage.getItem("email");
-    const rol = localStorage.getItem("rol");
+    
+    const obtenerUsuario = async () => {
+      try {
+        const response = await axios.post("http://localhost:3000/api/usuarios/username", { username });
+        console.log("Datos: ",response.data);
+        
+        setEmail(response.data.email || "");
+        setRol(response.data.rol || "");
+        setProgreso(response.data.progreso || { actividadesCompletadas: 0, porcentaje: 0 });
+        setInsignias(response.data.insignias || []);
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+      }
+    };
   
-    const progresoData = JSON.parse(localStorage.getItem("progreso")) || {actividadesCompletadas: 0, porcentaje: 0};
-  
-    const insigniasArray = JSON.parse(localStorage.getItem("insignias")) || [];
-  
-    if (token) {
-      setUsername(username || "");
-      setEmail(email || "");
-      setRol(rol || "");
-      setProgreso(progresoData);
-      setInsignias(insigniasArray);
+    if (token && username) {
+      obtenerUsuario();
     }
   }, []);
+  
   
   const obtenerRutaInsignia = (id) => {
     switch (id) {
@@ -37,7 +44,7 @@ const PerfilUsuario = () => {
       case 3:
         return "insignias/sin errores.png";
       default:
-        return "resources/insignias/insignia-default.png"; // Ruta por defecto si no coincide
+        return "insignias/sin errores.png"; // Ruta por defecto si no coincide
     }
   };
   
