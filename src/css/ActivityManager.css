@@ -6,17 +6,17 @@
   }
   
   /* Main content */
-  .main-content {
+  .main-content-activity {
     flex: 1;
     background-color: #4a6b8a;
     padding: 30px;
-    border-radius: 0 0 20px 20px;
   }
   
   .main-title {
     font-size: 24px;
     color: white;
     margin-bottom: 20px;
+    text-align: center;
   }
   
   /* Table */

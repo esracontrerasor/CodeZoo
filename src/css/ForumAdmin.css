@@ -1,7 +1,7 @@
 .forum-admin {
     display: flex;
     min-height: 100vh;
-    background-color: #E3F2FD;
+    background-color: #446894;
 }
 
 /* Sidebar */
@@ -19,10 +19,10 @@
 }
 
 /* Título */
-h1 {
-    text-align: left;
+.forum-title {
+    text-align: center;
     font-size: 24px;
-    color: #333;
+    color: #FFFFFF;
 }
 
 /* Secciones */
@@ -41,8 +41,7 @@ h1 {
 }
 
 .forum-panel h2 {
-    color: #007bff;
-    border-bottom: 2px solid #007bff;
+    color: white;
 }
 
 /* Caja de preguntas */
@@ -56,8 +55,7 @@ h1 {
 .question-item {
     background: #f4f4f4;
     padding: 12px;
-    border-radius: 6px;
-    border-left: 4px solid #007bff;
+    border-radius: 0 6px 6px 6px;
 }
 
 .question-user {

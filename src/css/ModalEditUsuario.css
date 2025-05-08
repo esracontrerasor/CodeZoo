@@ -47,13 +47,13 @@
   
   h2 {
     font-size: 24px;
-    font-weight: 600;
+    font-weight: bold;
     color: #333;
     margin-bottom: 20px;
     text-align: center;
   }
   
-  form {
+  .edit-usuario-modal {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -66,7 +66,7 @@
     margin-bottom: 5px;
   }
   
-  input,
+  .input-usuario,
   select {
     width: 100%;
     padding: 12px;
@@ -79,24 +79,18 @@
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
   
-  input:focus,
-  select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
   .modal-buttons {
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
     gap: 10px;
   }
   
-  button {
-    background-color: #007bff;
+  .btn-guardar-usuario {
+    background-color: #1D3461;
     color: white;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: bold;
     padding: 12px 20px;
     border: none;
     border-radius: 8px;
@@ -104,38 +98,14 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
     width: 48%;
   }
-  
-  button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+
+  .btn-cancelar {
+    background-color: #CD1316;
+    width: 48%;
+    font-size: 16px;
+    border-radius: 8px;
+
   }
   
-  button:active {
-    background-color: #004085;
-    transform: translateY(0);
-  }
-  
-  button[type="button"] {
-    background-color: #ccc;
-  }
-  
-  button[type="button"]:hover {
-    background-color: #bbb;
-  }
-  
-  button[type="button"]:active {
-    background-color: #999;
-  }
-  
-  button.cancel-button {
-    background-color: #f44336;
-  }
-  
-  button.cancel-button:hover {
-    background-color: #d32f2f;
-  }
-  
-  button.cancel-button:active {
-    background-color: #c62828;
-  }
+
   

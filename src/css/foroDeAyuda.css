@@ -19,30 +19,33 @@
   margin: auto auto 40px;
 }
 
-.titulo-editable {
+.titulo-editable, .formulario-pregunta b{
+  color: #000000;
   display: block;
   font-weight: bold;
   margin-bottom: 10px;
+  font-size: 20px;
 }
 
-input[type="text"],
+.input-question[type="text"],
 textarea {
   width: 100%;
   border: 1px solid #ccc;
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 16px;
-  font-family: inherit;
+  font-size: 16px;
 }
 
 textarea {
-  resize: vertical;
+  resize: none;
   min-height: 100px;
 }
 
-button {
+.boton-publicar {
   background-color: #72d760;
   color: white;
+  font-size: 16px;
   font-weight: bold;
   padding: 14px 28px;
   border: none;
@@ -56,7 +59,7 @@ button {
   margin: auto;
 }
 
-.pregunta-item {
+.chat-container {
   background-color: white;
   border-radius: 12px;
   padding: 20px;
@@ -64,23 +67,63 @@ button {
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
 }
 
-.pregunta-item .fecha {
-  font-size: 0.85em;
-  color: gray;
+.chat-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: right;
+  padding: 10px;
 }
 
-.respuesta {
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px solid #ddd;
-  font-size: 0.95em;
-  color: #333;
+.chat-fecha {
+  color: #666;
+  font-size: 14px;
 }
+
+.chat-content {
+  padding: 10px;
+}
+
+.pregunta-titulo {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 10px;
+}
+
+.pregunta-autor {
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 20px;
+}
+
+.pregunta-contenido {
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.respuestas {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid #ccc;
+}
+
+.respuesta-autor {
+  font-weight: bold;
+  margin: 0 0 5px;
+}
+
+.respuesta-contenido {
+  margin: 0;
+}
+
 
 .fecha-respuesta {
-  font-size: 0.85em;
-  color: gray;
+  color: #666;
+  font-size: 14px;
+  margin-top: 5px;
 }
+
 
 
 /* Modal */
