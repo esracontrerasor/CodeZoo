@@ -43,36 +43,18 @@ const ModalEditUsuario = ({ showModal, closeModal, usuario, onSave }) => {
     <div className="modal-overlay">
       <div className="modal">
         <h2>Editar Usuario</h2>
-        <form onSubmit={handleSubmit}>
+        <form className='edit-usuario-modal' onSubmit={handleSubmit}>
           <div>
             <label>Nombre</label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
+            <input className='input-usuario' type="text" name="username" value={formData.username} onChange={handleChange} required />
           </div>
           <div>
             <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+            <input className='input-usuario' type="email"name="email" value={formData.email} onChange={handleChange} required />
           </div>
           <div>
             <label>Contraseña</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <input className='input-usuario' type="password" name="password" value={formData.password} onChange={handleChange} required />
           </div>
           <div>
             <label>Rol</label>
@@ -82,8 +64,8 @@ const ModalEditUsuario = ({ showModal, closeModal, usuario, onSave }) => {
             </select>
           </div>
           <div className="modal-buttons">
-            <button type="submit">Guardar Cambios</button>
-            <button type="button" onClick={closeModal}>Cancelar</button>
+            <button className="btn-guardar-usuario" type="submit">GUARDAR</button>
+            <button className= "btn-cancelar" type="button" onClick={closeModal}>CANCELAR</button>
           </div>
         </form>
       </div>
