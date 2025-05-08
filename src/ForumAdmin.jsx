@@ -181,7 +181,7 @@ const ForumAdmin = () => {
     <div className="forum-admin">
       <SidebarMenu />
       <div className="forum-content">
-        <h1>Gestión del foro</h1>
+        <h1 className="forum-title">Gestión del foro</h1>
         <div className="forum-sections">
           {loading && <Spinner />} {/* Mostrar el Spinner mientras cargamos */}
           

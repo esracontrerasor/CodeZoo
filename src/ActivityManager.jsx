@@ -50,7 +50,7 @@ const ActivityManager = () => {
   return (
     <div className="activity-container">
       <SidebarMenu />
-      <main className="main-content">
+      <main className="main-content-activity">
         <h1 className="main-title">Gestión de actividades 📅</h1>
         <div className="table-box">
           <div className="table-header">

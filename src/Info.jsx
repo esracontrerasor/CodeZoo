@@ -10,7 +10,6 @@ const Info = () => {
     <div>
     <Navbar />
       <div className="main-content">
-        
         <div className="about-containter">
           <img src={aboutImage} alt="" class="imagen-info"/> 
           <div className="info-box">
