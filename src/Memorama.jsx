@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
+import Navbar from "./components/navbar/Navbar";
 import CodeZooCat from "../src/CoodeZooCat";
 import StartEffect from "../src/StartEffect";
 import "../src/css/Memorama.css";
@@ -188,6 +188,8 @@ const Memorama = () => {
     }, [mostrarFin]);
    
     return (
+        <div>
+            <Navbar />
         <div className="memorama-body" style={{ textAlign: "center" }}>
             <h1 className="memorama-header">MEMORAMA</h1>
             <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />
@@ -215,6 +217,7 @@ const Memorama = () => {
                 ))}
             </div>
             <StartEffect trigger={mostrarEstrellas} />
+        </div>
         </div>
     );
 };
