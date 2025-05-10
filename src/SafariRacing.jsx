@@ -5,8 +5,6 @@ import "../src/css/SafariRacing.css"
 import welcomeImg from "../src/resources/safariIcon.png"
 import withReactContent from "sweetalert2-react-content";
 
-
-
 const MySwal = withReactContent(swal);
 
 export default function CarreraDeAutos() {
@@ -14,18 +12,26 @@ export default function CarreraDeAutos() {
     const [pos1, setPos1] = useState(0); 
     const [pos2, setPos2] = useState(0); 
     const [winner, setWinner] = useState(null);
+    const [turboActive, setTurboActive] = useState(false);
+    const [boostActive, setBoostActive] = useState(false);
     const [boost, setBoost] = useState(3);
     const meta = typeof window !== "undefined" ? window.innerWidth * 0.75 : 500;
     const [juegoIniciado, setJuegoIniciado] = useState(false);
     const [progreso, setProgreso] = useState({ actividadesCompletadas: 0, porcentaje: 0 });
-
+    const [pausado, setPausado] = useState(false);
 
     const retos = [
         {pregunta: "Completa: 2 + 2 = ?", respuesta: '4'},
-        {pregunta: "¿Palabra clave para crear funciones en JS?", respuesta: 'function'},
-        {pregunta: "¿Palabra clave para crear condicionales en JS?", respuesta: 'if'},
+        {pregunta: "Palabra clave para crear funciones", respuesta: 'function'},
+        {pregunta: "Palabra clave para crear condicionales", respuesta: 'if'},
         {pregunta: "¿Resultado de 5 * 4?", respuesta: '20'},
-        {pregunta: "¿Cómo se llama el operador de suma?", respuesta: '+'},   
+        {pregunta: "¿Cómo se llama el operador de suma?", respuesta: '+'}, 
+        {pregunta: "Palabra clave para crear bucles", respuesta: 'for'},
+        {pregunta: "¿Que tipo de dato representa un texto?", respuesta: 'string'},
+        {pregunta: "¿Que palabra retorna un valor de una función?", respuesta: 'return'},
+        {pregunta: "¿Que significa JS?", respuesta: 'javascript'},
+        {pregunta: "Evento que ocurre al hacer clic", respuesta: 'click'}
+        
     ];
 
     const actualizarProgreso = async() => {
@@ -79,32 +85,35 @@ export default function CarreraDeAutos() {
             if(result.isConfirmed){
                 setJuegoIniciado(true);
             }
-            
         });
     }, []);
 
     useEffect(() => {
-        if (!juegoIniciado) return;
+        if (!juegoIniciado || pausado) return;
         const handleKeyDown = (event) => {
             if (winner) return;
             if (event.key.toLowerCase() === "a") {
                lanzarReto();
             }
             if (event.key.toLowerCase() === "s" && boost > 0) { // Tecla "S" para usar boost
+                // Activar efecto de boost
+                setBoostActive(true);
+                setTimeout(() => setBoostActive(false), 500);
+                
                 setBoost(prev => prev - 1);
                 setPos1(prev => Math.min(prev + 50, meta));
             }
         };
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [winner, boost, juegoIniciado]);
+    }, [winner, boost, juegoIniciado, pausado]);
 
     useEffect(() => {
-        if ( !juegoIniciado||winner) return;
+        if ( !juegoIniciado||winner || pausado) return;
 
         const interval = setInterval(() => {
             setPos2(prev => {
-                const avance = Math.random() * 35 + 5; // Movimiento aleatorio entre 5 y 35 px
+                const avance = Math.random() * 15 + 5; // Movimiento aleatorio entre 5 y 35 px
                 if (prev + avance >= meta) {
                     setWinner("Computadora");
                     clearInterval(interval);
@@ -112,12 +121,13 @@ export default function CarreraDeAutos() {
                 }
                 return prev + avance;
             });
-        }, Math.random() * 200 + 200); // La computadora varía su velocidad
+        }, Math.random() * 400 + 400); // La computadora varía su velocidad
 
         return () => clearInterval(interval);
-    }, [juegoIniciado,winner]);
+    }, [juegoIniciado,winner, pausado]);
 
     async function lanzarReto() {
+        setPausado(true); // Pausar el juego
         const retoAleatorio = retos[Math.floor(Math.random() * retos.length)];
 
         const { value: respuesta } = await MySwal.fire({
@@ -132,10 +142,12 @@ export default function CarreraDeAutos() {
             
         });
 
+        setPausado(false); // Reanudar el juego
+
         if (respuesta !== undefined) {
             if (respuesta.trim() === retoAleatorio.respuesta) {
                 setPos1(prev => {
-                    const avance = Math.random() * 45 + 15;
+                    const avance = Math.random() * 60 + 30;
                     const nuevoPos = prev + avance;
                     if (nuevoPos >= meta) {
                         setWinner("Jugador 1");
@@ -175,6 +187,9 @@ export default function CarreraDeAutos() {
                 },
                 backdrop: true,
                 allowOutsideClick: false,
+                willClose: () => {
+                    setPausado(false);
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     reiniciar();
@@ -205,11 +220,15 @@ export default function CarreraDeAutos() {
                 <div className="carrera-instrucciones">
                     <h2>Instrucciones</h2>
                     <p>Presiona "A" para lanzar un reto. Si aciertas, avanzas. Si fallas, no avanzas.</p>
-                    <p>Presiona "S" para usar el boost. Tienes 3 usos.</p>
+                    <p>Presiona "S" para usar el boost. Tienes {boost} restantes.</p>
                 </div>
             
                 <div className="carrera-pista">
-                    <img src={jeepIMG} className="carrera-auto" id="jeep1" style={{left: pos1}}/>
+                    <img src={jeepIMG} className={`carrera-auto ${
+                        turboActive ? 'turbo-effect': 
+                        boostActive ? 'boost-effect' : ''}`} 
+                        id="jeep1" 
+                        style={{left: pos1}}/>
                 </div>
 
                 <div className="carrera-pista">

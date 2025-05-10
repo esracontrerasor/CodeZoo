@@ -193,26 +193,21 @@ const Memorama = () => {
         <div className="memorama-body" style={{ textAlign: "center" }}>
             <h1 className="memorama-header">MEMORAMA</h1>
             <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 160px)", gap: "50px", justifyContent: "center", margin: "auto", width: "fit-content" }}>
+            <div className="memorama-grid">
                 {cartas.map(carta => (
                   <div 
                   key={carta.idUnico} 
                   onClick={() => !carta.volteada && manejarClick(carta.idUnico)} 
-                  style={{
-                      width: "160px",
-                      height: "160px",
-                      backgroundColor: carta.volteada || carta.encontrada ? "white" : "blue",
-                      backgroundImage: carta.volteada || carta.encontrada ? "none" : `url(${cartaDorso})`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      border: "1px solid black"
-                  }}
-              >
-                  {carta.volteada || carta.encontrada ? (
-                      <img src={carta.src} alt={carta.id} width="80" />
-                  ) : null}
+                  className={`memorama-card ${carta.volteada || carta.encontrada ? 'flipped' : ''}`}
+                >
+                  <div className="card-inner">
+                    <div className="card-front">
+                       
+                    </div>
+                    <div className="card-back">
+                        <img src={carta.src} alt="Carta" />
+                    </div>
+                  </div>
               </div>
                 ))}
             </div>
