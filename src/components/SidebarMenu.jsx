@@ -3,6 +3,10 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import '../css/SidebarMenu.css';
 import spinner from "./spinner"; // Asegúrate de que el spinner esté importado
 import avatar from '../resources/user_2.png';
+import iconForo from '../resources/icons/bx-chat.svg';
+import iconUsuario from '../resources/icons/bx-user.svg';
+import iconLogOut from '../resources/icons/bx-log-out.svg';
+import iconPanel from '../resources/icons/bx-objects-horizontal-left.svg';
 
 const SidebarMenu = () => {
   const location = useLocation();
@@ -40,14 +44,30 @@ const SidebarMenu = () => {
         </div>
       </div>
       <nav className="nav-links">
-        <NavLink to="/admin" className={location.pathname === "/admin" ? "active" : ""}>Panel</NavLink>
-        <NavLink to="/UserManagement" className={location.pathname === "/usuarios" ? "active" : ""}>Usuarios</NavLink>
-        <NavLink to="/progreso" className={location.pathname === "/progreso" ? "active" : ""}>Progreso</NavLink>
-        <NavLink to="/ActivityManager" className={location.pathname === "/actividades" ? "active" : ""}>Actividades</NavLink>
-        <NavLink to="/forumadmin" className={location.pathname === "/forumadmin" ? "active" : ""}>Foro</NavLink>
+        <NavLink to="/admin" className={location.pathname === "/admin" ? "active" : ""}>    
+        <img src={iconPanel} alt="" className='nav-icon'/>
+        Panel
+        </NavLink>
+        <NavLink to="/UserManagement" className={location.pathname === "/usuarios" ? "active" : ""}>
+        <img src={iconUsuario} alt="" className='nav-icon'/>
+        Usuarios
+        </NavLink>
+        <NavLink to="/forumadmin" className={location.pathname === "/forumadmin" ? "active" : ""}>
+        <img src={iconForo} alt="" className='nav-icon'/>
+        Foro
+        </NavLink>
       </nav>
       <button className="logout-btn" onClick={handleLogout} disabled={loading}>
-        {loading ? <spinner /> : 'Salir'} {/* Mostrar el spinner o el texto 'Salir' */}
+        {loading ? (
+          <spinner />
+        ) : (
+          <>
+          <img src={iconLogOut} alt="" />
+          Salir
+          </>
+        )}
+        
+  
       </button>
     </aside>
   );
