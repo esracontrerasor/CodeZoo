@@ -38,7 +38,7 @@ const LoginRegister = ({ onClose }) => {
 
              // Redirigir al usuario según su rol
             const rolUsuario = response.data.rol;
-            const rutaDestino = rolUsuario === "administrador" ? "/ActivityManager" : "/home";
+            const rutaDestino = rolUsuario === "administrador" ? "/UserManagement" : "/home";
             navigate(rutaDestino);
         }
         catch (error) {
