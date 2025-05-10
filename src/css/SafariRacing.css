@@ -70,6 +70,25 @@
     to { transform: translateX(20px); }
 }
 
+.boost-effect {
+    animation: boost 0.5 ease-out;
+}
+
+@keyframes boost {
+    0% {
+        transform: translateY(0) scale(1);
+        filter: brightness(100%) drop-shadow(0 0 0px  blue);
+    }
+    50% { 
+        transform: translateY(-5px) scale(1.1);
+        filter: brightness(150%) drop-shadow(0 0 10px  blue);
+    }
+    100% { 
+        transform: translateY(0) scale(1);
+        filter: brightness(100%) drop-shadow(0 0 0px  blue);
+    }
+}
+
 
 
 
