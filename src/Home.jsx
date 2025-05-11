@@ -25,8 +25,8 @@ const games = [
 ];
 
 const cuentos = [
-  { title: "El Zoologico de Nombres", image:ZoologicoNombres, information:"Un cuentito de un zoológico de nombres" , route: "/libro" },
-  { title: "El Inventario de la Jungla", image:LibrosImg, information:"Un cuentito de un inventario de la jungla", route: "/libro" },
+  { title: "El Zoologico de Nombres", image:ZoologicoNombres, information:"Un cuentito de un zoológico de nombres" , route:"/libro/libro-1" },
+  { title: "El Inventario de la Jungla", image:LibrosImg, information:"Un cuentito de un inventario de la jungla", route: "/libro/libro-2" },
 ];
 
 const modoLibre = [

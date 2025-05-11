@@ -36,11 +36,12 @@ const App = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/avatar" element={<ProtectedRoute><Avatar /></ProtectedRoute>} />
         <Route path="/libre" element={<ProtectedRoute> <Libre /></ProtectedRoute>} />
-        <Route path="/libro" element={<ProtectedRoute><Libro /></ProtectedRoute>} />
+        <Route path="/libro/:libroId" element={<Libro />} />
         <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
         <Route path="/foro" element={<ProtectedRoute><Foro /></ProtectedRoute>} />
         <Route path="/ForumAdmin" element={<FormForo />}/>
         <Route path="/UserManagement" element={<UserManagement />}/>
+
       </Routes>
   </>
     
