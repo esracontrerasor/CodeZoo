@@ -42,15 +42,13 @@ export default function CarreraDeAutos() {
             const usuario = await respuesta.data;
 
             let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
-            let completadas = progresoActual.actividadesCompletadas;
-         
-            const nuevasActividades = progresoActual.actividadesCompletadas + 1;
-            const nuevoPorcentaje = Math.min(100, Math.round((nuevasActividades / completadas) * 100));
+            let actividadesCompletadas = progresoActual.actividadesCompletadas;
+            
+            const totalActividades  = 7;
+            const nuevasActividades = actividadesCompletadas + 1;
+            const nuevoPorcentaje = Math.min(100, Math.round((nuevasActividades / totalActividades) * 100));
            
-            const response = await axios.post(`http://localhost:3000/api/usuarios/${idUusuario}/progreso`, { 
-                actividadesCompletadas: nuevasActividades,
-                 porcentaje: nuevoPorcentaje }
-            );
+            const response = await axios.post(`http://localhost:3000/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividades, porcentaje: nuevoPorcentaje });
             
             if (response.status === 200) {
                 console.log("Progreso actualizado con éxito");

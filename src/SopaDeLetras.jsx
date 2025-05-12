@@ -108,6 +108,34 @@ const SopaDeLetras = () => {
         STRING: "String permite almacenar palabras, frases o nombres."
     };
 
+    const actualizarProgreso = async() => {
+        const idUusuario = localStorage.getItem("id");
+
+        try {
+            const respuesta = await axios.get(`http://localhost:3000/api/usuarios/${idUusuario}`);
+            const usuario = await respuesta.data;
+
+            let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
+            let actividadesCompletadas = progresoActual.actividadesCompletadas;
+            
+            const totalActividades  = 7;
+            const nuevasActividades = actividadesCompletadas + 1;
+            const nuevoPorcentaje = Math.min(100, Math.round((nuevasActividades / totalActividades) * 100));
+           
+            const response = await axios.post(`http://localhost:3000/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividades, porcentaje: nuevoPorcentaje });
+            
+            if (response.status === 200) {
+                console.log("Progreso actualizado con éxito");
+            } else {
+                console.error("Error al actualizar el progreso");
+            }
+        
+        }catch (error) {
+            console.error('Error al actualizar el progreso:', error);
+        } 
+
+    };
+
     const generarNuevaSopa = () => {
         const config = niveles[dificultad];
         const { sopa, posicionesPalabras } = generarSopaDeLetras(config.tamano, config.palabras);
@@ -181,6 +209,7 @@ const SopaDeLetras = () => {
     useEffect(() => {
         if (encontradas.size === niveles[dificultad].palabras.length) {
             setMostrarFin(true);
+            actualizarProgreso();
         }
     }, [encontradas, dificultad]);
 
