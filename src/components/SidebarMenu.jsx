@@ -44,7 +44,7 @@ const SidebarMenu = () => {
         </div>
       </div>
       <nav className="nav-links">
-        <NavLink to="/admin" className={location.pathname === "/admin" ? "active" : ""}>    
+        <NavLink to="/Dashboard" className={location.pathname === "/Dashboard" ? "active" : ""}>    
         <img src={iconPanel} alt="" className='nav-icon'/>
         Panel
         </NavLink>

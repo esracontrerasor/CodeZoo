@@ -1,0 +1,26 @@
+.dashboard-layout {
+  display: flex;
+  background-color: #376996; /* Fondo azul general */
+  min-height: 100vh;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #376996;
+  color: #fff;
+}
+
+.grafica-card {
+  background-color: #fdfced; /* Fondo claro para las gráficas */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 45%;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.dashboard-content h2{
+    color: #fff;
+}

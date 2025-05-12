@@ -18,6 +18,7 @@ import LoginRegister from "./components/login/login.jsx";
 import Navbar from "./components/navbar/Navbar.jsx";
 import FormForo from "./ForumAdmin.jsx"
 import UserManagement from "./UserManagement.jsx";
+import Dashboard from "./GraficasDashboard.jsx";
 import "./App.css";
 
 const App = () => {
@@ -41,6 +42,7 @@ const App = () => {
         <Route path="/foro" element={<ProtectedRoute><Foro /></ProtectedRoute>} />
         <Route path="/ForumAdmin" element={<FormForo />}/>
         <Route path="/UserManagement" element={<UserManagement />}/>
+        <Route path="/Dashboard" element={<Dashboard />}/>
 
       </Routes>
   </>
