@@ -1,10 +1,12 @@
-import * as mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const insigniasSchema = new mongoose.Schema({
-    nombre: { type: String, required: true },
-    descripcion: { type: String, required: true },
-    imagenUrl: { type: String, required: true },
-    criterios: { type: String, required: true },
+const InsigniaSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  nombre: { type: String, required: true },
+  descripcion: String,
+  fecha: String,
+  imagenUrl: String
 });
 
-export default mongoose.model('Insignias', insigniasSchema);
+const Insignia = mongoose.model("Insignia", InsigniaSchema);
+export default Insignia;

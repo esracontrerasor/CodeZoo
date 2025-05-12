@@ -1,28 +1,56 @@
 import express from "express";
-const router = express.Router();
+import mongoose from "mongoose";
 import Insignia from "../models/insignias.js";
+import Usuario from "../models/usuario.js"; 
 
-// Obtener todas las insignias
-router.get("/", async (req, res) => {
-    try {
-        const insignias = await Insignia.find();
-        res.status(200).send(insignias);
-    } catch (error) {
-        console.error("Error al obtener las insignias:", error);
-        res.status(500).send({ message: "Error al obtener las insignias" });
-    }
+const router = express.Router();
+
+
+router.get("/:username", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const insignias = await Insignia.find({ username });
+    res.status(200).json(insignias);
+  } catch (err) {
+    res.status(500).json({ error: "Error al obtener las insignias" });
+  }
 });
 
-// Obtener una insignia por ID
-router.get("/:id", async (req, res) => {
-    try {
-        const insignia = await Insignia.findById(req.params.id);
-        if (!insignia) return res.status(404).send({ message: "Insignia no encontrada" });
-        res.status(200).send(insignia);
-    } catch (error) {
-        console.error("Error al obtener la insignia:", error);
-        res.status(500).send({ message: "Error al obtener la insignia" });
-    }
+
+router.post("/:username", async (req, res) => {
+  const { username } = req.params;
+  const { nombre, descripcion, fecha, imagenUrl } = req.body;
+
+  
+  try {
+    const existente = await Insignia.findOne({ username, nombre });
+    if (existente) return res.status(200).json({ mensaje: "Ya tenía la insignia." });
+
+    
+    const nueva = new Insignia({ username, nombre, descripcion, fecha, imagenUrl });
+    await nueva.save();
+    //console.log("🛬 Recibido POST:", req.body);
+
+    
+    await Usuario.findOneAndUpdate(
+      { username },
+      {
+        $addToSet: {
+          insignias: {
+            nombre,
+            descripcion,
+            fecha,
+            imagenUrl
+          }
+        }
+      }
+    );
+
+    return res.status(201).json({ mensaje: "Insignia guardada y asignada al usuario." });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 });
 
 export default router;

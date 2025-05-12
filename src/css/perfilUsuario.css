@@ -60,7 +60,7 @@
 }
 
 .perfil-insignias {
-  flex: 1;
+  flex: 2;
   background-color: #fffbea;
   border: 1px solid #f1e7a2;
   padding: 20px;
@@ -120,4 +120,39 @@
   height: auto;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.insignias-lista-tabla {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+.tabla-insignias {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-insignias th {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 12px 10px;
+  text-align: left;
+  font-size: 15px;
+}
+
+.tabla-insignias td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.icono-insignia {
+  width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
