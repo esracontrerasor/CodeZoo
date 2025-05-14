@@ -55,13 +55,16 @@ const LoginRegister = ({ onClose }) => {
         try {
             console.log({ username, email, password });
             const response = await axios.post("http://localhost:3000/api/usuarios/registro", { username, email, password });
+           /*
             swal.fire({
                 icon: "success",
                 title: "Cuenta creada correctamente",
                 text: "Bienvenido a CodeZoo. Ya puedes comenzar a explorar y aprender jugando",
             });
+            */
+            localStorage.setItem("id", response.data._id);
             localStorage.setItem("token", response.data.token);
-            navigate("/home");
+            navigate("/");
         }
         catch (error) {
             swal.fire({
