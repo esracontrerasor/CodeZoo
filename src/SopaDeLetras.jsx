@@ -7,6 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 import swal from "sweetalert2";
 import welcomeImg from "../src/resources/leon_searching.png";
 import endImg from "../src/resources/leon_like.png";
+import { mostrarInsignia } from "./helpers/insigniasHelper";
 
 const MySwal = withReactContent(swal);
 
@@ -84,7 +85,7 @@ const SopaDeLetras = () => {
     const [dificultad, setDificultad] = useState("medio");
     const [mostrarBienvenida, setMostrarBienvenida] = useState(true);
     const [mostrarFin, setMostrarFin] = useState(false);
-
+    const [insigniasOtorgadas, setInsigniasOtorgadas] = useState(false);
     const [sopa, setSopa] = useState([]);
     const [seleccionadas, setSeleccionadas] = useState([]);
     const [encontradas, setEncontradas] = useState(new Set());
@@ -206,12 +207,44 @@ const SopaDeLetras = () => {
         }
     }, [mostrarBienvenida]);
 
-    useEffect(() => {
-        if (encontradas.size === niveles[dificultad].palabras.length) {
-            setMostrarFin(true);
+   useEffect(() => {
+    const verificarYMostrarInsignia = async () => {
+        if (encontradas.size === niveles[dificultad].palabras.length && !insigniasOtorgadas) {
+            const username = localStorage.getItem("username");
+            const clavesRaw = localStorage.getItem("swalsMostrados");
+            const claves = clavesRaw ? JSON.parse(clavesRaw) : {};
+            const updated = { ...claves, [username]: { ...(claves[username] || {}) } };
+
+            const otorgar = async (clave, nombre, descripcion, imagenUrl) => {
+                if (!claves?.[username]?.[clave]) {
+                    await mostrarInsignia({
+                        nombre,
+                        descripcion,
+                        fecha: new Date().toLocaleDateString(),
+                        imagenUrl
+                    });
+                    updated[username][clave] = true;
+                }
+            };
+
+            if (dificultad === "facil") {
+                await otorgar("primerosPasos", "Primeros pasos", "Completaste la sopa de letras en nivel fácil", "/insignias/primeros pasos.png");
+            } else if (dificultad === "medio") {
+                await otorgar("cazadorLetras", "Cazador de letras", "Completaste la sopa de letras en nivel medio", "/insignias/cazador de letras.png");
+            } else if (dificultad === "dificil") {
+                await otorgar("maestroSopa", "Maestro de la Sopa de Letras", "Completaste la sopa de letras en nivel difícil", "/insignias/maestro de la sopa de letras.png");
+            }
+
+            localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+            setInsigniasOtorgadas(true);
+            setMostrarFin(true); // <- Solo se muestra al terminar la insignia
             actualizarProgreso();
         }
-    }, [encontradas, dificultad]);
+    };
+
+    verificarYMostrarInsignia();
+}, [encontradas, dificultad, insigniasOtorgadas]);
+
 
     useEffect(() => {
         if (mostrarFin) {

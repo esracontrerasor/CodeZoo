@@ -4,6 +4,7 @@ import jeepIMG from "../src/resources/jeep.png";
 import "../src/css/SafariRacing.css"
 import welcomeImg from "../src/resources/safariIcon.png"
 import withReactContent from "sweetalert2-react-content";
+import { mostrarInsignia } from "./helpers/insigniasHelper";
 
 const MySwal = withReactContent(swal);
 
@@ -20,6 +21,9 @@ export default function CarreraDeAutos() {
     const [progreso, setProgreso] = useState({ actividadesCompletadas: 0, porcentaje: 0 });
     const [pausado, setPausado] = useState(false);
 
+    const [errores, setErrores] = useState(0);
+    const [insigniasOtorgadas, setInsigniasOtorgadas] = useState(false);
+    
     const retos = [
         {pregunta: "Completa: 2 + 2 = ?", respuesta: '4'},
         {pregunta: "Palabra clave para crear funciones", respuesta: 'function'},
@@ -157,6 +161,7 @@ export default function CarreraDeAutos() {
                     '¡Correcto! 🚗💨', 'Avanzaste ', 'success'
                 )
             } else {
+                setErrores(prev => prev + 1);
                 MySwal.fire(
                     '¡Incorrecto! 🛑', 'No avanzaste, intenta presionando A', 'error'
                 )
@@ -166,38 +171,73 @@ export default function CarreraDeAutos() {
     }
 
     useEffect(() => {
-        if (winner) {
-            MySwal.fire({
-                title:<strong>¡{winner} GANA!</strong> ,
-                html: (
-                    <div>
-                        <img src={welcomeImg} alt="" width="150" height="150" />
-                        <p style={{ fontSize: "16px", fontWeight: "500" }}>¿Quieres volver a intentarlo?</p>
-                    </div>
-                ),
-                showConfirmButton: true,
-                confirmButtonText: "JUGAR DE NUEVO",
-                showCancelButton: true,
-                cancelButtonText: "SALIR",
-                customClass: {
-                    confirmButton: "play-button",
-                    cancelButton: "cancel-button",
-                },
-                backdrop: true,
-                allowOutsideClick: false,
-                willClose: () => {
-                    setPausado(false);
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    reiniciar();
-                } else if(result.isDismissed)  {
-                    window.location.href = "/home";
-                }
+    if (!winner || insigniasOtorgadas) return;
+
+    const username = localStorage.getItem("username");
+    if (!username) return;
+
+    const clavesRaw = localStorage.getItem("swalsMostrados");
+    const claves = clavesRaw ? JSON.parse(clavesRaw) : {};
+    const updated = { ...claves, [username]: { ...(claves[username] || {}) } };
+
+    const nuevasInsignias = [];
+
+    const otorgarInsignias = async () => {
+        setInsigniasOtorgadas(true); // 🔒 asegurar que solo se ejecute una vez
+
+        // 🦁 Piloto del Safari
+        if (!updated[username].pilotoSafari) {
+            await mostrarInsignia({
+                nombre: "Piloto del Safari",
+                descripcion: "Completaste la carrera en Safari Racing",
+                fecha: new Date().toLocaleDateString(),
+                imagenUrl: "/insignias/Piloto del Safari.png"
             });
+            updated[username].pilotoSafari = true;
+          
+        }
+
+        // 🧠 Sin errores
+        if (winner?.startsWith("Jugador") && errores === 0 && !updated[username].sinErrores) {
+            await mostrarInsignia({
+                nombre: "Sin errores",
+                descripcion: "Completaste una actividad sin cometer errores",
+                fecha: new Date().toLocaleDateString(),
+                imagenUrl: "/insignias/sin errores.png"
+            });
+            updated[username].sinErrores = true;
             
         }
-    }, [winner]);
+
+        localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+
+        // Solo mostrar esta pantalla si no fue redirigido
+        mostrarModalFinal();
+    };
+
+    otorgarInsignias();
+}, [winner]);
+ function mostrarModalFinal() {
+        MySwal.fire({
+            title: `¡${winner} GANA!`,
+            html: (
+                <div>
+                    <img src={welcomeImg} alt="" width="150" height="150" />
+                    <p style={{ fontSize: "16px", fontWeight: "500" }}>¿Quieres volver a intentarlo?</p>
+                </div>
+            ),
+            showConfirmButton: true,
+            confirmButtonText: "JUGAR DE NUEVO",
+            showCancelButton: true,
+            cancelButtonText: "SALIR",
+            backdrop: true,
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) reiniciar();
+            else window.location.href = "/home";
+        });
+    }
+
 
     useEffect(() => {
         if (winner === "Jugador") {

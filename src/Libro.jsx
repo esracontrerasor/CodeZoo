@@ -28,83 +28,66 @@ const Libro = () => {
 
   const [pages, setPages] = useState(generatePages());
 
-  const nextPage = () => {
-    if (currentPage < totalPages - 1) {
-      const newPages = [...pages];
-      newPages[currentPage + 1].flipping = true;
-      setPages(newPages);
+  const nextPage = async () => {
+  if (currentPage < totalPages - 1) {
+    const newPages = [...pages];
+    newPages[currentPage + 1].flipping = true;
+    setPages(newPages);
 
-      setTimeout(() => {
-        const updatedPages = [...newPages];
-        updatedPages[currentPage + 1].flipping = false;
-        setPages(updatedPages);
-        setCurrentPage(currentPage + 1);
+    setTimeout(async () => {
+      const updatedPages = [...newPages];
+      updatedPages[currentPage + 1].flipping = false;
+      setPages(updatedPages);
+      setCurrentPage(currentPage + 1);
 
+      // Si ya se llegó a la última página
+      if (currentPage + 1 === totalPages - 1) {
         const username = localStorage.getItem("username");
         if (!username) return;
 
-        const mostrados = JSON.parse(localStorage.getItem("swalsMostrados")) || {};
+        const mostradosRaw = localStorage.getItem("swalsMostrados");
+        const mostrados = mostradosRaw ? JSON.parse(mostradosRaw) : {};
+        const updated = { ...mostrados, [username]: { ...(mostrados[username] || {}) } };
 
-        if (libroId === "libro-1" && currentPage === 0 && !mostrados?.[username]?.exploradorIdeas) {
-          mostrarInsignia({
+        const historialLecturasRaw = localStorage.getItem("librosLeidos");
+        const historialLecturas = historialLecturasRaw ? JSON.parse(historialLecturasRaw) : {};
+        historialLecturas[libroId] = true;
+        localStorage.setItem("librosLeidos", JSON.stringify(historialLecturas));
+
+        const librosLeidos = Object.keys(historialLecturas).length;
+
+        const promesas = [];
+
+        // 🧠 Explorador de Ideas (primer libro terminado)
+        if (!updated[username].exploradorIdeas) {
+          promesas.push(mostrarInsignia({
             nombre: "Explorador de Ideas",
-            descripcion: "Iniciaste tu primera lectura en CodeZoo",
+            descripcion: "Completaste tu primera lectura en CodeZoo",
             fecha: new Date().toLocaleDateString(),
             imagenUrl: "/insignias/explorador de ideas.png"
-          });
-
-          const updated = {
-            ...mostrados,
-            [username]: {
-              ...(mostrados[username] || {}),
-              exploradorIdeas: true
-            }
-          };
-          localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-
-          swal.fire({
-            title: "¡Explorador de Ideas! 📘",
-            text: "Has iniciado tu primera lectura.",
-            icon: "success",
-            confirmButtonText: "Ir al perfil",
-            showCancelButton: true,
-            cancelButtonText: "Cerrar"
-          }).then(res => {
-            if (res.isConfirmed) window.location.href = "/perfil";
-          });
+          }));
+          updated[username].exploradorIdeas = true;
         }
 
-        if (libroId === "libro-2" && currentPage === 3 && !mostrados?.[username]?.lectorEstrella) {
-          mostrarInsignia({
+        // 🌟 Lector Estrella (2 libros o más terminados)
+        if (librosLeidos >= 2 && !updated[username].lectorEstrella) {
+          promesas.push(mostrarInsignia({
             nombre: "Lector estrella",
-            descripcion: "Leíste varias páginas de un libro en CodeZoo",
+            descripcion: "Completaste al menos dos libros en CodeZoo",
             fecha: new Date().toLocaleDateString(),
             imagenUrl: "/insignias/Lector estrella.png"
-          });
-
-          const updated = {
-            ...mostrados,
-            [username]: {
-              ...(mostrados[username] || {}),
-              lectorEstrella: true
-            }
-          };
-          localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-
-          swal.fire({
-            title: "¡Lector Estrella! 🌟",
-            text: "Has leído varias páginas de tu libro.",
-            icon: "success",
-            confirmButtonText: "Ir al perfil",
-            showCancelButton: true,
-            cancelButtonText: "Cerrar"
-          }).then(res => {
-            if (res.isConfirmed) window.location.href = "/perfil";
-          });
+          }));
+          updated[username].lectorEstrella = true;
         }
-      }, 800);
-    }
-  };
+
+        await Promise.all(promesas);
+        localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+      }
+    }, 800);
+  }
+};
+
+
 
   const prevPage = () => {
     if (currentPage > 0) {

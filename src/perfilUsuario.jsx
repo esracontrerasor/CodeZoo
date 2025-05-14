@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./css/perfilUsuario.css";
 import Navbar from "./components/navbar/Navbar";
-import axios from "axios";
-import swal from "sweetalert2";
+import { obtenerInsigniasDelUsuario } from "./helpers/insigniasService";
 
 const PerfilUsuario = () => {
   const [username, setUsername] = useState("");
@@ -10,44 +9,29 @@ const PerfilUsuario = () => {
   const [rol, setRol] = useState("");
   const [progreso, setProgreso] = useState({ actividadesCompletadas: 0, porcentaje: 0 });
   const [insignias, setInsignias] = useState([]);
-  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
-    
-    const obtenerUsuario = async () => {
-      try {
-        const response = await axios.post("http://localhost:3000/api/usuarios/username", { username });
-        console.log("Datos: ",response.data);
-        
-        setEmail(response.data.email || "");
-        setRol(response.data.rol || "");
-        setProgreso(response.data.progreso || { actividadesCompletadas: 0, porcentaje: 0 });
-        setInsignias(response.data.insignias || []);
-      } catch (error) {
-        console.error("Error al obtener los datos del usuario:", error);
-      }
-    };
-  
-    if (token && username) {
-      obtenerUsuario();
+    const email = localStorage.getItem("email");
+    const rol = localStorage.getItem("rol");
+
+    const progresoArray = JSON.parse(localStorage.getItem("progreso")) || [];
+    const progresoData = progresoArray[0] || { actividadesCompletadas: 0, porcentaje: 0 };
+
+    if (token) {
+      setUsername(username || "");
+      setEmail(email || "");
+      setRol(rol || "");
+      setProgreso(progresoData);
+
+      // Obtener insignias desde MongoDB
+      obtenerInsigniasDelUsuario(username).then((insigniasDesdeDB) => {
+        setInsignias(insigniasDesdeDB);
+      });
     }
   }, []);
-  
-  
-  const obtenerRutaInsignia = (id) => {
-    switch (id) {
-      case 1:
-        return "insignias/explorador de ideas.png";
-      case 2:
-        return "insignias/primeros pasos.png";
-      case 3:
-        return "insignias/sin errores.png";
-      default:
-        return "insignias/sin errores.png"; // Ruta por defecto si no coincide
-    }
-  };
-  
+
   return (
     <div>
       <Navbar />
@@ -55,52 +39,48 @@ const PerfilUsuario = () => {
         <h1 className="perfil-titulo">Bienvenido {username}</h1>
         <div className="perfil-info">
           <div className="perfil-datos">
-            <h2>Información personal</h2>
             <p><strong>Correo:</strong> {email}</p>
             <p><strong>Rol:</strong> {rol}</p>
             <p><strong>Actividades completadas:</strong> {progreso?.actividadesCompletadas ?? 0}</p>
+            <p><strong>Porcentaje de avance:</strong> {progreso?.porcentaje ?? 0}%</p>
+
             {/* Barra de progreso */}
-          </div>
-
-          <div className="perfil-insignias">
-            <h2>Insignias</h2>
-            <div className="insignias-lista">
-              {Array.isArray(insignias) && insignias.length > 0 ? (
-                <ul className="lista-insignias">
-                {insignias.map((insignia, index) => (
-                  <li key={index} className="insignia-item">
-                    <img
-                      src={obtenerRutaInsignia(insignia.insigniaId)}
-                      alt={`Insignia ${insignia.insigniaId}`}
-                      className="imagen-insignia"
-                    />
-                    <p><strong>Fecha:</strong> {new Date(insignia.fechaObtenida).toLocaleDateString()}</p>
-                  </li>
-                ))}
-              </ul>
-              
-              ) : (
-                <p>No se han obtenido insignias.</p>
-              )}
-            </div>
-          </div>
-
-          
-        </div>
-
-        <div className="porcentaje-avance">
-          <h2>Progreso en actividades</h2>
-          <p><strong>Actividades completadas:</strong> {progreso?.actividadesCompletadas ?? 0}</p>
-          <p><strong>{progreso?.porcentaje ?? 0}%</strong></p>
-          <div className="barra-progreso-container">
+            <div className="barra-progreso-container">
               <div
                 className="barra-progreso"
                 style={{ width: `${progreso.porcentaje ?? 0}%` }}
               ></div>
+            </div>
+          </div>
+
+          <div className="perfil-insignias">
+            <h2>Insignias</h2>
+            <div className="insignias-lista-tabla">
+              <table className="tabla-insignias">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {insignias.map((insignia, index) => (
+                    <tr key={index}>
+                      <td><img src={insignia.imagenUrl} alt={insignia.nombre} className="icono-insignia" /></td>
+                      <td>{insignia.nombre}</td>
+                      <td>{insignia.descripcion}</td>
+                      <td>{insignia.fecha}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+
           </div>
         </div>
-
-        
       </div>
     </div>
   );
