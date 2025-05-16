@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./css/perfilUsuario.css";
 import Navbar from "./components/navbar/Navbar";
 import { obtenerInsigniasDelUsuario } from "./helpers/insigniasService";
+import axios from "axios";
+import swal from "sweetalert2";
 
 const PerfilUsuario = () => {
   const [username, setUsername] = useState("");
@@ -11,26 +13,41 @@ const PerfilUsuario = () => {
   const [insignias, setInsignias] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
-    const email = localStorage.getItem("email");
-    const rol = localStorage.getItem("rol");
+  const token = localStorage.getItem("token");
+  const storedUsername = localStorage.getItem("username");
+  const storedEmail = localStorage.getItem("email");
+  const storedRol = localStorage.getItem("rol");
+  const progresoArray = JSON.parse(localStorage.getItem("progreso")) || [];
+  const progresoData = progresoArray[0] || { actividadesCompletadas: 0, porcentaje: 0 };
 
-    const progresoArray = JSON.parse(localStorage.getItem("progreso")) || [];
-    const progresoData = progresoArray[0] || { actividadesCompletadas: 0, porcentaje: 0 };
+  if (token && storedUsername) {
+    const obtenerUsuario = async () => {
+      try {
+        const response = await axios.post("http://localhost:3000/api/usuarios/username", { username: storedUsername });
+        console.log("Datos:", response.data);
 
-    if (token) {
-      setUsername(username || "");
-      setEmail(email || "");
-      setRol(rol || "");
-      setProgreso(progresoData);
+        setEmail(response.data.email || storedEmail || "");
+        setRol(response.data.rol || storedRol || "");
+        setProgreso(response.data.progreso || progresoData);
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+      }
+    };
 
-      // Obtener insignias desde MongoDB
-      obtenerInsigniasDelUsuario(username).then((insigniasDesdeDB) => {
-        setInsignias(insigniasDesdeDB);
-      });
-    }
-  }, []);
+    obtenerUsuario();
+
+    setUsername(storedUsername || "");
+    setEmail(storedEmail || "");
+    setRol(storedRol || "");
+    setProgreso(progresoData);
+
+    // Obtener insignias desde MongoDB
+    obtenerInsigniasDelUsuario(storedUsername).then((insigniasDesdeDB) => {
+      setInsignias(insigniasDesdeDB);
+    });
+  }
+}, []);
+
 
   return (
     <div>
