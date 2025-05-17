@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './css/UserManagement.css';
 import SideMenu from './components/SidebarMenu';
 import { Pencil, X } from 'lucide-react';
-import { eliminarUsuario, actualizarUsuario } from './api/usuarios'; // ajusta esta ruta según tu estructura
+import { eliminarUsuario, actualizarUsuario } from '../../Backend_Codezoo/api/usuarios'; // ajusta esta ruta según tu estructura
 import ModalEditUsuario from './components/modal/ModalEditUsuario';
 
 export default function UserManagement() {
@@ -12,7 +12,7 @@ export default function UserManagement() {
   const [showModal, setShowModal] = useState(false); // Controlar la visibilidad del modal
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/usuarios') // Asegúrate de que esta URL sea correcta
+    fetch('https://backend-codezoo.onrender.com/api/usuarios') // Asegúrate de que esta URL sea correcta
       .then(res => res.json())
       .then(data => {
         setUsers(data);

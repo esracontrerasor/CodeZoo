@@ -34,7 +34,7 @@ const DashboardGraficas = () => {
     const fetchDatos = async () => {
       try {
         // FORO
-        const foroResponse = await axios.get("http://localhost:3000/api/foro");
+        const foroResponse = await axios.get("https://backend-codezoo.onrender.com/api/foro");
         const preguntas = foroResponse.data;
 
         const conteoPorMes = {};
@@ -58,7 +58,7 @@ const DashboardGraficas = () => {
         });
 
         // USUARIOS
-    const usuariosResponse = await axios.get("http://localhost:3000/api/usuarios");
+    const usuariosResponse = await axios.get("https://backend-codezoo.onrender.com/api/usuarios");
     const usuarios = usuariosResponse.data;
     const estudiantes = usuarios.filter(u => u.rol === "estudiante");
 

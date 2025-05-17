@@ -22,7 +22,7 @@ const Foro = () => {
       const estado = "pendiente";
       const comentarios = [];
   
-      await axios.post("http://localhost:3000/api/foro/pregunta", {
+      await axios.post("https://backend-codezoo.onrender.com/api/foro/pregunta", {
         titulo,
         contenido,
         autor,
@@ -32,7 +32,7 @@ const Foro = () => {
       });
   
       // ✅ Recargar preguntas tras enviar
-      const response = await axios.post("http://localhost:3000/api/foro/autor", { autor });
+      const response = await axios.post("https://backend-codezoo.onrender.com/api/foro/autor", { autor });
       setPreguntas(response.data);
   
       setMostrarAlerta(true);
@@ -51,7 +51,7 @@ const Foro = () => {
     const cargarPreguntas = async () => {
       try {
         const autor = localStorage.getItem("username");
-        const response = await axios.post("http://localhost:3000/api/foro/autor", { autor });
+        const response = await axios.post("https://backend-codezoo.onrender.com/api/foro/autor", { autor });
         setPreguntas(response.data);
       } catch (error) {
         console.error("Error al obtener las preguntas del foro", error);

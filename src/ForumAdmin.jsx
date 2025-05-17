@@ -4,7 +4,7 @@ import {
   eliminarForo,
   actualizarForo,
   eliminarComentario,
-} from "./api/foro";
+} from "../../Backend_Codezoo/api/foro";
 import "./css/ForumAdmin.css";
 import SidebarMenu from "./components/SidebarMenu";
 import Spinner from "./components/spinner"; // Asegúrate de tener el Spinner importado
@@ -116,7 +116,7 @@ const ForumAdmin = () => {
       };
 
       const response = await fetch(
-        `http://localhost:3000/api/foro/${selectedQuestion._id}`,
+        `https://backend-codezoo.onrender.com/api/foro/${selectedQuestion._id}`,
         {
           method: "PUT",
           headers: {
