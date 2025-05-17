@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './css/UserManagement.css';
 import SideMenu from './components/SidebarMenu';
 import { Pencil, X } from 'lucide-react';
-import { eliminarUsuario, actualizarUsuario } from '../../Backend_Codezoo/api/usuarios'; // ajusta esta ruta según tu estructura
+import { eliminarUsuario, actualizarUsuario } from '../src/api/usuarios'; // Ajusta el path según tu estructura
+// ajusta esta ruta según tu estructura
 import ModalEditUsuario from './components/modal/ModalEditUsuario';
 
 export default function UserManagement() {

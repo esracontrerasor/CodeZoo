@@ -4,7 +4,8 @@ import {
   eliminarForo,
   actualizarForo,
   eliminarComentario,
-} from "../../Backend_Codezoo/api/foro";
+} from "../src/api/foro"; // Ajusta el path según tu estructura
+
 import "./css/ForumAdmin.css";
 import SidebarMenu from "./components/SidebarMenu";
 import Spinner from "./components/spinner"; // Asegúrate de tener el Spinner importado
