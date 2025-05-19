@@ -42,7 +42,7 @@ export default function CarreraDeAutos() {
         const idUusuario = localStorage.getItem("id");
 
         try {
-            const respuesta = await axios.get(`http://localhost:3000/api/usuarios/${idUusuario}`);
+            const respuesta = await axios.get(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}`);
             const usuario = await respuesta.data;
 
             let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
@@ -52,7 +52,7 @@ export default function CarreraDeAutos() {
             const nuevasActividades = actividadesCompletadas + 1;
             const nuevoPorcentaje = Math.min(100, Math.round((nuevasActividades / totalActividades) * 100));
            
-            const response = await axios.post(`http://localhost:3000/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividades, porcentaje: nuevoPorcentaje });
+            const response = await axios.post(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividades, porcentaje: nuevoPorcentaje });
             
             if (response.status === 200) {
                 console.log("Progreso actualizado con éxito");

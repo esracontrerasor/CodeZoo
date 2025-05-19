@@ -1,44 +1,19 @@
-const API_URL = 'http://localhost:3000/api/usuarios';
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-export const obtenerUsuarios = async () => {
-    const response = await fetch(API_URL);
-    return response.json();
-};
+// Eliminar usuario
+export async function eliminarUsuario(id) {
+  const res = await fetch(`${API_BASE_URL}/api/usuarios/${id}`, {
+    method: "DELETE",
+  });
+  return res.json();
+}
 
-export const crearUsuario = async (usuario) => {
-    const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(usuario),
-    });
-    return response.json();
-};
-
-export const actualizarUsuario = async (id, usuario) => {
-    const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PATCH',  // Cambiar el método a PATCH
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(usuario),
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'No se pudo actualizar el usuario');
-    }
-
-    return response.json();
-};
-
-export const eliminarUsuario = async (id) => {
-    const response = await fetch(`${API_URL}/${id}`, {
-        method: 'DELETE',
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'No se pudo eliminar el usuario');
-    }
-
-    return response.json();
-};
-
+// Actualizar usuario
+export async function actualizarUsuario(id, data) {
+  const res = await fetch(`${API_BASE_URL}/api/usuarios/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}

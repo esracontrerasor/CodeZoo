@@ -22,7 +22,7 @@ const LoginRegister = ({ onClose }) => {
         console.log("Password:", password);
 
         try {
-            const response = await axios.post("http://localhost:3000/api/usuarios/login", { email, password });
+            const response = await axios.post("https://backend-codezoo.onrender.com/api/usuarios/login", { email, password });
             
             console.log(response.data);
             console.log(response.data.username);
@@ -54,7 +54,7 @@ const LoginRegister = ({ onClose }) => {
         e.preventDefault();
         try {
             console.log({ username, email, password });
-            const response = await axios.post("http://localhost:3000/api/usuarios/registro", { username, email, password });
+            const response = await axios.post("https://backend-codezoo.onrender.com/api/usuarios/registro", { username, email, password });
            /*
             swal.fire({
                 icon: "success",
