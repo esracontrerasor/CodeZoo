@@ -52,7 +52,7 @@ const DashboardGraficas = () => {
           datasets: [{
             label: "Preguntas por mes",
             data: foroValues,
-            backgroundColor: "#42a5f5",
+            backgroundColor: "#7ED957",
             borderRadius: 8
           }]
         });
@@ -101,7 +101,7 @@ const DashboardGraficas = () => {
             {
               label: "Progreso promedio (%)",
               data: [promedioProgreso],
-              backgroundColor: "#66bb6a",
+              backgroundColor: "#7ED957",
               borderRadius: 8,
             },
           ],

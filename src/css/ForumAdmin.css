@@ -1,7 +1,7 @@
 .forum-admin {
     display: flex;
     min-height: 100vh;
-    background-color: #446894;
+    background-color: #FFFFF0;
 }
 
 /* Sidebar */
@@ -22,7 +22,7 @@
 .forum-title {
     text-align: center;
     font-size: 24px;
-    color: #FFFFFF;
+    color: #000;
 }
 
 /* Secciones */
@@ -41,7 +41,7 @@
 }
 
 .forum-panel h2 {
-    color: white;
+    color: black;
 }
 
 /* Caja de preguntas */
@@ -53,7 +53,7 @@
 
 /* Pregunta */
 .question-item {
-    background: #f4f4f4;
+    background: #f6efef;
     padding: 12px;
     border-radius: 0 6px 6px 6px;
 }

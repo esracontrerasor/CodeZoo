@@ -9,7 +9,7 @@
   
   .user-management-title {
     font-size: 24px;
-    color: white;
+    color: black;
     margin-bottom: 20px;
     text-align: center;
     width: 100%;
@@ -72,7 +72,7 @@
   }
   
   .edit-button {
-    color: #1d4ed8;
+    color: #5bb036;
     background: none;
     border: none;
     cursor: pointer;
@@ -96,6 +96,6 @@
   .user-management-layout {
     display: flex;
     min-height: 100vh;
-    background-color: #446894;
+    background-color: #FFFFF0;
   }
   

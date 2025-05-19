@@ -1,8 +1,8 @@
 /* Sidebar */
 .sidebar {
     width: 220px;
-    background-color: #1c2c4c;
-    color: white;
+    background-color: #7ED957;
+    color: black;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -33,7 +33,7 @@
   
   .user-role {
     font-size: 0.8rem;
-    color: #ccc;
+    color: #000;
     margin: 0;
   }
   
@@ -69,7 +69,7 @@
   
   .nav-links a.active,
   .nav-links a:hover {
-    background-color: #32476b;
+    background-color: #47a221;
   }
   
   .nav-icon {
