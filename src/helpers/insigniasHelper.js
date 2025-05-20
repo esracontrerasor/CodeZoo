@@ -19,7 +19,7 @@ export const mostrarInsignia = async (insignia) => {
   }
 
   try {
-    const res = await fetch(`http://localhost:3000/api/insignias/${username}`, {
+    const res = await fetch(`https://backend-codezoo.onrender.com/api/insignias/${username}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(insignia)

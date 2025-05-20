@@ -1,6 +1,6 @@
 export const obtenerInsigniasDelUsuario = async (username) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/insignias/${username}`);
+    const res = await fetch(`https://backend-codezoo.onrender.com/api/insignias/${username}`);
     if (!res.ok) throw new Error("No se pudo obtener insignias");
 
     const insignias = await res.json();
