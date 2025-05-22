@@ -1,4 +1,6 @@
 import swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 
 export const mostrarInsignia = async (insignia) => {
   const username = localStorage.getItem("username");
@@ -38,12 +40,13 @@ export const mostrarInsignia = async (insignia) => {
     imageWidth: 100,
     imageHeight: 100,
     icon: "success",
-    confirmButtonText: "Ir al perfil",
+    //confirmButtonText: "Ir al perfil",
     showCancelButton: true,
     cancelButtonText: "Cerrar"
   }).then((res) => {
     if (res.isConfirmed) {
-      window.location.href = "/perfil";
+      const navigate = useNavigate();
+      navigate("/perfil");
     }
   });
 };

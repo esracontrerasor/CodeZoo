@@ -24,7 +24,7 @@ const PerfilUsuario = () => {
     const obtenerUsuario = async () => {
       try {
         const response = await axios.post("https://backend-codezoo.onrender.com/api/usuarios/username", { username: storedUsername });
-        console.log("Datos:", response.data);
+        
 
         setEmail(response.data.email || storedEmail || "");
         setRol(response.data.rol || storedRol || "");
