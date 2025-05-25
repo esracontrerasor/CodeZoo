@@ -34,6 +34,12 @@
   border: 1px solid #404040;
 }
 
+.tab.active{
+  color: #FFFFFF;
+  background-color: #7ED957;
+  border: none;
+}
+
 .tab:hover{
   color: #FFFFFF;
   background-color: #7ED957;

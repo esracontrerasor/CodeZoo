@@ -47,33 +47,31 @@ const Memorama = () => {
     const [inicioJuego, setInicioJuego] = useState(null);
     const [insigniasMostradas, setInsigniasMostradas] = useState(false);
 
-    const actualizarProgreso = async () => {
+    const actualizarProgreso = async() => {
         const idUusuario = localStorage.getItem("id");
 
         try {
             const respuesta = await axios.get(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}`);
             const usuario = await respuesta.data;
-
-            let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
-            let actividadesCompletadas = progresoActual.actividadesCompletadas;
             
-            const totalActividades  = 7;
-            const nuevasActividades = actividadesCompletadas + 1;
-            const nuevoPorcentaje = Math.min(100, Math.round((nuevasActividades / totalActividades) * 100));
+            //Calcular el progreso
+            let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
+            const nuevasActividadesCompletadas = progresoActual.actividadesCompletadas + 1;
+            //Ajustar porcentaje para que suba de 10 en 10 por cada actividad
+            const nuevoPorcentaje = Math.min(100, nuevasActividadesCompletadas * 10);
            
-            const response = await axios.post(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividades, porcentaje: nuevoPorcentaje });
-
+            const response = await axios.post(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividadesCompletadas, porcentaje: nuevoPorcentaje });
+            
             if (response.status === 200) {
                 console.log("Progreso actualizado con éxito");
             } else {
                 console.error("Error al actualizar el progreso");
             }
-
-        } catch (error) {
+        
+        }catch (error) {
             console.error('Error al actualizar el progreso:', error);
-        }
-
-    };
+        } 
+  };
 
     const manejarClick = (idUnico) => {
         if (bloqueado || seleccionadas.some(carta => carta.idUnico === idUnico)) return;

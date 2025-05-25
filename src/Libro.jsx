@@ -8,6 +8,7 @@ import swal from "sweetalert2";
 import { mostrarInsignia } from "./helpers/insigniasHelper";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";  // Asegúrate de agregar esta línea
+import axios from "axios";
 
 
 const Libro = () => {
@@ -19,6 +20,32 @@ const Libro = () => {
   const totalPages = libro.paginas.length;
   const [currentPage, setCurrentPage] = useState(0);
 
+  const actualizarProgreso = async() => {
+        const idUusuario = localStorage.getItem("id");
+
+        try {
+            const respuesta = await axios.get(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}`);
+            const usuario = await respuesta.data;
+            
+            //Calcular el progreso
+            let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
+            const nuevasActividadesCompletadas = progresoActual.actividadesCompletadas + 1;
+            //Ajustar porcentaje para que suba de 10 en 10 por cada actividad
+            const nuevoPorcentaje = Math.min(100, nuevasActividadesCompletadas * 10);
+           
+            const response = await axios.post(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividadesCompletadas, porcentaje: nuevoPorcentaje });
+            
+            if (response.status === 200) {
+                console.log("Progreso actualizado con éxito");
+            } else {
+                console.error("Error al actualizar el progreso");
+            }
+        
+        }catch (error) {
+            console.error('Error al actualizar el progreso:', error);
+        } 
+  };
+
   const generatePages = () =>
     Array.from({ length: totalPages }, (_, i) => ({
       id: i,
@@ -29,63 +56,65 @@ const Libro = () => {
   const [pages, setPages] = useState(generatePages());
 
   const nextPage = async () => {
-  if (currentPage < totalPages - 1) {
-    const newPages = [...pages];
-    newPages[currentPage + 1].flipping = true;
-    setPages(newPages);
+    if (currentPage < totalPages - 1) {
+      const newPages = [...pages];
+      newPages[currentPage + 1].flipping = true;
+      setPages(newPages);
 
-    setTimeout(async () => {
-      const updatedPages = [...newPages];
-      updatedPages[currentPage + 1].flipping = false;
-      setPages(updatedPages);
-      setCurrentPage(currentPage + 1);
+      setTimeout(async () => {
+        const updatedPages = [...newPages];
+        updatedPages[currentPage + 1].flipping = false;
+        setPages(updatedPages);
+        setCurrentPage(currentPage + 1);
 
-      // Si ya se llegó a la última página
-      if (currentPage + 1 === totalPages - 1) {
-        const username = localStorage.getItem("username");
-        if (!username) return;
+        // Si ya se llegó a la última página
+        if (currentPage + 1 === totalPages - 1) {
+          const username = localStorage.getItem("username");
+          if (!username) return;
 
-        const mostradosRaw = localStorage.getItem("swalsMostrados");
-        const mostrados = mostradosRaw ? JSON.parse(mostradosRaw) : {};
-        const updated = { ...mostrados, [username]: { ...(mostrados[username] || {}) } };
+          const mostradosRaw = localStorage.getItem("swalsMostrados");
+          const mostrados = mostradosRaw ? JSON.parse(mostradosRaw) : {};
+          const updated = { ...mostrados, [username]: { ...(mostrados[username] || {}) } };
 
-        const historialLecturasRaw = localStorage.getItem("librosLeidos");
-        const historialLecturas = historialLecturasRaw ? JSON.parse(historialLecturasRaw) : {};
-        historialLecturas[libroId] = true;
-        localStorage.setItem("librosLeidos", JSON.stringify(historialLecturas));
+          const historialLecturasRaw = localStorage.getItem("librosLeidos");
+          const historialLecturas = historialLecturasRaw ? JSON.parse(historialLecturasRaw) : {};
+          historialLecturas[libroId] = true;
+          localStorage.setItem("librosLeidos", JSON.stringify(historialLecturas));
 
-        const librosLeidos = Object.keys(historialLecturas).length;
+          const librosLeidos = Object.keys(historialLecturas).length;
 
-        const promesas = [];
+          const promesas = [];
 
-        // 🧠 Explorador de Ideas (primer libro terminado)
-        if (!updated[username].exploradorIdeas) {
-          promesas.push(mostrarInsignia({
-            nombre: "Explorador de Ideas",
-            descripcion: "Completaste tu primera lectura en CodeZoo",
-            fecha: new Date().toLocaleDateString(),
-            imagenUrl: "/insignias/explorador de ideas.png"
-          }));
-          updated[username].exploradorIdeas = true;
+          // 🧠 Explorador de Ideas (primer libro terminado)
+          if (!updated[username].exploradorIdeas) {
+            promesas.push(mostrarInsignia({
+              nombre: "Explorador de Ideas",
+              descripcion: "Completaste tu primera lectura en CodeZoo",
+              fecha: new Date().toLocaleDateString(),
+              imagenUrl: "/insignias/explorador de ideas.png"
+            }));
+            updated[username].exploradorIdeas = true;
+          }
+
+          // 🌟 Lector Estrella (2 libros o más terminados)
+          if (librosLeidos >= 2 && !updated[username].lectorEstrella) {
+            promesas.push(mostrarInsignia({
+              nombre: "Lector estrella",
+              descripcion: "Completaste al menos dos libros en CodeZoo",
+              fecha: new Date().toLocaleDateString(),
+              imagenUrl: "/insignias/Lector estrella.png"
+            }));
+            updated[username].lectorEstrella = true;
+          }
+
+          await Promise.all(promesas);
+          localStorage.setItem("swalsMostrados", JSON.stringify(updated));
+
+          await actualizarProgreso();
         }
-
-        // 🌟 Lector Estrella (2 libros o más terminados)
-        if (librosLeidos >= 2 && !updated[username].lectorEstrella) {
-          promesas.push(mostrarInsignia({
-            nombre: "Lector estrella",
-            descripcion: "Completaste al menos dos libros en CodeZoo",
-            fecha: new Date().toLocaleDateString(),
-            imagenUrl: "/insignias/Lector estrella.png"
-          }));
-          updated[username].lectorEstrella = true;
-        }
-
-        await Promise.all(promesas);
-        localStorage.setItem("swalsMostrados", JSON.stringify(updated));
-      }
-    }, 800);
-  }
-};
+      }, 800);
+    }
+  };
 
 
 
@@ -181,13 +210,13 @@ const Libro = () => {
           {/* Lista de libros disponibles */}
           <div className="available-books">
             <h4>Libros Disponibles</h4>
-              {Object.keys(libros).map((key) => (
-                <li key={key}>
-                  <Link to={`/libro/${key}`} className="book-link">
-                    {libros[key].titulo}
-                  </Link>
-                </li>
-              ))}
+            {Object.keys(libros).map((key) => (
+              <li key={key}>
+                <Link to={`/libro/${key}`} className="book-link">
+                  {libros[key].titulo}
+                </Link>
+              </li>
+            ))}
           </div>
         </div>
 

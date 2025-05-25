@@ -8,6 +8,7 @@ import swal from "sweetalert2";
 import welcomeImg from "../src/resources/leon_searching.png";
 import endImg from "../src/resources/leon_like.png";
 import { mostrarInsignia } from "./helpers/insigniasHelper";
+import axios from "axios";
 
 const MySwal = withReactContent(swal);
 
@@ -109,21 +110,30 @@ const SopaDeLetras = () => {
         STRING: "String permite almacenar palabras, frases o nombres."
     };
 
-    const actualizarProgreso = async() => {
+   const actualizarProgreso = async() => {
         const idUusuario = localStorage.getItem("id");
 
         try {
             const respuesta = await axios.get(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}`);
             const usuario = await respuesta.data;
-
-            let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
-            let actividadesCompletadas = progresoActual.actividadesCompletadas;
             
-            const totalActividades  = 7;
-            const nuevasActividades = actividadesCompletadas + 1;
-            const nuevoPorcentaje = Math.min(100, Math.round((nuevasActividades / totalActividades) * 100));
+            //Calcular el progreso
+            let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
+            const nuevasActividadesCompletadas = progresoActual.actividadesCompletadas + 1;
+
+            // Calcular incremento del porcentaje segun la dificultad
+            let incrementoPorcentaje = 0;
+            if (dificultad === "facil") {
+                incrementoPorcentaje = 5;
+            } else if (dificultad === "medio") {
+                incrementoPorcentaje = 10;
+            } else if (dificultad === "dificil") {
+                incrementoPorcentaje = 15;
+            }
+
+            const nuevoPorcentaje = Math.min(100, progresoActual.porcentaje + incrementoPorcentaje);
            
-            const response = await axios.post(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividades, porcentaje: nuevoPorcentaje });
+            const response = await axios.post(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividadesCompletadas, porcentaje: nuevoPorcentaje });
             
             if (response.status === 200) {
                 console.log("Progreso actualizado con éxito");
@@ -134,8 +144,7 @@ const SopaDeLetras = () => {
         }catch (error) {
             console.error('Error al actualizar el progreso:', error);
         } 
-
-    };
+  };
 
     const generarNuevaSopa = () => {
         const config = niveles[dificultad];

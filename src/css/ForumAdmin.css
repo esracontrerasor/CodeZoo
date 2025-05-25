@@ -4,18 +4,14 @@
     background-color: #FFFFF0;
 }
 
-/* Sidebar */
-.sidebar-menu {
-    width: 250px;
-    background: #007bff;
-    color: white;
-    padding: 20px;
-}
-
 /* Contenido */
 .forum-content {
     flex: 1;
+    margin-left: 220px;
     padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 /* Título */

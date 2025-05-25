@@ -14,7 +14,7 @@ const CodeZooInfo = () => {
   const handlePopupOpen = () => {
     console.log("Popup abierto");
     setShowLogin(true);
-};
+  };
 
 const handlePopupClose = () => {
     

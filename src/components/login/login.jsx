@@ -52,25 +52,39 @@ const LoginRegister = ({ onClose }) => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        const passwordRegex = /^[A-Z][A-Za-z0-9]{7,}$/;
+
+        if (!passwordRegex.test(password)) {
+           swal.fire({
+                icon: "error",
+                title: "Contraseña inválida",
+                text:"La contraseña debe tener al menos 8 caracteres y comenzar con una letra mayúscula.",
+            });
+            return;
+        }
+
         try {
             console.log({ username, email, password });
             const response = await axios.post("https://backend-codezoo.onrender.com/api/usuarios/registro", { username, email, password });
-           /*
+
+           // localStorage.setItem("id", response.data._id);
+           //  localStorage.setItem("token", response.data.token);
             swal.fire({
                 icon: "success",
                 title: "Cuenta creada correctamente",
                 text: "Bienvenido a CodeZoo. Ya puedes comenzar a explorar y aprender jugando",
+            }).then(() => {
+                console.log("Redirigiendo al inicio de sesión...");
+                window.location.href = "/";
             });
-            */
-            localStorage.setItem("id", response.data._id);
-            localStorage.setItem("token", response.data.token);
-            navigate("/");
         }
         catch (error) {
+            console.error("Error en registro:", error.response?.data || error.message);
+
             swal.fire({
                 icon: "error",
                 title: "No se pudo crear la cuenta",
-                text:  "Ha surgido un error al intentar crear tu cuenta, por favor inténtelo mas tarde",
+                text:  error.response?.data?.message || "Ha surgido un error al intentar crear tu cuenta, por favor inténtelo mas tarde",
             })
         }
     };
@@ -83,6 +97,8 @@ const LoginRegister = ({ onClose }) => {
     const handleLoginClick = (e) => {
         e.preventDefault();
         setIsActive(false);
+
+
     };
 
     return (

@@ -1,6 +1,5 @@
 .dashboard-layout {
   display: flex;
-  /* background-color: #376996; Fondo azul general */
   min-height: 100vh;
 }
 
@@ -9,6 +8,10 @@
   padding: 2rem;
   background-color: #FFFFF0;
   color: #fff;
+  box-sizing: border-box;
+  margin-left: 220px;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .grafica-card {

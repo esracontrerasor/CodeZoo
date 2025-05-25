@@ -1,5 +1,6 @@
 /* Sidebar */
 .sidebar {
+  position: fixed;
     width: 220px;
     background-color: #7ED957;
     color: black;
@@ -7,9 +8,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    top: 0; /* Asegura que quede pegado al top */
-    left: 0; /* Asegura que quede pegado al left */
-    height: 100vh; /* Hace que ocupe toda la altura de la pantalla */
+    top: 0; 
+    left: 0; 
+    height: 100vh; 
     box-sizing: border-box;
   }
   

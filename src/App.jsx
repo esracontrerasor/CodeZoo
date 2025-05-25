@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, BrowserRouter} from "react-router-dom";
 import CodeZooInfo from "./Bienvenida.jsx";
 import Terminos from "./Terminos.jsx"
 import Home from "./Home.jsx"
@@ -22,8 +22,6 @@ import Dashboard from "./GraficasDashboard.jsx";
 import "./App.css";
 
 const App = () => {
-
-
   return (
   <>
       <Routes>
@@ -43,11 +41,8 @@ const App = () => {
         <Route path="/ForumAdmin" element={<FormForo />}/>
         <Route path="/UserManagement" element={<UserManagement />}/>
         <Route path="/Dashboard" element={<Dashboard />}/>
-
       </Routes>
   </>
-    
   );
 }
-
 export default App;

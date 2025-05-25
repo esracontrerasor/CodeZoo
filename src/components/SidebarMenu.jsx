@@ -3,10 +3,10 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import '../css/SidebarMenu.css';
 import spinner from "./spinner"; // Asegúrate de que el spinner esté importado
 import avatar from '../resources/user_2.png';
-import iconForo from '../resources/icons/bx-chat.svg';
-import iconUsuario from '../resources/icons/bx-user.svg';
-import iconLogOut from '../resources/icons/bx-log-out.svg';
-import iconPanel from '../resources/icons/bx-objects-horizontal-left.svg';
+import iconForo from '../resources/icons/bx-chat.png';
+import iconUsuario from '../resources/icons/bx-user.png';
+import iconLogOut from '../resources/icons/bx-log-out.png';
+import iconPanel from '../resources/icons/bx-objects-horizontal-left.png';
 
 const SidebarMenu = () => {
   const location = useLocation();

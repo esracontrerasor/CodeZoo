@@ -3,12 +3,24 @@ import "./css/Info.css"; // Asegúrate de que este archivo existe
 import { useNavigate } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar.jsx";
 import aboutImage from "../src/resources/icono-pantalla-principal.png";
+import LoginRegister from "./components/login/login.jsx";
 
 const Info = () => {
+  const [showLogin, setShowLogin] = React.useState(false);
+
+  const handlePopupOpen = () => {
+    console.log("Popup abierto");
+    setShowLogin(true);
+  };
+
+const handlePopupClose = () => {
+    setShowLogin(false);
+};
 
   return (
     <div>
-    <Navbar />
+    <Navbar onLoginClick={handlePopupOpen}/>
+    {!showLogin && (
       <div className="main-content">
         <div className="about-containter">
           <img src={aboutImage} alt="" class="imagen-info"/> 
@@ -25,6 +37,13 @@ const Info = () => {
           </div>
         </div>            
       </div> 
+      
+    )}
+
+    {showLogin && (
+      <LoginRegister onClose={() => setShowLogin(false)} />
+    )}
+      
       </div>
   );
 };
