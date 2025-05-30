@@ -5,10 +5,11 @@ import { IoMail, IoLockClosed, IoPerson, IoClose } from "react-icons/io5";
 import axios from "axios";
 import "./login.css";
 import swal from "sweetalert2";
+import Spinner from "../spinner";
 
 const LoginRegister = ({ onClose }) => {
     const navigate = useNavigate();
-  
+    const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,6 +18,7 @@ const LoginRegister = ({ onClose }) => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         console.log("Email:", email);
         console.log("Password:", password);
@@ -46,7 +48,9 @@ const LoginRegister = ({ onClose }) => {
                 icon: "error",
                 title: "Error al iniciar sesión",
                 text: error.response?.data?.message || "Credenciales incorrectas",
-            })
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -103,6 +107,7 @@ const LoginRegister = ({ onClose }) => {
 
     return (
         <div className={`wrapper ${isActive ? 'active' : ''} active-popup `}>
+            {loading && <Spinner />}
             <span class="icon-close" onClick={onClose}>
                 <IoClose />
             </span>
@@ -126,6 +131,7 @@ const LoginRegister = ({ onClose }) => {
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
 
                     <button type="submit" class="btn">INGRESAR</button>
+                    
 
                     <div class="login-register">
                         <p>¿No tienes una cuenta? <a href="#" class="register-link" onClick={handleRegisterClick}>Crea una</a></p>
