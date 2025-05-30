@@ -9,11 +9,12 @@ const BackgroundMusic = ({ audioSrc }) => {
         audio.play();
 
         return () => {
-            const audio = audioRef.current;
-            audio.pause();
-            audio.currentTime = 0;
-        };
-    }, [audioSrc]);
+      if (audioRef.current) {
+        audioRef.current.pause();  // 👈 Validar antes de pausar
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
 
 
     return (
