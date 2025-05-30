@@ -5,6 +5,8 @@ import "../src/css/SafariRacing.css"
 import welcomeImg from "../src/resources/safariIcon.png"
 import withReactContent from "sweetalert2-react-content";
 import { mostrarInsignia } from "./helpers/insigniasHelper";
+import BackgroundMusic from "./components/backgroundMusic";
+import musicaSafari from "../src/resources/Sounds/Jade Jungle - Paper Mario (N64) Soundtrack - Daintii Music.mp3";
 
 const MySwal = withReactContent(swal);
 
@@ -252,6 +254,7 @@ export default function CarreraDeAutos() {
 
     return (
         <div className="carrera-container">
+            <BackgroundMusic audioSrc={musicaSafari} />
             <div className="carrera-content">
                 <div className="carrera-instrucciones">
                     <h2>Instrucciones</h2>

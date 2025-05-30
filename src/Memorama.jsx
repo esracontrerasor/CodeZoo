@@ -7,6 +7,8 @@ import StartEffect from "../src/StartEffect";
 import "../src/css/Memorama.css";
 import cartaDorso from "../src/resources/Mem/Carta.png";
 import { mostrarInsignia } from "./helpers/insigniasHelper";
+import BackgroundMusic from "./components/backgroundMusic";
+import musicaMemorama from "../src/resources/Sounds/Shy Guy's Toy Box - Paper Mario (N64) Soundtrack - Daintii Music.mp3";
 
 const imagenes = [
     { id: "mono", src: "src/resources/Mem/A.jpg", info: "El mono es ágil e inteligente, igual que 'if', que toma decisiones dependiendo de una condición. 🐵" },
@@ -254,6 +256,7 @@ const Memorama = () => {
         <div>
             <Navbar />
             <div className="memorama-body" style={{ textAlign: "center" }}>
+                <BackgroundMusic audioSrc={musicaMemorama} />
                 <h1 className="memorama-header">MEMORAMA</h1>
                 <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />
                 <div className="memorama-grid">

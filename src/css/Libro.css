@@ -10,7 +10,6 @@
   padding: 20px;
   gap: 20px;
   position: relative;
-  margin-top: 90px;
 }
 
 .book-sidebar, .ad-sidebar {
@@ -131,6 +130,20 @@
   border: none;
   background-color: #7ED957;
   color: #F4FFFD;
+}
+.available-books h4{
+  margin-bottom: 10px;
+}
+
+.available-books li {
+  list-style: none;
+  margin-bottom: 5px
+}
+
+.book-link {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
 }
 
 .flipping {

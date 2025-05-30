@@ -9,6 +9,9 @@ import welcomeImg from "../src/resources/leon_searching.png";
 import endImg from "../src/resources/leon_like.png";
 import { mostrarInsignia } from "./helpers/insigniasHelper";
 import axios from "axios";
+import BackgroundMusic from "./components/backgroundMusic";
+import musicaSopaLetras from "../src/resources/Sounds/Mt. Rugged - Paper Mario (N64) Soundtrack - Daintii Music.mp3";
+
 
 const MySwal = withReactContent(swal);
 
@@ -280,6 +283,7 @@ const SopaDeLetras = () => {
         <div>
         <Navbar />
         <div className="sopa-container">
+            <BackgroundMusic audioSrc={musicaSopaLetras} />
             <h1 className="sopa-header">SOPA DE LETRAS</h1>
             <CodeZooCat contexto="sopa-de-letras" customMessage={mensajeGato} isOpen={gatoVisible} />
 
