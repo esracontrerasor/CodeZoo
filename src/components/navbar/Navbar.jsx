@@ -69,9 +69,9 @@ const Navbar = ({onLoginClick}) => {
             <a href="/" className="logo">CodeZoo</a>
 
             <nav className="navbar">
-                <a href="/">Inicio</a>
-                <a href="#" onClick={handleClick}>Actividades</a>
-                <a href="/info">Acerca De</a>
+                <Link to="/">Inicio</Link>
+                <Link to="#" onClick={handleClick}>Actividades</Link>
+                <Link to="/info">Acerca De</Link>
                 {isAuthenticated ? (
                    <div className="user-menu">
                         <img src={userIcon} className="user-icon" alt="" onClick={toggleMenu}/>
