@@ -6,6 +6,7 @@ import userIcon from "../../resources/user-icon-white.png";
 import bxUser from "../../resources/icons/bx-user.svg";
 import bxLogOut from "../../resources/icons/bx-log-out.svg";
 import bxForo from "../../resources/icons/bx-chat.svg";
+import {Link} from "react-router-dom";
 
 
 const Navbar = ({onLoginClick}) => {
