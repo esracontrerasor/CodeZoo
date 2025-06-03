@@ -288,7 +288,7 @@ const SopaDeLetras = () => {
         <div>
             <Navbar />
             <div className="sopa-container">
-                <BackgroundMusic audioSrc={musicaSopaLetras} />
+                {/* <BackgroundMusic audioSrc={musicaSopaLetras}> */}
                 <h1 className="sopa-header">SOPA DE LETRAS</h1>
                 <CodeZooCat contexto="sopa-de-letras" customMessage={mensajeGato} isOpen={gatoVisible} />
 
