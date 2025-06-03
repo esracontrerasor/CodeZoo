@@ -1,4 +1,10 @@
+Descripción del proyecto:
+CodeZoo es una plataforma interactiva ideada para niños con el propósito de brindarles aprendizaje acerca de la programación enfocada
+a Javascript, mediante el uso de cuentos y juegos interactivos que abonen a diversos temas bajo este mismo fin.
+Pasos necesarios para correr el proyecto de manera local:
+1- Hacer la instalación de las librerías con npm install.
+2- Ejecutarlo con npm run dev.
 Integrantes del equipo:
-● Cuevas Alaniz ALan
-● Contreras Ortega Esteban Ramon
-● Aparicio Rojas Gustavo
+● Cuevas Alaniz Alan
+● Contreras Ortega Esteban Ramón
+● Aparicio Rojas Gustavo de Jesús
