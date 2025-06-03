@@ -1,3 +1,4 @@
+    // Imports de componentes y recursos
 import { useState, useEffect } from "react";
 import swal from "sweetalert2";
 import jeepIMG from "../src/resources/jeep.png";
@@ -7,11 +8,11 @@ import withReactContent from "sweetalert2-react-content";
 import { mostrarInsignia } from "./helpers/insigniasHelper";
 import BackgroundMusic from "./components/backgroundMusic";
 import musicaSafari from "../src/resources/Sounds/Jade Jungle - Paper Mario (N64) Soundtrack - Daintii Music.mp3";
-
+    // Configuración de alertas con React y SweetAlert2
 const MySwal = withReactContent(swal);
 
 export default function CarreraDeAutos() {
-
+    // Estados requeridos del juego
     const [pos1, setPos1] = useState(0); 
     const [pos2, setPos2] = useState(0); 
     const [winner, setWinner] = useState(null);
@@ -20,18 +21,17 @@ export default function CarreraDeAutos() {
     const [boost, setBoost] = useState(3);
     const meta = typeof window !== "undefined" ? window.innerWidth * 0.75 : 500;
     const [juegoIniciado, setJuegoIniciado] = useState(false);
-    const [progreso, setProgreso] = useState({ actividadesCompletadas: 0, porcentaje: 0 });
     const [pausado, setPausado] = useState(false);
 
     const [errores, setErrores] = useState(0);
     const [insigniasOtorgadas, setInsigniasOtorgadas] = useState(false);
-    
+    //Definición de los retos a mostrar
     const retos = [
         {pregunta: "Completa: 2 + 2 = ?", respuesta: '4'},
         {pregunta: "Palabra clave para crear funciones", respuesta: 'function'},
         {pregunta: "Palabra clave para crear condicionales", respuesta: 'if'},
         {pregunta: "¿Resultado de 5 * 4?", respuesta: '20'},
-        {pregunta: "¿Cómo se llama el operador de suma?", respuesta: '+'}, 
+        {pregunta: "¿Cómo es el operador de suma?", respuesta: '+'}, 
         {pregunta: "Palabra clave para crear bucles", respuesta: 'for'},
         {pregunta: "¿Que tipo de dato representa un texto?", respuesta: 'string'},
         {pregunta: "¿Que palabra retorna un valor de una función?", respuesta: 'return'},
@@ -39,18 +39,18 @@ export default function CarreraDeAutos() {
         {pregunta: "Evento que ocurre al hacer clic", respuesta: 'click'}
         
     ];
-
-  const actualizarProgreso = async() => {
+    //Actualiza el progreso del usuario en la base de datos
+        const actualizarProgreso = async() => {
         const idUusuario = localStorage.getItem("id");
 
         try {
             const respuesta = await axios.get(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}`);
             const usuario = await respuesta.data;
             
-            //Calcular el progreso
+    //Calcular el progreso
             let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
             const nuevasActividadesCompletadas = progresoActual.actividadesCompletadas + 1;
-            //Ajustar porcentaje para que suba de 10 en 10 por cada actividad
+    //Ajustar porcentaje para que suba de 10 en 10 por cada actividad
             const nuevoPorcentaje = Math.min(100, nuevasActividadesCompletadas * 10);
            
             const response = await axios.post(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividadesCompletadas, porcentaje: nuevoPorcentaje });
@@ -98,7 +98,7 @@ export default function CarreraDeAutos() {
                lanzarReto();
             }
             if (event.key.toLowerCase() === "s" && boost > 0) { // Tecla "S" para usar boost
-                // Activar efecto de boost
+    // Activar efecto de boost
                 setBoostActive(true);
                 setTimeout(() => setBoostActive(false), 500);
                 
@@ -197,7 +197,7 @@ export default function CarreraDeAutos() {
           
         }
 
-        // 🧠 Sin errores
+    // Sin errores
         if (winner?.startsWith("Jugador") && errores === 0 && !updated[username].sinErrores) {
             await mostrarInsignia({
                 nombre: "Sin errores",

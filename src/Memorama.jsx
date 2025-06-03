@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+    // Imports de componentes y recursos
+import { useState, useEffect } from "react";
 import swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Navbar from "./components/navbar/Navbar";
 import CodeZooCat from "../src/CoodeZooCat";
 import StartEffect from "../src/StartEffect";
 import "../src/css/Memorama.css";
-import cartaDorso from "../src/resources/Mem/Carta.png";
 import { mostrarInsignia } from "./helpers/insigniasHelper";
 import BackgroundMusic from "./components/backgroundMusic";
 import musicaMemorama from "../src/resources/Sounds/Shy Guy's Toy Box - Paper Mario (N64) Soundtrack - Daintii Music.mp3";
 
+    // Cargamos la información de las imágenes contenidas en las cartas
 const imagenes = [
     { id: "mono", src: "src/resources/Mem/A.jpg", info: "El mono es ágil e inteligente, igual que 'if', que toma decisiones dependiendo de una condición. 🐵" },
     { id: "leon", src: "src/resources/Mem/B.jpg", info: "El león es el rey de la selva, así como 'else' gobierna cuando la condición de 'if' no se cumple. 🦁" },
@@ -23,9 +24,9 @@ const imagenes = [
 import welcomeImg from "../src/resources/cocodrilo_img.png";
 import endImg from "../src/resources/cocodrilo2_img.png";
 import axios from "axios";
-
+    // Configuración de alertas con React y SweetAlert2
 const MySwal = withReactContent(swal);
-
+    // Realiza la generación y ubicación aleatoria de las cartas
 const generarCartas = () => {
     const cartasDuplicadas = [...imagenes, ...imagenes]
         .sort(() => Math.random() - 0.5)
@@ -35,10 +36,9 @@ const generarCartas = () => {
 };
 
 const Memorama = () => {
+    //Estados requeridos del juego
     const [mostrarBienvenida, setMostrarBienvenida] = useState(true);
     const [mostrarFin, setMostrarFin] = useState(false);
-
-
     const [cartas, setCartas] = useState(generarCartas());
     const [seleccionadas, setSeleccionadas] = useState([]);
     const [bloqueado, setBloqueado] = useState(false);
@@ -48,7 +48,7 @@ const Memorama = () => {
     const [mostrarEstrellas, setMostrarEstrellas] = useState(false);
     const [inicioJuego, setInicioJuego] = useState(null);
     const [insigniasMostradas, setInsigniasMostradas] = useState(false);
-
+    //Actualiza el progreso del usuario en la base de datos
     const actualizarProgreso = async() => {
         const idUusuario = localStorage.getItem("id");
 
@@ -56,10 +56,10 @@ const Memorama = () => {
             const respuesta = await axios.get(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}`);
             const usuario = await respuesta.data;
             
-            //Calcular el progreso
+    //Calcular el progreso
             let progresoActual = usuario.progreso || { actividadesCompletadas: 0, porcentaje: 0 };
             const nuevasActividadesCompletadas = progresoActual.actividadesCompletadas + 1;
-            //Ajustar porcentaje para que suba de 10 en 10 por cada actividad
+    //Ajustar porcentaje para que suba de 10 en 10 por cada actividad
             const nuevoPorcentaje = Math.min(100, nuevasActividadesCompletadas * 10);
            
             const response = await axios.post(`https://backend-codezoo.onrender.com/api/usuarios/${idUusuario}/progreso`, { actividadesCompletadas: nuevasActividadesCompletadas, porcentaje: nuevoPorcentaje });
@@ -74,7 +74,7 @@ const Memorama = () => {
             console.error('Error al actualizar el progreso:', error);
         } 
   };
-
+    // Manejo de clicks sobre las cartas
     const manejarClick = (idUnico) => {
         if (bloqueado || seleccionadas.some(carta => carta.idUnico === idUnico)) return;
 
@@ -85,7 +85,7 @@ const Memorama = () => {
         setCartas(nuevaSeleccion);
         setSeleccionadas([...seleccionadas, nuevaSeleccion.find(c => c.idUnico === idUnico)]);
     };
-
+    //Comprobación de cartas si coinciden o no
     useEffect(() => {
         if (seleccionadas.length === 2) {
             setBloqueado(true);
@@ -123,7 +123,7 @@ const Memorama = () => {
         }
     }, [seleccionadas]);
 
-
+    //Mensaje de final del juego 
     useEffect(() => {
         if (cartas.every(c => c.encontrada)) {
             setGanador(true);
@@ -136,7 +136,7 @@ const Memorama = () => {
                 const clavesRaw = localStorage.getItem("swalsMostrados");
                 const claves = clavesRaw ? JSON.parse(clavesRaw) : {};
                 const updated = { ...claves, [username]: { ...(claves[username] || {}) } };
-                const nuevasInsignias = [];
+                
 
                 const duracion = (Date.now() - inicioJuego) / 1000;
 
