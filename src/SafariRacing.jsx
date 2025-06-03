@@ -254,7 +254,7 @@ export default function CarreraDeAutos() {
 
     return (
         <div className="carrera-container">
-            <BackgroundMusic audioSrc={musicaSafari} />
+            {/<BackgroundMusic audioSrc={musicaSafari} >/}
             <div className="carrera-content">
                 <div className="carrera-instrucciones">
                     <h2>Instrucciones</h2>
