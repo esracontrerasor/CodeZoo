@@ -256,7 +256,7 @@ const Memorama = () => {
         <div>
             <Navbar />
             <div className="memorama-body" style={{ textAlign: "center" }}>
-                <BackgroundMusic audioSrc={musicaMemorama} />
+                {/<BackgroundMusic audioSrc={musicaMemorama} >/}
                 <h1 className="memorama-header">MEMORAMA</h1>
                 <CodeZooCat contexto="memorama" customMessage={mensajeGato} isOpen={gatoVisible} />
                 <div className="memorama-grid">
