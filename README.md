@@ -8,3 +8,6 @@ Integrantes del equipo:
 ● Cuevas Alaniz Alan
 ● Contreras Ortega Esteban Ramón
 ● Aparicio Rojas Gustavo de Jesús
+
+link del video explicativo:
+https://drive.google.com/file/d/1OW5X8s2dQjkC62dzcWH1k2U2cAIWrtuf/view?usp=drive_link
